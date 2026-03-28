@@ -1,0 +1,30 @@
+# Data files
+*.gz
+*.zip
+*.tsv
+*.csv
+*.txt
+
+# Exceptions
+!README.md
+!session_info.txt
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# MAGMA outputs
+*.genes.out
+*.genes.raw
+*.log
+
+# System files
+.DS_Store
+.vscode/
