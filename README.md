@@ -16,8 +16,8 @@
 | Dataset | Description | Access |
 |--------|-------------|--------|
 | Grove et al. 2019 | Common variant GWAS summary statistics | [PGC Download](https://pgc.unc.edu/for-researchers/download-results/) |
-| Trost et al. 2022 | Rare-variant WGS-derived gene burden statistics | [Supplementary Tables](https://pmc.ncbi.nlm.nih.gov/articles/PMC10726699/#SM1) |
-| gnomAD v4.1 | LOEUF constraint scores | [gnomAD Browser](https://gnomad.broadinstitute.org/downloads)|
+| Satterstrom et al. 2020 | Rare-variant WES-derived gene burden statistics | [ASC Download](https://asc.broadinstitute.org/downloads) |
+| gnomAD v2.1.1 | LOEUF constraint scores | [gnomAD Browser](https://gnomad.broadinstitute.org/downloads)|
 | MSigDB | Curated gene sets for pathway enrichment (GO Biological Process, KEGG) | See dependencies for download options. |
 
 > ⚠️ Raw data files will not be committed to this repository. 
@@ -30,7 +30,6 @@
 ```r
  install.packages("tidyverse")
  install.packages("ggplot2")
- BiocManager::install("liftOver")
  BiocManager::install("fgsea")
 ```
 **MSigDB Download**
@@ -71,7 +70,6 @@ module load magma-bio/1.10
 
 ### Step 1 — Data Preparation
 ```bash
-Rscript scripts/liftover.R
 Rscript scripts/magma_prep.R
 ```
 
@@ -95,7 +93,7 @@ Rscript scripts/loeuf_annotation.R
 ## Aims
 
 1. Perform gene-level association analysis on common-variant GWAS summary statistics using MAGMA.
-2. Perform gene-level association analysis on rare-variant WGS gene burden scores using MAGMA.
+2. Perform gene-level association analysis on rare-variant WES gene burden scores using MAGMA.
 3. Implement pathway enrichment analysis on both gene-level outputs using fgsea, restricting to canonical ASD-relevant gene sets. Cross-reference enriched genes against TADA+ genes and SFARI-curated risk genes.
 4. Compare results to identify convergence or divergence across the allele frequency spectrum.
 5. Annotate genes contributing to enriched pathways with LOEUF scores from gnomAD to determine whether convergent pathways are disproportionately driven by constrained genes.
