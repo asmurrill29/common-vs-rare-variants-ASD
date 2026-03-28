@@ -17,7 +17,7 @@
 |--------|-------------|--------|
 | Grove et al. 2019 | Common variant GWAS summary statistics | [PGC Download](https://pgc.unc.edu/for-researchers/download-results/) |
 | Trost et al. 2022 | Rare-variant WGS-derived gene burden statistics | [Supplementary Tables](https://pmc.ncbi.nlm.nih.gov/articles/PMC10726699/#SM1) |
-| gnomAD v4.1 | LOEUF constraint scores | [gnomAD Browser] (https://gnomad.broadinstitute.org/downloads)
+| gnomAD v4.1 | LOEUF constraint scores | [gnomAD Browser](https://gnomad.broadinstitute.org/downloads)|
 | MSigDB | Curated gene sets for pathway enrichment (GO Biological Process, KEGG) | See dependencies for download options. |
 
 > ⚠️ Raw data files will not be committed to this repository. 
@@ -38,9 +38,9 @@
 Option 1: within R (recommended) 
 
 ```r
-# install and load msigbr
-install.packages("msigbdr")
-library(msigbdr)
+# install and load msigdbr
+install.packages("msigdbr")
+library(msigdbr)
 ```
 
 Option 2: Direct download
@@ -49,9 +49,8 @@ Download gene sets manually from [MSigDB](https://www.gsea-msigdb.org/gsea/msigd
 
 > All R session dependencies summarized in "session_info.txt".
 ### Python
-```python
-import subprocess 
-```
+- `subprocess` (standard library, no installation required) 
+
 
 ### Command Line Tools
 - [MAGMA v1.10](https://cncr.nl/research/magma/)
@@ -102,6 +101,10 @@ Rscript scripts/loeuf_annotation.R
 5. Annotate genes contributing to enriched pathways with LOEUF scores from gnomAD to determine whether convergent pathways are disproportionately driven by constrained genes.
 
 ---
+## Limitations
+> Fill in. 
+---
+
 
 ## References
 
