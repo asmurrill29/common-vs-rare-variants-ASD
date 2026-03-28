@@ -118,5 +118,7 @@ Rscript scripts/loeuf_annotation.R
 ## Author
 
 **Amalya S. Murrill**
+
 BS859 Final Project — Spring 2026
+
 Boston University
