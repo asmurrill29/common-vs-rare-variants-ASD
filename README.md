@@ -3,7 +3,7 @@
 
 ## Overview
 
-> DRAFT: To compare and characterize the enrichment pathways of common-variant versus rare-variant signals in Autism Spectrum Disorder by assessing whether their convergent or divergent patterns are enriched in constrained genes.
+> Brief description here.
 
 ## Project Structure
 
