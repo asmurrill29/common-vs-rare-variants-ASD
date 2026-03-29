@@ -1,10 +1,6 @@
 # Data files
-*.gz
-*.zip
-*.tsv
-*.csv
-*.txt
-*.loc
+data/
+ref/
 
 # Exceptions
 !README.md
@@ -20,11 +16,6 @@
 __pycache__/
 *.pyc
 *.pyo
-
-# MAGMA outputs
-*.genes.out
-*.genes.raw
-*.log
 
 # System files
 .DS_Store
