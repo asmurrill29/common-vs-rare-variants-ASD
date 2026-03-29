@@ -4,6 +4,7 @@
 *.tsv
 *.csv
 *.txt
+*.loc
 
 # Exceptions
 !README.md
