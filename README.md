@@ -47,18 +47,12 @@ Option 2: Direct download
 
 Download gene sets manually from [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb/)
 
-> All R session dependencies summarized in "session_info.txt".
 ### Python
 - `subprocess` (standard library, no installation required) 
 
-
 ### Command Line Tools
 - [MAGMA v1.10](https://cncr.nl/research/magma/)
-
-For those working on the Boston University SCC:
-```bash
-module load magma-bio/1.10
-```
+- Documentation contains instructions to download corresponding reference panel 1000G EUR and NCBI37.3 gene location file 
 
 ### Environment
 - VSCode with Remote SSH on BU SCC
@@ -74,12 +68,12 @@ module load magma-bio/1.10
 Rscript scripts/magma_prep.R
 ```
 
-### Step 2 — MAGMA Gene-Level Analysis
+### Step 2 — Common Variant Gene-Level MAGMA Analysis
 ```bash
 python scripts/run_magma.py
 ```
 
-### Step 3 — Pathway Enrichment
+### Step 3 — Rare Variant Gene-Level Ranking and Pathway Enrichment
 ```bash
 Rscript scripts/fgsea.R
 ```
@@ -94,16 +88,9 @@ Rscript scripts/loeuf_annotation.R
 ## Aims
 
 1. Perform gene-level association analysis on common-variant GWAS summary statistics using MAGMA.
-2. Perform gene-level association analysis on rare-variant WES gene burden scores using MAGMA.
-3. Implement pathway enrichment analysis on both gene-level outputs using fgsea, restricting to canonical ASD-relevant gene sets. Cross-reference enriched genes against TADA+ genes and SFARI-curated risk genes.
-4. Compare results to identify convergence or divergence across the allele frequency spectrum.
-5. Annotate genes contributing to enriched pathways with LOEUF scores from gnomAD to determine whether convergent pathways are disproportionately driven by constrained genes.
-
----
-## Limitations
-> Fill in. 
----
-
+2. Implement pathway enrichment analysis on both common variant gene-level output and rare variant TADA+ gene-level q-values using fgsea, restricting to canonical ASD-relevant gene sets. Cross-reference enriched genes against TADA+ genes and SFARI-curated risk genes.
+3. Compare results to identify convergence or divergence across the allele frequency spectrum.
+4. Annotate genes contributing to enriched pathways with LOEUF scores from gnomAD to determine whether convergent pathways are disproportionately driven by constrained genes.
 
 ## References
 
