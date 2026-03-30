@@ -13,7 +13,7 @@ It remains unclear whether these distinct routes to risk converge on the same bi
 ---
 
 ## Project Structure
-
+```
 common-vs-rare-variants-ASD/
 ├── data/
 │   ├── raw/          # not committed
@@ -29,6 +29,7 @@ common-vs-rare-variants-ASD/
 ├── .gitattributes
 ├── .gitignore
 └── README.md
+```
 
 ---
 
