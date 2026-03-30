@@ -3,11 +3,32 @@
 
 ## Overview
 
-> Brief description here.
+Autism Spectrum Disorder (ASD) is a neurodevelopmental disorder characterized by an impairment of social and communication skills as well as intellectual ability, varying widely among affected individuals. It is highly heritable, having a particularly heterogeneous clinical presentation as well as underlying genetic architecture, in which both common and rare variants contribute. As captured by current GWAS and WES methods, respectively, these two classes of variants represent fundamentally different mechanisms of genetic risk:
+
+- Common variants reflect regulatory risk manifesting as subtle shifts in gene expression or function distributed across many individuals.
+- Rare variants illustrate direct gene disruption -- potentially leading to deleterious loss-of-function mutations in genes affecting individual carriers.
+
+It remains unclear whether these distinct routes to risk converge on the same biological pathways or suggest discrete neurodevelopmental processes. This project addresses this question by applying pathway enrichment analysis, using gene constraint (LOEUF) to interpret and contextualize these results. 
+
+---
 
 ## Project Structure
 
-> Use draw folder structure from VSCode
+common-vs-rare-variants-ASD/
+├── data/
+│   ├── raw/          # not committed
+│   └── processed/    # not committed
+├── figures/
+├── ref/
+│   └── NCBI37.3.gene.loc
+├── results/
+├── scripts/
+│   ├── magma_prep.Rmd
+│   ├── magma_prep.md
+│   └── run_magma.py
+├── .gitattributes
+├── .gitignore
+└── README.md
 
 ---
 
@@ -87,10 +108,12 @@ Rscript scripts/loeuf_annotation.R
 
 ## Aims
 
-1. Perform gene-level association analysis on common-variant GWAS summary statistics using MAGMA.
-2. Implement pathway enrichment analysis on both common variant gene-level output and rare variant TADA+ gene-level q-values using fgsea, restricting to canonical ASD-relevant gene sets. Cross-reference enriched genes against TADA+ genes and SFARI-curated risk genes.
+1. Perform gene-level association analysis on common-variant (MAF ≥ 0.01) GWAS summary statistics using MAGMA.
+2. Implement pathway enrichment analysis on both common variant gene-level output and rare variant (MAF < 0.001) TADA+ gene-level q-values using fgsea, restricting to canonical ASD-relevant gene sets. Cross-reference enriched genes against TADA+ genes and SFARI-curated risk genes.
 3. Compare results to identify convergence or divergence across the allele frequency spectrum.
 4. Annotate genes contributing to enriched pathways with LOEUF scores from gnomAD to determine whether convergent pathways are disproportionately driven by constrained genes.
+
+---
 
 ## References
 
