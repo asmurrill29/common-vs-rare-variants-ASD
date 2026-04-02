@@ -23,7 +23,7 @@ anno_result = subprocess.run(
 magma_result = subprocess.run(
     ["magma", 
     "--bfile", ref_panel,
-    "--pval", magma_input, "N=46350",
+    "--pval", magma_input, "ncol=NOBS", #change N to newly calculated NOBS
     "--gene-annot", anno_prefix + ".genes.annot",
     "--out", gene_prefix],
     check = True
