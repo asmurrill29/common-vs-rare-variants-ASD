@@ -1,7 +1,7 @@
 Common Variant GWAS MAGMA Preparation
 ================
 Amalya Murrill
-2026-03-29
+2026-04-02
 
 This script takes the downloaded Grove et al. 2019 ASD GWAS summary
 statistics and prepares them for the MAGMA (Multi-marker Analysis of
@@ -11,7 +11,7 @@ data output. Indels are handled poorly by MAGMA and are thus filtered
 from the data. Finally, the required columns are reformatted in the
 correct order and written in a text file for MAGMA. Dependencies and
 other session info are listed below. Here, the common variant arm of the
-pipeline is handled, while the rare variants is dealt with separately.
+pipeline is handled, while the rare variants are dealt with separately.
 
 ## Libraries
 
@@ -156,24 +156,25 @@ common_clean
 
 ``` r
 common_MAGMA <- common_clean %>%
-  dplyr::select(SNP, CHR, BP, P) %>% 
-  mutate(NOBS = 46350) #Total sample size from Grove et al. 2019 (n = 46,350, from Fig. 2 caption)
+  mutate(NOBS = INFO*46350) %>%  #Total sample size from Grove et al. 2019 (n = 46,350, from Fig. 2 caption) using R-squared value for per-SNP N-effect
+  dplyr::select(SNP, CHR, BP, P, NOBS)
+
 common_MAGMA
 ```
 
     ## # A tibble: 8,058,797 × 5
-    ##    SNP          CHR        BP       P  NOBS
-    ##    <chr>      <dbl>     <dbl>   <dbl> <dbl>
-    ##  1 rs62513865     8 101592213 0.809   46350
-    ##  2 rs79643588     8 106973048 0.461   46350
-    ##  3 rs17396518     8 108690829 0.00465 46350
-    ##  4 rs983166       8 108681675 0.145   46350
-    ##  5 rs28842593     8 103044620 0.842   46350
-    ##  6 rs7014597      8 104152280 0.293   46350
-    ##  7 rs3134156      8 100479917 0.353   46350
-    ##  8 rs6980591      8 103144592 0.00839 46350
-    ##  9 rs72670434     8 108166508 0.390   46350
-    ## 10 rs10955343     8 105201080 0.659   46350
+    ##    SNP          CHR        BP       P   NOBS
+    ##    <chr>      <dbl>     <dbl>   <dbl>  <dbl>
+    ##  1 rs62513865     8 101592213 0.809   43986.
+    ##  2 rs79643588     8 106973048 0.461   46211.
+    ##  3 rs17396518     8 108690829 0.00465 45747.
+    ##  4 rs983166       8 108681675 0.145   46257.
+    ##  5 rs28842593     8 103044620 0.842   39722.
+    ##  6 rs7014597      8 104152280 0.293   46026.
+    ##  7 rs3134156      8 100479917 0.353   46257.
+    ##  8 rs6980591      8 103144592 0.00839 46211.
+    ##  9 rs72670434     8 108166508 0.390   45655.
+    ## 10 rs10955343     8 105201080 0.659   46350 
     ## # ℹ 8,058,787 more rows
 
 ## Output
