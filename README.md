@@ -16,9 +16,9 @@ It remains unclear whether these distinct routes to risk converge on the same bi
 ```
 common-vs-rare-variants-ASD/
 ├── data/
-│   ├── raw/          # not committed
-│   └── processed/    # not committed
-├── figures/
+│   ├── raw/          
+│   └── processed/    
+├── figures/          
 ├── ref/
 │   └── NCBI37.3.gene.loc
 ├── results/
@@ -52,7 +52,7 @@ common-vs-rare-variants-ASD/
 ```r
  install.packages("tidyverse")
  install.packages("ggplot2")
- BiocManager::install("biomaRt")
+ BiocManager::install("org.Hs.eg.db")
  BiocManager::install("fgsea")
 ```
 **MSigDB Download**
