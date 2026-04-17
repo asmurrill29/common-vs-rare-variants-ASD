@@ -1,6 +1,7 @@
 # Data files
 data/
 ref/
+figures/
 
 # Exceptions
 !README.md
