@@ -518,22 +518,17 @@ rare_collapsed$mainPathways
 ```
 
     ##  [1] "GOBP_ENSHEATHMENT_OF_NEURONS"                             
-    ##  [2] "GOBP_INHIBITORY_SYNAPSE_ASSEMBLY"                         
-    ##  [3] "GOBP_LONG_TERM_SYNAPTIC_POTENTIATION"                     
-    ##  [4] "GOBP_NEGATIVE_REGULATION_OF_SYNAPTIC_TRANSMISSION"        
-    ##  [5] "GOBP_NEUROMUSCULAR_PROCESS"                               
-    ##  [6] "GOBP_NEURONAL_ACTION_POTENTIAL"                           
-    ##  [7] "GOBP_NEURON_DEATH"                                        
-    ##  [8] "GOBP_NEURON_FATE_SPECIFICATION"                           
-    ##  [9] "GOBP_NEURON_PROJECTION_ORGANIZATION"                      
-    ## [10] "GOBP_NEUROTRANSMITTER_UPTAKE"                             
-    ## [11] "GOBP_POSTSYNAPTIC_SPECIALIZATION_ORGANIZATION"            
-    ## [12] "GOBP_REGULATION_OF_AXONOGENESIS"                          
-    ## [13] "GOBP_REGULATION_OF_CHROMATIN_ORGANIZATION"                
-    ## [14] "GOBP_REGULATION_OF_LONG_TERM_NEURONAL_SYNAPTIC_PLASTICITY"
-    ## [15] "GOBP_REGULATION_OF_POSTSYNAPTIC_MEMBRANE_POTENTIAL"       
-    ## [16] "GOBP_REGULATION_OF_SYNAPSE_ASSEMBLY"                      
-    ## [17] "GOBP_SYNAPTIC_VESICLE_LOCALIZATION"
+    ##  [2] "GOBP_NEGATIVE_REGULATION_OF_SYNAPTIC_TRANSMISSION"        
+    ##  [3] "GOBP_NEUROMUSCULAR_PROCESS"                               
+    ##  [4] "GOBP_NEURONAL_ACTION_POTENTIAL"                           
+    ##  [5] "GOBP_NEURON_APOPTOTIC_PROCESS"                            
+    ##  [6] "GOBP_NEURON_FATE_SPECIFICATION"                           
+    ##  [7] "GOBP_NEURON_PROJECTION_EXTENSION"                         
+    ##  [8] "GOBP_NEURON_PROJECTION_ORGANIZATION"                      
+    ##  [9] "GOBP_REGULATION_OF_CHROMATIN_ORGANIZATION"                
+    ## [10] "GOBP_REGULATION_OF_LONG_TERM_NEURONAL_SYNAPTIC_PLASTICITY"
+    ## [11] "GOBP_REGULATION_OF_SYNAPSE_STRUCTURE_OR_ACTIVITY"         
+    ## [12] "GOBP_SYNAPSE_ASSEMBLY"
 
 ``` r
 write.csv(as.data.frame(rare_collapsed$parentPathways), "../results/rare_collapsed_pathway_mapping.csv") #for summary
@@ -615,22 +610,22 @@ all_paths <- rbind(rare_pathways, common_pathways)
 head(all_paths)
 ```
 
-    ##    variant                                   pathway         pval       padj
-    ##     <char>                                    <char>        <num>      <num>
-    ## 1:    rare             GOBP_NEURON_APOPTOTIC_PROCESS 0.0002210583 0.04023261
-    ## 2:    rare                         GOBP_NEURON_DEATH 0.0010584774 0.08975834
-    ## 3:    rare GOBP_POSTSYNAPTIC_SPECIALIZATION_ASSEMBLY 0.0024603865 0.08975834
-    ## 4:    rare  GOBP_NEGATIVE_REGULATION_OF_AXONOGENESIS 0.0035333199 0.08975834
-    ## 5:    rare     GOBP_MAINTENANCE_OF_SYNAPSE_STRUCTURE 0.0049450725 0.08975834
-    ## 6:    rare          GOBP_EXCITATORY_SYNAPSE_ASSEMBLY 0.0064322875 0.08975834
-    ##      log2err        ES      NES  size  leadingEdge
-    ##        <num>     <num>    <num> <int>       <list>
-    ## 1: 0.5188481 0.9695995 2.319869   218 6326, 88....
-    ## 2: 0.4550599 0.9595688 2.242748   325 6326, 88....
-    ## 3: 0.4317077 0.9353871 2.427934    20 5728, 85....
-    ## 4: 0.4317077 0.9848314 2.521540    56   8831, 5728
-    ## 5: 0.4070179 0.9924235 2.577443    19  8831, 22941
-    ## 6: 0.4070179 0.9278930 2.407059    24 5728, 85....
+    ##    variant                                                       pathway
+    ##     <char>                                                        <char>
+    ## 1:    rare                                 GOBP_NEURON_APOPTOTIC_PROCESS
+    ## 2:    rare                                     GOBP_POSTSYNAPSE_ASSEMBLY
+    ## 3:    rare                         GOBP_MAINTENANCE_OF_SYNAPSE_STRUCTURE
+    ## 4:    rare GOBP_POSITIVE_REGULATION_OF_EXCITATORY_POSTSYNAPTIC_POTENTIAL
+    ## 5:    rare                      GOBP_NEGATIVE_REGULATION_OF_AXONOGENESIS
+    ## 6:    rare                 GOBP_POSTSYNAPTIC_SPECIALIZATION_ORGANIZATION
+    ##            pval       padj   log2err        ES      NES  size  leadingEdge
+    ##           <num>      <num>     <num>     <num>    <num> <int>       <list>
+    ## 1: 0.0003713898 0.03583278 0.4984931 0.9695995 2.274621   218 6326, 88....
+    ## 2: 0.0006731776 0.03583278 0.4772708 0.9237861 2.334302    26 5728, 85....
+    ## 3: 0.0010400696 0.03583278 0.4550599 0.9924235 2.491460    19  8831, 22941
+    ## 4: 0.0010768852 0.03583278 0.4550599 0.9160108 2.314084    23 5728, 85....
+    ## 5: 0.0015370831 0.03583278 0.4550599 0.9848314 2.426876    56   8831, 5728
+    ## 6: 0.0020534137 0.03583278 0.4317077 0.9876555 2.498870    32 8831, 57....
 
 ``` r
 tail(all_paths)
@@ -646,20 +641,20 @@ tail(all_paths)
     ## 6:  common
     ##                                                                           pathway
     ##                                                                            <char>
-    ## 1:                                      GOBP_POSTSYNAPTIC_SPECIALIZATION_ASSEMBLY
-    ## 2: GOBP_ADENYLATE_CYCLASE_INHIBITING_G_PROTEIN_COUPLED_RECEPTOR_SIGNALING_PATHWAY
-    ## 3:                     GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_REGENERATION
-    ## 4:                                               GOBP_EXCITATORY_SYNAPSE_ASSEMBLY
+    ## 1:                      GOBP_POSITIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT
+    ## 2:                                               GOBP_EXCITATORY_SYNAPSE_ASSEMBLY
+    ## 3:             GOBP_REGULATION_OF_POSTSYNAPTIC_NEUROTRANSMITTER_RECEPTOR_ACTIVITY
+    ## 4:                                 GOBP_NEUROMUSCULAR_PROCESS_CONTROLLING_BALANCE
     ## 5:                                  GOBP_REGULATION_OF_SYNAPTIC_VESICLE_RECYCLING
-    ## 6:                                 GOBP_NEUROMUSCULAR_PROCESS_CONTROLLING_BALANCE
-    ##         pval  padj    log2err         ES        NES  size  leadingEdge
-    ##        <num> <num>      <num>      <num>      <num> <int>       <list>
-    ## 1: 0.9852507     1 0.03221532  0.1815711  0.5370878    20 78999, 2....
-    ## 2: 0.9900990     1 0.02286940  0.1533360  0.5919384    75 2550, 29....
-    ## 3: 0.9939302     1 0.03316264  0.1884915  0.5118334    15 5728, 71....
-    ## 4: 0.9942693     1 0.03034673  0.1747264  0.5406954    25 64101, 7....
-    ## 5: 0.9970238     1 0.03207042  0.1610146  0.4701332    19 6622, 60....
-    ## 6: 1.0000000     1 0.07977059 -0.1427050 -0.6197831    49 7401, 64....
+    ## 6: GOBP_ADENYLATE_CYCLASE_INHIBITING_G_PROTEIN_COUPLED_RECEPTOR_SIGNALING_PATHWAY
+    ##         pval     padj    log2err         ES        NES  size  leadingEdge
+    ##        <num>    <num>      <num>      <num>      <num> <int>       <list>
+    ## 1: 0.9867110 0.996337 0.01603044  0.1600589  0.6605510   139 51517, 1....
+    ## 2: 0.9873950 0.996337 0.02956455  0.1747264  0.5243340    25 64101, 7....
+    ## 3: 0.9895105 0.996337 0.07271411 -0.1793849 -0.5899148    17 254263, ....
+    ## 4: 0.9910314 0.996337 0.08578444 -0.1427050 -0.6179620    49 7401, 64....
+    ## 5: 0.9958506 0.996337 0.02850386  0.1610146  0.4586781    19 6622, 60....
+    ## 6: 0.9963370 0.996337 0.02172400  0.1533360  0.5784461    75 2550, 29....
 
 ``` r
 #QC
@@ -687,185 +682,185 @@ overlap_paths # 182
     ##   [1] "GOBP_CHROMATIN_REMODELING"                                                     
     ##   [2] "GOBP_NEURON_PROJECTION_EXTENSION_INVOLVED_IN_NEURON_PROJECTION_GUIDANCE"       
     ##   [3] "GOBP_SYNAPSE_ORGANIZATION"                                                     
-    ##   [4] "KEGG_ALANINE_ASPARTATE_AND_GLUTAMATE_METABOLISM"                               
-    ##   [5] "GOBP_CHROMATIN_ASSEMBLY_OR_DISASSEMBLY"                                        
+    ##   [4] "GOBP_VESICLE_MEDIATED_TRANSPORT_IN_SYNAPSE"                                    
+    ##   [5] "KEGG_ALANINE_ASPARTATE_AND_GLUTAMATE_METABOLISM"                               
     ##   [6] "GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_DIFFERENTIATION"                            
-    ##   [7] "GOBP_REGULATION_OF_NEUROGENESIS"                                               
-    ##   [8] "KEGG_MTOR_SIGNALING_PATHWAY"                                                   
-    ##   [9] "GOBP_POSITIVE_REGULATION_OF_NEUROGENESIS"                                      
-    ##  [10] "GOBP_NEUROTRANSMITTER_SECRETION"                                               
+    ##   [7] "GOBP_CHROMATIN_ASSEMBLY_OR_DISASSEMBLY"                                        
+    ##   [8] "GOBP_POSITIVE_REGULATION_OF_NEUROGENESIS"                                      
+    ##   [9] "GOBP_NEUROTRANSMITTER_SECRETION"                                               
+    ##  [10] "GOBP_REGULATION_OF_NEUROGENESIS"                                               
     ##  [11] "GOBP_POSITIVE_REGULATION_OF_NEURON_DEATH"                                      
-    ##  [12] "GOBP_NEGATIVE_REGULATION_OF_AXON_EXTENSION_INVOLVED_IN_AXON_GUIDANCE"          
-    ##  [13] "GOBP_VESICLE_MEDIATED_TRANSPORT_IN_SYNAPSE"                                    
-    ##  [14] "GOBP_REGULATION_OF_NEUROTRANSMITTER_LEVELS"                                    
-    ##  [15] "GOBP_NEURON_DEATH"                                                             
-    ##  [16] "GOBP_POSITIVE_REGULATION_OF_AXONOGENESIS"                                      
-    ##  [17] "GOBP_NEURON_PROJECTION_GUIDANCE"                                               
-    ##  [18] "KEGG_AXON_GUIDANCE"                                                            
-    ##  [19] "GOBP_CENTRAL_NERVOUS_SYSTEM_PROJECTION_NEURON_AXONOGENESIS"                    
-    ##  [20] "GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT"                     
-    ##  [21] "GOBP_SYNAPTIC_VESICLE_EXOCYTOSIS"                                              
-    ##  [22] "GOBP_FOREBRAIN_GENERATION_OF_NEURONS"                                          
+    ##  [12] "GOBP_NEURON_PROJECTION_GUIDANCE"                                               
+    ##  [13] "GOBP_REGULATION_OF_NEUROTRANSMITTER_LEVELS"                                    
+    ##  [14] "GOBP_NEURON_DEATH"                                                             
+    ##  [15] "KEGG_MTOR_SIGNALING_PATHWAY"                                                   
+    ##  [16] "GOBP_NEGATIVE_REGULATION_OF_AXON_EXTENSION_INVOLVED_IN_AXON_GUIDANCE"          
+    ##  [17] "GOBP_SYNAPTIC_VESICLE_EXOCYTOSIS"                                              
+    ##  [18] "GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT"                     
+    ##  [19] "KEGG_AXON_GUIDANCE"                                                            
+    ##  [20] "GOBP_FOREBRAIN_GENERATION_OF_NEURONS"                                          
+    ##  [21] "GOBP_CENTRAL_NERVOUS_SYSTEM_PROJECTION_NEURON_AXONOGENESIS"                    
+    ##  [22] "GOBP_POSITIVE_REGULATION_OF_AXONOGENESIS"                                      
     ##  [23] "GOBP_NEUROTRANSMITTER_TRANSPORT"                                               
-    ##  [24] "GOBP_ANTEROGRADE_AXONAL_TRANSPORT"                                             
-    ##  [25] "GOBP_SYNAPTIC_VESICLE_PRIMING"                                                 
-    ##  [26] "GOBP_REGULATION_OF_SYNAPSE_STRUCTURE_OR_ACTIVITY"                              
-    ##  [27] "GOBP_LONG_TERM_SYNAPTIC_DEPRESSION"                                            
-    ##  [28] "GOBP_AXONAL_TRANSPORT"                                                         
-    ##  [29] "GOBP_NEGATIVE_REGULATION_OF_SYNAPTIC_TRANSMISSION"                             
-    ##  [30] "GOBP_REGULATION_OF_PROTEIN_LOCALIZATION_TO_SYNAPSE"                            
-    ##  [31] "GOBP_REGULATION_OF_AXONOGENESIS"                                               
-    ##  [32] "GOBP_MAINTENANCE_OF_SYNAPSE_STRUCTURE"                                         
-    ##  [33] "GOBP_REGULATION_OF_NEUROTRANSMITTER_TRANSPORT"                                 
+    ##  [24] "GOBP_SYNAPTIC_VESICLE_PRIMING"                                                 
+    ##  [25] "GOBP_REGULATION_OF_SYNAPSE_STRUCTURE_OR_ACTIVITY"                              
+    ##  [26] "GOBP_LONG_TERM_SYNAPTIC_DEPRESSION"                                            
+    ##  [27] "GOBP_ANTEROGRADE_AXONAL_TRANSPORT"                                             
+    ##  [28] "GOBP_MAINTENANCE_OF_SYNAPSE_STRUCTURE"                                         
+    ##  [29] "GOBP_REGULATION_OF_PROTEIN_LOCALIZATION_TO_SYNAPSE"                            
+    ##  [30] "GOBP_REGULATION_OF_AXONOGENESIS"                                               
+    ##  [31] "GOBP_AXONAL_TRANSPORT"                                                         
+    ##  [32] "GOBP_REGULATION_OF_NEUROTRANSMITTER_TRANSPORT"                                 
+    ##  [33] "GOBP_NEGATIVE_REGULATION_OF_SYNAPTIC_TRANSMISSION"                             
     ##  [34] "GOBP_RETINAL_GANGLION_CELL_AXON_GUIDANCE"                                      
     ##  [35] "GOBP_NEURON_FATE_COMMITMENT"                                                   
-    ##  [36] "GOBP_NEGATIVE_REGULATION_OF_NEURON_DIFFERENTIATION"                            
+    ##  [36] "GOBP_GLUTAMATE_SECRETION"                                                      
     ##  [37] "GOBP_NEURON_PROJECTION_ORGANIZATION"                                           
-    ##  [38] "GOBP_GLUTAMATE_SECRETION"                                                      
-    ##  [39] "GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_AXONOGENESIS"                               
-    ##  [40] "GOBP_SYNAPSE_MATURATION"                                                       
-    ##  [41] "GOBP_NEURON_PROJECTION_EXTENSION"                                              
-    ##  [42] "GOBP_RETROGRADE_AXONAL_TRANSPORT"                                              
+    ##  [38] "GOBP_NEGATIVE_REGULATION_OF_NEURON_DIFFERENTIATION"                            
+    ##  [39] "GOBP_NEURON_PROJECTION_EXTENSION"                                              
+    ##  [40] "GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_AXONOGENESIS"                               
+    ##  [41] "GOBP_SYNAPSE_MATURATION"                                                       
+    ##  [42] "GOBP_NEUROBLAST_PROLIFERATION"                                                 
     ##  [43] "GOBP_PRESYNAPTIC_ENDOCYTOSIS"                                                  
-    ##  [44] "GOBP_NEURON_DEATH_IN_RESPONSE_TO_OXIDATIVE_STRESS"                             
-    ##  [45] "GOBP_NEUROBLAST_PROLIFERATION"                                                 
-    ##  [46] "GOBP_REGULATION_OF_GLUTAMATE_SECRETION"                                        
-    ##  [47] "GOBP_POSITIVE_REGULATION_OF_NEURON_APOPTOTIC_PROCESS"                          
-    ##  [48] "GOBP_DNA_REPLICATION_DEPENDENT_CHROMATIN_ORGANIZATION"                         
-    ##  [49] "GOBP_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT"                              
-    ##  [50] "GOBP_POSTSYNAPSE_ORGANIZATION"                                                 
-    ##  [51] "GOBP_NEGATIVE_REGULATION_OF_AXONOGENESIS"                                      
-    ##  [52] "GOBP_FOREBRAIN_NEURON_DIFFERENTIATION"                                         
-    ##  [53] "GOBP_AXON_DEVELOPMENT"                                                         
+    ##  [44] "GOBP_NEGATIVE_REGULATION_OF_AXONOGENESIS"                                      
+    ##  [45] "GOBP_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT"                              
+    ##  [46] "GOBP_POSITIVE_REGULATION_OF_NEURON_APOPTOTIC_PROCESS"                          
+    ##  [47] "GOBP_REGULATION_OF_GLUTAMATE_SECRETION"                                        
+    ##  [48] "GOBP_POSTSYNAPSE_ORGANIZATION"                                                 
+    ##  [49] "GOBP_NEGATIVE_REGULATION_OF_AXON_EXTENSION"                                    
+    ##  [50] "GOBP_AXON_DEVELOPMENT"                                                         
+    ##  [51] "GOBP_NEURON_DEATH_IN_RESPONSE_TO_OXIDATIVE_STRESS"                             
+    ##  [52] "GOBP_DNA_REPLICATION_DEPENDENT_CHROMATIN_ORGANIZATION"                         
+    ##  [53] "GOBP_AXONAL_TRANSPORT_OF_MITOCHONDRION"                                        
     ##  [54] "GOBP_NEURON_APOPTOTIC_PROCESS"                                                 
-    ##  [55] "GOBP_NEGATIVE_REGULATION_OF_AXON_EXTENSION"                                    
-    ##  [56] "GOBP_AXONAL_TRANSPORT_OF_MITOCHONDRION"                                        
+    ##  [55] "GOBP_RETROGRADE_AXONAL_TRANSPORT"                                              
+    ##  [56] "GOBP_FOREBRAIN_NEURON_DIFFERENTIATION"                                         
     ##  [57] "GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_DEVELOPMENT"                                
     ##  [58] "GOBP_MOTOR_NEURON_AXON_GUIDANCE"                                               
-    ##  [59] "GOBP_PROTEIN_LOCALIZATION_TO_SYNAPSE"                                          
-    ##  [60] "KEGG_NEUROACTIVE_LIGAND_RECEPTOR_INTERACTION"                                  
-    ##  [61] "GOBP_REGULATION_OF_POSTSYNAPTIC_MEMBRANE_POTENTIAL"                            
-    ##  [62] "GOBP_AXON_EXTENSION"                                                           
-    ##  [63] "GOBP_SYNAPTIC_VESICLE_LOCALIZATION"                                            
-    ##  [64] "GOBP_SYNAPSE_ASSEMBLY"                                                         
-    ##  [65] "GOBP_REGULATION_OF_NEURONAL_SYNAPTIC_PLASTICITY"                               
-    ##  [66] "GOBP_POSITIVE_REGULATION_OF_NEURON_DIFFERENTIATION"                            
+    ##  [59] "GOBP_REGULATION_OF_POSTSYNAPTIC_MEMBRANE_POTENTIAL"                            
+    ##  [60] "GOBP_SYNAPSE_ASSEMBLY"                                                         
+    ##  [61] "GOBP_NEUROEPITHELIAL_CELL_DIFFERENTIATION"                                     
+    ##  [62] "KEGG_NEUROACTIVE_LIGAND_RECEPTOR_INTERACTION"                                  
+    ##  [63] "GOBP_PROTEIN_LOCALIZATION_TO_SYNAPSE"                                          
+    ##  [64] "GOBP_REGULATION_OF_NEURONAL_SYNAPTIC_PLASTICITY"                               
+    ##  [65] "GOBP_SYNAPTIC_VESICLE_LOCALIZATION"                                            
+    ##  [66] "GOBP_SYNAPTIC_VESICLE_TRANSPORT"                                               
     ##  [67] "GOBP_REGULATION_OF_NEURON_DIFFERENTIATION"                                     
-    ##  [68] "GOBP_POSITIVE_REGULATION_OF_NEUROBLAST_PROLIFERATION"                          
-    ##  [69] "GOBP_POSITIVE_REGULATION_OF_CHROMATIN_ORGANIZATION"                            
-    ##  [70] "GOBP_SYNAPTIC_MEMBRANE_ADHESION"                                               
-    ##  [71] "GOBP_NEUROEPITHELIAL_CELL_DIFFERENTIATION"                                     
-    ##  [72] "GOBP_SYNAPTIC_VESICLE_TRANSPORT"                                               
-    ##  [73] "GOBP_POSITIVE_REGULATION_OF_NEUROTRANSMITTER_TRANSPORT"                        
-    ##  [74] "GOBP_POSITIVE_REGULATION_OF_NEUROTRANSMITTER_SECRETION"                        
-    ##  [75] "GOBP_POSTSYNAPTIC_MEMBRANE_ORGANIZATION"                                       
-    ##  [76] "GOBP_GLUTAMATE_METABOLIC_PROCESS"                                              
+    ##  [68] "GOBP_AXON_EXTENSION"                                                           
+    ##  [69] "GOBP_POSITIVE_REGULATION_OF_NEUROINFLAMMATORY_RESPONSE"                        
+    ##  [70] "GOBP_POSITIVE_REGULATION_OF_CHROMATIN_ORGANIZATION"                            
+    ##  [71] "GOBP_POSITIVE_REGULATION_OF_NEUROBLAST_PROLIFERATION"                          
+    ##  [72] "GOBP_GLUTAMATE_METABOLIC_PROCESS"                                              
+    ##  [73] "GOBP_POSITIVE_REGULATION_OF_NEUROTRANSMITTER_SECRETION"                        
+    ##  [74] "GOBP_POSTSYNAPTIC_MEMBRANE_ORGANIZATION"                                       
+    ##  [75] "GOBP_SYNAPTIC_MEMBRANE_ADHESION"                                               
+    ##  [76] "GOBP_POSITIVE_REGULATION_OF_NEURON_DIFFERENTIATION"                            
     ##  [77] "GOBP_REGULATION_OF_NEUROBLAST_PROLIFERATION"                                   
-    ##  [78] "GOBP_LONG_TERM_SYNAPTIC_POTENTIATION"                                          
-    ##  [79] "GOBP_REGULATION_OF_SYNAPTIC_PLASTICITY"                                        
-    ##  [80] "GOBP_SYNAPTIC_VESICLE_MEMBRANE_ORGANIZATION"                                   
-    ##  [81] "GOBP_POSITIVE_REGULATION_OF_SYNAPTIC_TRANSMISSION"                             
-    ##  [82] "KEGG_NEUROTROPHIN_SIGNALING_PATHWAY"                                           
-    ##  [83] "GOBP_NEUROPEPTIDE_SIGNALING_PATHWAY"                                           
-    ##  [84] "GOBP_REGULATION_OF_LONG_TERM_NEURONAL_SYNAPTIC_PLASTICITY"                     
-    ##  [85] "GOBP_AXONEMAL_DYNEIN_COMPLEX_ASSEMBLY"                                         
-    ##  [86] "GOBP_NEURON_RECOGNITION"                                                       
-    ##  [87] "GOBP_SPINAL_CORD_MOTOR_NEURON_DIFFERENTIATION"                                 
-    ##  [88] "GOBP_NEURONAL_STEM_CELL_POPULATION_MAINTENANCE"                                
+    ##  [78] "GOBP_REGULATION_OF_SYNAPTIC_PLASTICITY"                                        
+    ##  [79] "GOBP_POSITIVE_REGULATION_OF_NEUROTRANSMITTER_TRANSPORT"                        
+    ##  [80] "GOBP_POSITIVE_REGULATION_OF_SYNAPTIC_TRANSMISSION"                             
+    ##  [81] "GOBP_AXONEMAL_DYNEIN_COMPLEX_ASSEMBLY"                                         
+    ##  [82] "GOBP_NEURON_RECOGNITION"                                                       
+    ##  [83] "KEGG_NEUROTROPHIN_SIGNALING_PATHWAY"                                           
+    ##  [84] "GOBP_LONG_TERM_SYNAPTIC_POTENTIATION"                                          
+    ##  [85] "GOBP_SYNAPTIC_VESICLE_MEMBRANE_ORGANIZATION"                                   
+    ##  [86] "GOBP_SPINAL_CORD_MOTOR_NEURON_DIFFERENTIATION"                                 
+    ##  [87] "GOBP_NEUROPEPTIDE_SIGNALING_PATHWAY"                                           
+    ##  [88] "GOBP_SYNAPTIC_VESICLE_RECYCLING"                                               
     ##  [89] "GOBP_REGULATION_OF_TRANS_SYNAPTIC_SIGNALING"                                   
-    ##  [90] "GOBP_SYNAPTIC_VESICLE_RECYCLING"                                               
-    ##  [91] "GOBP_POSITIVE_REGULATION_OF_NEUROINFLAMMATORY_RESPONSE"                        
+    ##  [90] "GOBP_NEURONAL_STEM_CELL_POPULATION_MAINTENANCE"                                
+    ##  [91] "GOBP_ENSHEATHMENT_OF_NEURONS"                                                  
     ##  [92] "GOBP_NEGATIVE_REGULATION_OF_NEURON_DEATH"                                      
-    ##  [93] "GOBP_ENSHEATHMENT_OF_NEURONS"                                                  
+    ##  [93] "GOBP_REGULATION_OF_LONG_TERM_NEURONAL_SYNAPTIC_PLASTICITY"                     
     ##  [94] "GOBP_NEURON_MIGRATION"                                                         
-    ##  [95] "GOBP_MODULATION_OF_EXCITATORY_POSTSYNAPTIC_POTENTIAL"                          
-    ##  [96] "GOBP_NEUROTROPHIN_TRK_RECEPTOR_SIGNALING_PATHWAY"                              
-    ##  [97] "GOBP_NEUROMUSCULAR_JUNCTION_DEVELOPMENT"                                       
-    ##  [98] "GOBP_HETEROCHROMATIN_ORGANIZATION"                                             
-    ##  [99] "GOBP_RESPONSE_TO_LEUKEMIA_INHIBITORY_FACTOR"                                   
+    ##  [95] "GOBP_HETEROCHROMATIN_ORGANIZATION"                                             
+    ##  [96] "GOBP_NEUROMUSCULAR_JUNCTION_DEVELOPMENT"                                       
+    ##  [97] "GOBP_NEUROTROPHIN_TRK_RECEPTOR_SIGNALING_PATHWAY"                              
+    ##  [98] "GOBP_MODULATION_OF_EXCITATORY_POSTSYNAPTIC_POTENTIAL"                          
+    ##  [99] "GOBP_REGULATION_OF_LONG_TERM_SYNAPTIC_POTENTIATION"                            
     ## [100] "GOBP_NEURON_CELLULAR_HOMEOSTASIS"                                              
-    ## [101] "GOBP_REGULATION_OF_LONG_TERM_SYNAPTIC_POTENTIATION"                            
-    ## [102] "GOBP_GLUTAMATE_RECEPTOR_SIGNALING_PATHWAY"                                     
-    ## [103] "GOBP_REGULATION_OF_SYNAPTIC_VESICLE_EXOCYTOSIS"                                
-    ## [104] "GOBP_PROTEIN_LOCALIZATION_TO_POSTSYNAPSE"                                      
-    ## [105] "GOBP_POSITIVE_REGULATION_OF_EXCITATORY_POSTSYNAPTIC_POTENTIAL"                 
-    ## [106] "GOBP_POSTSYNAPTIC_SPECIALIZATION_ORGANIZATION"                                 
-    ## [107] "GOBP_REGULATION_OF_NEUROTRANSMITTER_UPTAKE"                                    
-    ## [108] "GOBP_REGULATION_OF_POSTSYNAPSE_ORGANIZATION"                                   
+    ## [101] "GOBP_RESPONSE_TO_LEUKEMIA_INHIBITORY_FACTOR"                                   
+    ## [102] "GOBP_POSITIVE_REGULATION_OF_EXCITATORY_POSTSYNAPTIC_POTENTIAL"                 
+    ## [103] "GOBP_GLUTAMATE_RECEPTOR_SIGNALING_PATHWAY"                                     
+    ## [104] "GOBP_REGULATION_OF_SYNAPTIC_VESICLE_EXOCYTOSIS"                                
+    ## [105] "GOBP_REGULATION_OF_NEUROTRANSMITTER_UPTAKE"                                    
+    ## [106] "GOBP_PROTEIN_LOCALIZATION_TO_POSTSYNAPSE"                                      
+    ## [107] "GOBP_POSTSYNAPTIC_SPECIALIZATION_ORGANIZATION"                                 
+    ## [108] "GOBP_SYNAPTIC_TRANSMISSION_CHOLINERGIC"                                        
     ## [109] "GOBP_AXON_ENSHEATHMENT_IN_CENTRAL_NERVOUS_SYSTEM"                              
     ## [110] "GOBP_CEREBRAL_CORTEX_NEURON_DIFFERENTIATION"                                   
-    ## [111] "GOBP_SYNAPTIC_TRANSMISSION_CHOLINERGIC"                                        
+    ## [111] "GOBP_NEURON_FATE_SPECIFICATION"                                                
     ## [112] "GOBP_REGULATION_OF_RECEPTOR_LOCALIZATION_TO_SYNAPSE"                           
-    ## [113] "GOBP_NEURON_FATE_SPECIFICATION"                                                
+    ## [113] "GOBP_REGULATION_OF_POSTSYNAPSE_ORGANIZATION"                                   
     ## [114] "GOBP_G_PROTEIN_COUPLED_GLUTAMATE_RECEPTOR_SIGNALING_PATHWAY"                   
     ## [115] "GOBP_MODIFICATION_OF_SYNAPTIC_STRUCTURE"                                       
-    ## [116] "GOBP_SYNAPTIC_VESICLE_CYTOSKELETAL_TRANSPORT"                                  
-    ## [117] "GOBP_REGULATION_OF_SYNAPSE_ASSEMBLY"                                           
-    ## [118] "GOBP_DNA_REPLICATION_INDEPENDENT_CHROMATIN_ORGANIZATION"                       
-    ## [119] "GOBP_NEUROTRANSMITTER_REUPTAKE"                                                
-    ## [120] "GOBP_DOPAMINERGIC_NEURON_DIFFERENTIATION"                                      
-    ## [121] "GOBP_PROTEIN_LOCALIZATION_TO_CHROMATIN"                                        
-    ## [122] "GOBP_NEGATIVE_REGULATION_OF_NEURON_APOPTOTIC_PROCESS"                          
-    ## [123] "GOBP_NEUROMUSCULAR_SYNAPTIC_TRANSMISSION"                                      
-    ## [124] "GOBP_NEURON_PROJECTION_ARBORIZATION"                                           
-    ## [125] "GOBP_NEUROMUSCULAR_PROCESS_CONTROLLING_POSTURE"                                
-    ## [126] "GOBP_INHIBITORY_SYNAPSE_ASSEMBLY"                                              
-    ## [127] "GOBP_AXONAL_FASCICULATION"                                                     
+    ## [116] "GOBP_DNA_REPLICATION_INDEPENDENT_CHROMATIN_ORGANIZATION"                       
+    ## [117] "GOBP_SYNAPTIC_VESICLE_CYTOSKELETAL_TRANSPORT"                                  
+    ## [118] "GOBP_NEURON_MATURATION"                                                        
+    ## [119] "GOBP_NEUROMUSCULAR_PROCESS_CONTROLLING_POSTURE"                                
+    ## [120] "GOBP_REGULATION_OF_SYNAPSE_ASSEMBLY"                                           
+    ## [121] "GOBP_DOPAMINERGIC_NEURON_DIFFERENTIATION"                                      
+    ## [122] "GOBP_PROTEIN_LOCALIZATION_TO_CHROMATIN"                                        
+    ## [123] "GOBP_NEURON_PROJECTION_ARBORIZATION"                                           
+    ## [124] "GOBP_NEUROTRANSMITTER_REUPTAKE"                                                
+    ## [125] "GOBP_NEGATIVE_REGULATION_OF_NEURON_APOPTOTIC_PROCESS"                          
+    ## [126] "GOBP_NEUROMUSCULAR_SYNAPTIC_TRANSMISSION"                                      
+    ## [127] "GOBP_INHIBITORY_SYNAPSE_ASSEMBLY"                                              
     ## [128] "GOBP_NEUROINFLAMMATORY_RESPONSE"                                               
     ## [129] "GOBP_PRESYNAPSE_ORGANIZATION"                                                  
-    ## [130] "GOBP_NEURON_MATURATION"                                                        
-    ## [131] "GOBP_NEUROMUSCULAR_PROCESS"                                                    
+    ## [130] "GOBP_AXONAL_FASCICULATION"                                                     
+    ## [131] "GOBP_REGULATION_OF_PRESYNAPSE_ORGANIZATION"                                    
     ## [132] "GOBP_NEUROTROPHIN_SIGNALING_PATHWAY"                                           
-    ## [133] "GOBP_REGULATION_OF_PRESYNAPSE_ORGANIZATION"                                    
+    ## [133] "GOBP_NEUROMUSCULAR_PROCESS"                                                    
     ## [134] "GOBP_NEURONAL_ACTION_POTENTIAL"                                                
-    ## [135] "GOBP_REGULATION_OF_POSTSYNAPTIC_MEMBRANE_NEUROTRANSMITTER_RECEPTOR_LEVELS"     
-    ## [136] "GOBP_POSITIVE_REGULATION_OF_SYNAPTIC_TRANSMISSION_GLUTAMATERGIC"               
-    ## [137] "GOBP_FOREBRAIN_NEURON_DEVELOPMENT"                                             
-    ## [138] "GOBP_FACULTATIVE_HETEROCHROMATIN_ASSEMBLY"                                     
-    ## [139] "GOBP_CHROMATIN_DISASSEMBLY"                                                    
-    ## [140] "GOBP_REGULATION_OF_NEUROTRANSMITTER_RECEPTOR_ACTIVITY"                         
-    ## [141] "GOBP_POSTSYNAPTIC_SIGNAL_TRANSDUCTION"                                         
+    ## [135] "GOBP_FOREBRAIN_NEURON_DEVELOPMENT"                                             
+    ## [136] "GOBP_REGULATION_OF_POSTSYNAPTIC_MEMBRANE_NEUROTRANSMITTER_RECEPTOR_LEVELS"     
+    ## [137] "GOBP_POSITIVE_REGULATION_OF_SYNAPTIC_TRANSMISSION_GLUTAMATERGIC"               
+    ## [138] "GOBP_CHROMATIN_DISASSEMBLY"                                                    
+    ## [139] "GOBP_FACULTATIVE_HETEROCHROMATIN_ASSEMBLY"                                     
+    ## [140] "GOBP_DNA_METHYLATION_DEPENDENT_HETEROCHROMATIN_ASSEMBLY"                       
+    ## [141] "GOBP_REGULATION_OF_NEUROTRANSMITTER_RECEPTOR_ACTIVITY"                         
     ## [142] "GOBP_REGULATION_OF_DNA_METHYLATION_DEPENDENT_HETEROCHROMATIN_ASSEMBLY"         
-    ## [143] "GOBP_CHEMICAL_SYNAPTIC_TRANSMISSION_POSTSYNAPTIC"                              
-    ## [144] "GOBP_DNA_METHYLATION_DEPENDENT_HETEROCHROMATIN_ASSEMBLY"                       
-    ## [145] "GOBP_AXONEME_ASSEMBLY"                                                         
-    ## [146] "GOBP_POSITIVE_REGULATION_OF_LONG_TERM_SYNAPTIC_POTENTIATION"                   
-    ## [147] "GOBP_NEGATIVE_REGULATION_OF_OXIDATIVE_STRESS_INDUCED_NEURON_DEATH"             
+    ## [143] "GOBP_POSTSYNAPTIC_SIGNAL_TRANSDUCTION"                                         
+    ## [144] "GOBP_POSITIVE_REGULATION_OF_LONG_TERM_SYNAPTIC_POTENTIATION"                   
+    ## [145] "GOBP_CHEMICAL_SYNAPTIC_TRANSMISSION_POSTSYNAPTIC"                              
+    ## [146] "GOBP_NEGATIVE_REGULATION_OF_OXIDATIVE_STRESS_INDUCED_NEURON_DEATH"             
+    ## [147] "GOBP_REGULATION_OF_CHROMATIN_ASSEMBLY_OR_DISASSEMBLY"                          
     ## [148] "GOBP_NEURON_PROJECTION_REGENERATION"                                           
-    ## [149] "GOBP_REGULATION_OF_CHROMATIN_ASSEMBLY"                                         
-    ## [150] "GOBP_REGULATION_OF_CHROMATIN_BINDING"                                          
-    ## [151] "GOBP_REGULATION_OF_CHROMATIN_ASSEMBLY_OR_DISASSEMBLY"                          
-    ## [152] "GOBP_REGULATION_OF_NEURON_PROJECTION_REGENERATION"                             
-    ## [153] "GOBP_MIDBRAIN_DOPAMINERGIC_NEURON_DIFFERENTIATION"                             
-    ## [154] "GOBP_NEUROTRANSMITTER_METABOLIC_PROCESS"                                       
-    ## [155] "GOBP_SYNAPTONEMAL_COMPLEX_ORGANIZATION"                                        
-    ## [156] "GOBP_RESPONSE_TO_AXON_INJURY"                                                  
-    ## [157] "GOBP_RECEPTOR_LOCALIZATION_TO_SYNAPSE"                                         
+    ## [149] "GOBP_REGULATION_OF_CHROMATIN_BINDING"                                          
+    ## [150] "GOBP_REGULATION_OF_NEURON_PROJECTION_REGENERATION"                             
+    ## [151] "GOBP_MIDBRAIN_DOPAMINERGIC_NEURON_DIFFERENTIATION"                             
+    ## [152] "GOBP_REGULATION_OF_CHROMATIN_ASSEMBLY"                                         
+    ## [153] "GOBP_REGULATION_OF_CHROMATIN_ORGANIZATION"                                     
+    ## [154] "GOBP_AXONEME_ASSEMBLY"                                                         
+    ## [155] "GOBP_RECEPTOR_LOCALIZATION_TO_SYNAPSE"                                         
+    ## [156] "GOBP_NEUROTRANSMITTER_METABOLIC_PROCESS"                                       
+    ## [157] "GOBP_SYNAPTONEMAL_COMPLEX_ORGANIZATION"                                        
     ## [158] "GOBP_SYNAPTIC_TRANSMISSION_GABAERGIC"                                          
     ## [159] "GOBP_POSITIVE_REGULATION_OF_NEURON_MIGRATION"                                  
-    ## [160] "GOBP_REGULATION_OF_CHROMATIN_ORGANIZATION"                                     
+    ## [160] "GOBP_NEUROTRANSMITTER_UPTAKE"                                                  
     ## [161] "GOBP_SYNAPTIC_TRANSMISSION_DOPAMINERGIC"                                       
-    ## [162] "GOBP_POSITIVE_REGULATION_OF_AXON_EXTENSION"                                    
+    ## [162] "GOBP_RESPONSE_TO_AXON_INJURY"                                                  
     ## [163] "GOBP_SYNAPTIC_TRANSMISSION_GLUTAMATERGIC"                                      
-    ## [164] "GOBP_NEUROTRANSMITTER_UPTAKE"                                                  
-    ## [165] "GOBP_POSTSYNAPSE_ASSEMBLY"                                                     
-    ## [166] "GOBP_RNA_MEDIATED_GENE_SILENCING_BY_INHIBITION_OF_TRANSLATION"                 
-    ## [167] "GOBP_POSITIVE_REGULATION_OF_SYNAPSE_ASSEMBLY"                                  
-    ## [168] "GOBP_CALCIUM_ION_REGULATED_EXOCYTOSIS_OF_NEUROTRANSMITTER"                     
-    ## [169] "GOBP_REGULATION_OF_SYNAPTIC_TRANSMISSION_GLUTAMATERGIC"                        
-    ## [170] "GOBP_REGULATION_OF_SYNAPTIC_TRANSMISSION_GABAERGIC"                            
+    ## [164] "GOBP_RNA_MEDIATED_GENE_SILENCING_BY_INHIBITION_OF_TRANSLATION"                 
+    ## [165] "GOBP_POSITIVE_REGULATION_OF_AXON_EXTENSION"                                    
+    ## [166] "GOBP_POSTSYNAPSE_ASSEMBLY"                                                     
+    ## [167] "GOBP_CALCIUM_ION_REGULATED_EXOCYTOSIS_OF_NEUROTRANSMITTER"                     
+    ## [168] "GOBP_POSITIVE_REGULATION_OF_SYNAPSE_ASSEMBLY"                                  
+    ## [169] "GOBP_REGULATION_OF_SYNAPTIC_TRANSMISSION_GABAERGIC"                            
+    ## [170] "GOBP_REGULATION_OF_SYNAPTIC_TRANSMISSION_GLUTAMATERGIC"                        
     ## [171] "GOBP_REGULATION_OF_NEURON_MIGRATION"                                           
     ## [172] "GOBP_NEUROTRANSMITTER_RECEPTOR_TRANSPORT"                                      
-    ## [173] "GOBP_L_GLUTAMATE_TRANSMEMBRANE_TRANSPORT"                                      
-    ## [174] "GOBP_L_GLUTAMATE_IMPORT_ACROSS_PLASMA_MEMBRANE"                                
-    ## [175] "GOBP_POSITIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT"                     
-    ## [176] "GOBP_NEUROTRANSMITTER_RECEPTOR_INTERNALIZATION"                                
-    ## [177] "GOBP_POSTSYNAPTIC_SPECIALIZATION_ASSEMBLY"                                     
-    ## [178] "GOBP_ADENYLATE_CYCLASE_INHIBITING_G_PROTEIN_COUPLED_RECEPTOR_SIGNALING_PATHWAY"
-    ## [179] "GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_REGENERATION"                    
-    ## [180] "GOBP_EXCITATORY_SYNAPSE_ASSEMBLY"                                              
+    ## [173] "GOBP_L_GLUTAMATE_IMPORT_ACROSS_PLASMA_MEMBRANE"                                
+    ## [174] "GOBP_NEUROTRANSMITTER_RECEPTOR_INTERNALIZATION"                                
+    ## [175] "GOBP_L_GLUTAMATE_TRANSMEMBRANE_TRANSPORT"                                      
+    ## [176] "GOBP_POSTSYNAPTIC_SPECIALIZATION_ASSEMBLY"                                     
+    ## [177] "GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_REGENERATION"                    
+    ## [178] "GOBP_POSITIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT"                     
+    ## [179] "GOBP_EXCITATORY_SYNAPSE_ASSEMBLY"                                              
+    ## [180] "GOBP_NEUROMUSCULAR_PROCESS_CONTROLLING_BALANCE"                                
     ## [181] "GOBP_REGULATION_OF_SYNAPTIC_VESICLE_RECYCLING"                                 
-    ## [182] "GOBP_NEUROMUSCULAR_PROCESS_CONTROLLING_BALANCE"
+    ## [182] "GOBP_ADENYLATE_CYCLASE_INHIBITING_G_PROTEIN_COUPLED_RECEPTOR_SIGNALING_PATHWAY"
 
 ``` r
 not_in_overlap <- common_paths_main[!overlap]
@@ -896,42 +891,42 @@ all_paths_overlap
     ##                                                                             pathway
     ##                                                                              <char>
     ##   1:                                                  GOBP_NEURON_APOPTOTIC_PROCESS
-    ##   2:                                                              GOBP_NEURON_DEATH
-    ##   3:                                      GOBP_POSTSYNAPTIC_SPECIALIZATION_ASSEMBLY
-    ##   4:                                       GOBP_NEGATIVE_REGULATION_OF_AXONOGENESIS
-    ##   5:                                          GOBP_MAINTENANCE_OF_SYNAPSE_STRUCTURE
+    ##   2:                                                      GOBP_POSTSYNAPSE_ASSEMBLY
+    ##   3:                                          GOBP_MAINTENANCE_OF_SYNAPSE_STRUCTURE
+    ##   4:                  GOBP_POSITIVE_REGULATION_OF_EXCITATORY_POSTSYNAPTIC_POTENTIAL
+    ##   5:                                       GOBP_NEGATIVE_REGULATION_OF_AXONOGENESIS
     ##  ---                                                                               
-    ## 360: GOBP_ADENYLATE_CYCLASE_INHIBITING_G_PROTEIN_COUPLED_RECEPTOR_SIGNALING_PATHWAY
-    ## 361:                     GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_REGENERATION
-    ## 362:                                               GOBP_EXCITATORY_SYNAPSE_ASSEMBLY
+    ## 360:                      GOBP_POSITIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT
+    ## 361:                                               GOBP_EXCITATORY_SYNAPSE_ASSEMBLY
+    ## 362:                                 GOBP_NEUROMUSCULAR_PROCESS_CONTROLLING_BALANCE
     ## 363:                                  GOBP_REGULATION_OF_SYNAPTIC_VESICLE_RECYCLING
-    ## 364:                                 GOBP_NEUROMUSCULAR_PROCESS_CONTROLLING_BALANCE
+    ## 364: GOBP_ADENYLATE_CYCLASE_INHIBITING_G_PROTEIN_COUPLED_RECEPTOR_SIGNALING_PATHWAY
     ##              pval       padj    log2err         ES        NES  size
     ##             <num>      <num>      <num>      <num>      <num> <int>
-    ##   1: 0.0002210583 0.04023261 0.51884808  0.9695995  2.3198685   218
-    ##   2: 0.0010584774 0.08975834 0.45505987  0.9595688  2.2427484   325
-    ##   3: 0.0024603865 0.08975834 0.43170770  0.9353871  2.4279337    20
-    ##   4: 0.0035333199 0.08975834 0.43170770  0.9848314  2.5215405    56
-    ##   5: 0.0049450725 0.08975834 0.40701792  0.9924235  2.5774428    19
+    ##   1: 0.0003713898 0.03583278 0.49849311  0.9695995  2.2746212   218
+    ##   2: 0.0006731776 0.03583278 0.47727082  0.9237861  2.3343020    26
+    ##   3: 0.0010400696 0.03583278 0.45505987  0.9924235  2.4914598    19
+    ##   4: 0.0010768852 0.03583278 0.45505987  0.9160108  2.3140843    23
+    ##   5: 0.0015370831 0.03583278 0.45505987  0.9848314  2.4268765    56
     ##  ---                                                               
-    ## 360: 0.9900990099 1.00000000 0.02286940  0.1533360  0.5919384    75
-    ## 361: 0.9939301973 1.00000000 0.03316264  0.1884915  0.5118334    15
-    ## 362: 0.9942693410 1.00000000 0.03034673  0.1747264  0.5406954    25
-    ## 363: 0.9970238095 1.00000000 0.03207042  0.1610146  0.4701332    19
-    ## 364: 1.0000000000 1.00000000 0.07977059 -0.1427050 -0.6197831    49
+    ## 360: 0.9867109635 0.99633700 0.01603044  0.1600589  0.6605510   139
+    ## 361: 0.9873949580 0.99633700 0.02956455  0.1747264  0.5243340    25
+    ## 362: 0.9910313901 0.99633700 0.08578444 -0.1427050 -0.6179620    49
+    ## 363: 0.9958506224 0.99633700 0.02850386  0.1610146  0.4586781    19
+    ## 364: 0.9963369963 0.99633700 0.02172400  0.1533360  0.5784461    75
     ##       leadingEdge
     ##            <list>
     ##   1: 6326, 88....
-    ##   2: 6326, 88....
-    ##   3: 5728, 85....
-    ##   4:   8831, 5728
-    ##   5:  8831, 22941
+    ##   2: 5728, 85....
+    ##   3:  8831, 22941
+    ##   4: 5728, 85....
+    ##   5:   8831, 5728
     ##  ---             
-    ## 360: 2550, 29....
-    ## 361: 5728, 71....
-    ## 362: 64101, 7....
+    ## 360: 51517, 1....
+    ## 361: 64101, 7....
+    ## 362: 7401, 64....
     ## 363: 6622, 60....
-    ## 364: 7401, 64....
+    ## 364: 2550, 29....
 
 ``` r
 nrow(all_paths_overlap) # 364
@@ -983,16 +978,16 @@ variant_path_NES_padj
     ## # A tibble: 182 × 5
     ##    pathway                             rare_NES common_NES rare_padj common_padj
     ##    <chr>                                  <dbl>      <dbl>     <dbl>       <dbl>
-    ##  1 GOBP_NEURON_APOPTOTIC_PROCESS           2.32      1.20     0.0402       0.381
-    ##  2 GOBP_NEURON_DEATH                       2.24      1.34     0.0898       0.150
-    ##  3 GOBP_POSTSYNAPTIC_SPECIALIZATION_A…     2.43      0.537    0.0898       1    
-    ##  4 GOBP_NEGATIVE_REGULATION_OF_AXONOG…     2.52      1.30     0.0898       0.370
-    ##  5 GOBP_MAINTENANCE_OF_SYNAPSE_STRUCT…     2.58      1.53     0.0898       0.279
-    ##  6 GOBP_EXCITATORY_SYNAPSE_ASSEMBLY        2.41      0.541    0.0898       1    
-    ##  7 GOBP_POSITIVE_REGULATION_OF_AXON_E…     2.34      0.744    0.0898       0.942
-    ##  8 GOBP_POSTSYNAPTIC_SPECIALIZATION_O…     2.55      1.07     0.0898       0.667
-    ##  9 GOBP_POSITIVE_REGULATION_OF_NEURON…     1.86      0.671    0.0898       1    
-    ## 10 GOBP_POSTSYNAPSE_ASSEMBLY               2.40      0.721    0.0898       0.942
+    ##  1 GOBP_NEURON_APOPTOTIC_PROCESS           2.27      1.19     0.0358       0.438
+    ##  2 GOBP_POSTSYNAPSE_ASSEMBLY               2.33      0.698    0.0358       0.977
+    ##  3 GOBP_MAINTENANCE_OF_SYNAPSE_STRUCT…     2.49      1.49     0.0358       0.345
+    ##  4 GOBP_POSITIVE_REGULATION_OF_EXCITA…     2.31     -1.06     0.0358       0.636
+    ##  5 GOBP_NEGATIVE_REGULATION_OF_AXONOG…     2.43      1.27     0.0358       0.433
+    ##  6 GOBP_POSTSYNAPTIC_SPECIALIZATION_O…     2.50      1.04     0.0358       0.695
+    ##  7 GOBP_REGULATION_OF_LONG_TERM_NEURO…     2.50      1.15     0.0358       0.570
+    ##  8 GOBP_LONG_TERM_SYNAPTIC_POTENTIATI…     2.11      1.13     0.0358       0.537
+    ##  9 GOBP_NEURON_DEATH                       2.20      1.33     0.0358       0.174
+    ## 10 GOBP_NEURONAL_ACTION_POTENTIAL          2.49      0.908    0.0358       0.837
     ## # ℹ 172 more rows
 
 ## Calculate Unfiltered MAD
@@ -1008,16 +1003,16 @@ variant_path_NES_padj
     ## # A tibble: 182 × 8
     ##    pathway         rare_NES common_NES rare_padj common_padj NES_diff MAD_unfilt
     ##    <chr>              <dbl>      <dbl>     <dbl>       <dbl>    <dbl>      <dbl>
-    ##  1 GOBP_NEURON_AP…     2.32      1.20     0.0402       0.381    1.12       0.586
-    ##  2 GOBP_NEURON_DE…     2.24      1.34     0.0898       0.150    0.901      0.586
-    ##  3 GOBP_POSTSYNAP…     2.43      0.537    0.0898       1        1.89       0.586
-    ##  4 GOBP_NEGATIVE_…     2.52      1.30     0.0898       0.370    1.22       0.586
-    ##  5 GOBP_MAINTENAN…     2.58      1.53     0.0898       0.279    1.05       0.586
-    ##  6 GOBP_EXCITATOR…     2.41      0.541    0.0898       1        1.87       0.586
-    ##  7 GOBP_POSITIVE_…     2.34      0.744    0.0898       0.942    1.60       0.586
-    ##  8 GOBP_POSTSYNAP…     2.55      1.07     0.0898       0.667    1.49       0.586
-    ##  9 GOBP_POSITIVE_…     1.86      0.671    0.0898       1        1.19       0.586
-    ## 10 GOBP_POSTSYNAP…     2.40      0.721    0.0898       0.942    1.68       0.586
+    ##  1 GOBP_NEURON_AP…     2.27      1.19     0.0358       0.438    1.09       0.563
+    ##  2 GOBP_POSTSYNAP…     2.33      0.698    0.0358       0.977    1.64       0.563
+    ##  3 GOBP_MAINTENAN…     2.49      1.49     0.0358       0.345    1.00       0.563
+    ##  4 GOBP_POSITIVE_…     2.31     -1.06     0.0358       0.636    3.37       0.563
+    ##  5 GOBP_NEGATIVE_…     2.43      1.27     0.0358       0.433    1.15       0.563
+    ##  6 GOBP_POSTSYNAP…     2.50      1.04     0.0358       0.695    1.45       0.563
+    ##  7 GOBP_REGULATIO…     2.50      1.15     0.0358       0.570    1.36       0.563
+    ##  8 GOBP_LONG_TERM…     2.11      1.13     0.0358       0.537    0.979      0.563
+    ##  9 GOBP_NEURON_DE…     2.20      1.33     0.0358       0.174    0.878      0.563
+    ## 10 GOBP_NEURONAL_…     2.49      0.908    0.0358       0.837    1.58       0.563
     ## # ℹ 172 more rows
     ## # ℹ 1 more variable: median_NES_diff <dbl>
 
@@ -1042,16 +1037,16 @@ most_divergent
     ## # A tibble: 1 × 2
     ##   pathway                                                       NES_diff
     ##   <chr>                                                            <dbl>
-    ## 1 GOBP_POSITIVE_REGULATION_OF_EXCITATORY_POSTSYNAPTIC_POTENTIAL     3.41
+    ## 1 GOBP_POSITIVE_REGULATION_OF_EXCITATORY_POSTSYNAPTIC_POTENTIAL     3.37
 
 ``` r
 most_convergent
 ```
 
     ## # A tibble: 1 × 2
-    ##   pathway                         NES_diff
-    ##   <chr>                              <dbl>
-    ## 1 GOBP_NEUROTRANSMITTER_SECRETION  0.00154
+    ##   pathway                                    NES_diff
+    ##   <chr>                                         <dbl>
+    ## 1 GOBP_NEGATIVE_REGULATION_OF_AXON_EXTENSION 0.000771
 
 ``` r
 classify_paths <- variant_path_NES_padj %>% mutate(
@@ -1067,16 +1062,16 @@ classify_paths
     ## # A tibble: 182 × 9
     ##    pathway         rare_NES common_NES rare_padj common_padj NES_diff MAD_unfilt
     ##    <chr>              <dbl>      <dbl>     <dbl>       <dbl>    <dbl>      <dbl>
-    ##  1 GOBP_NEURON_AP…     2.32      1.20     0.0402       0.381    1.12       0.586
-    ##  2 GOBP_NEURON_DE…     2.24      1.34     0.0898       0.150    0.901      0.586
-    ##  3 GOBP_POSTSYNAP…     2.43      0.537    0.0898       1        1.89       0.586
-    ##  4 GOBP_NEGATIVE_…     2.52      1.30     0.0898       0.370    1.22       0.586
-    ##  5 GOBP_MAINTENAN…     2.58      1.53     0.0898       0.279    1.05       0.586
-    ##  6 GOBP_EXCITATOR…     2.41      0.541    0.0898       1        1.87       0.586
-    ##  7 GOBP_POSITIVE_…     2.34      0.744    0.0898       0.942    1.60       0.586
-    ##  8 GOBP_POSTSYNAP…     2.55      1.07     0.0898       0.667    1.49       0.586
-    ##  9 GOBP_POSITIVE_…     1.86      0.671    0.0898       1        1.19       0.586
-    ## 10 GOBP_POSTSYNAP…     2.40      0.721    0.0898       0.942    1.68       0.586
+    ##  1 GOBP_NEURON_AP…     2.27      1.19     0.0358       0.438    1.09       0.563
+    ##  2 GOBP_POSTSYNAP…     2.33      0.698    0.0358       0.977    1.64       0.563
+    ##  3 GOBP_MAINTENAN…     2.49      1.49     0.0358       0.345    1.00       0.563
+    ##  4 GOBP_POSITIVE_…     2.31     -1.06     0.0358       0.636    3.37       0.563
+    ##  5 GOBP_NEGATIVE_…     2.43      1.27     0.0358       0.433    1.15       0.563
+    ##  6 GOBP_POSTSYNAP…     2.50      1.04     0.0358       0.695    1.45       0.563
+    ##  7 GOBP_REGULATIO…     2.50      1.15     0.0358       0.570    1.36       0.563
+    ##  8 GOBP_LONG_TERM…     2.11      1.13     0.0358       0.537    0.979      0.563
+    ##  9 GOBP_NEURON_DE…     2.20      1.33     0.0358       0.174    0.878      0.563
+    ## 10 GOBP_NEURONAL_…     2.49      0.908    0.0358       0.837    1.58       0.563
     ## # ℹ 172 more rows
     ## # ℹ 2 more variables: median_NES_diff <dbl>, converge_diverge <chr>
 
@@ -1085,54 +1080,54 @@ divergent_unfilt <- classify_paths %>% filter(converge_diverge == "divergent")
 divergent_unfilt
 ```
 
-    ## # A tibble: 60 × 9
+    ## # A tibble: 61 × 9
     ##    pathway         rare_NES common_NES rare_padj common_padj NES_diff MAD_unfilt
     ##    <chr>              <dbl>      <dbl>     <dbl>       <dbl>    <dbl>      <dbl>
-    ##  1 GOBP_POSTSYNAP…     2.43      0.537    0.0898       1         1.89      0.586
-    ##  2 GOBP_EXCITATOR…     2.41      0.541    0.0898       1         1.87      0.586
-    ##  3 GOBP_POSITIVE_…     2.34      0.744    0.0898       0.942     1.60      0.586
-    ##  4 GOBP_POSTSYNAP…     2.55      1.07     0.0898       0.667     1.49      0.586
-    ##  5 GOBP_POSTSYNAP…     2.40      0.721    0.0898       0.942     1.68      0.586
-    ##  6 GOBP_POSITIVE_…     2.22      0.721    0.0898       0.969     1.50      0.586
-    ##  7 GOBP_REGULATIO…     2.57      1.18     0.0898       0.509     1.38      0.586
-    ##  8 GOBP_NEURONAL_…     2.55      0.923    0.0898       0.799     1.62      0.586
-    ##  9 GOBP_SYNAPTIC_…     2.20      0.793    0.0898       0.910     1.41      0.586
-    ## 10 GOBP_REGULATIO…     2.32      0.653    0.0898       1         1.67      0.586
-    ## # ℹ 50 more rows
+    ##  1 GOBP_POSTSYNAP…     2.33      0.698    0.0358       0.977     1.64      0.563
+    ##  2 GOBP_POSITIVE_…     2.31     -1.06     0.0358       0.636     3.37      0.563
+    ##  3 GOBP_POSTSYNAP…     2.50      1.04     0.0358       0.695     1.45      0.563
+    ##  4 GOBP_REGULATIO…     2.50      1.15     0.0358       0.570     1.36      0.563
+    ##  5 GOBP_NEURONAL_…     2.49      0.908    0.0358       0.837     1.58      0.563
+    ##  6 GOBP_POSTSYNAP…     2.35      0.523    0.0358       0.996     1.83      0.563
+    ##  7 GOBP_POSITIVE_…     2.28      0.731    0.0358       0.965     1.55      0.563
+    ##  8 GOBP_EXCITATOR…     2.35      0.524    0.0358       0.996     1.83      0.563
+    ##  9 GOBP_REGULATIO…     2.27      0.642    0.0388       0.996     1.63      0.563
+    ## 10 GOBP_MODULATIO…     2.26     -1.08     0.0410       0.628     3.33      0.563
+    ## # ℹ 51 more rows
     ## # ℹ 2 more variables: median_NES_diff <dbl>, converge_diverge <chr>
 
 ``` r
 nrow(divergent_unfilt)
 ```
 
-    ## [1] 60
+    ## [1] 61
 
 ``` r
 convergent_unfilt <- classify_paths %>% filter(converge_diverge == "convergent")
 convergent_unfilt
 ```
 
-    ## # A tibble: 122 × 9
+    ## # A tibble: 121 × 9
     ##    pathway         rare_NES common_NES rare_padj common_padj NES_diff MAD_unfilt
     ##    <chr>              <dbl>      <dbl>     <dbl>       <dbl>    <dbl>      <dbl>
-    ##  1 GOBP_NEURON_AP…     2.32      1.20     0.0402       0.381    1.12       0.586
-    ##  2 GOBP_NEURON_DE…     2.24      1.34     0.0898       0.150    0.901      0.586
-    ##  3 GOBP_NEGATIVE_…     2.52      1.30     0.0898       0.370    1.22       0.586
-    ##  4 GOBP_MAINTENAN…     2.58      1.53     0.0898       0.279    1.05       0.586
-    ##  5 GOBP_POSITIVE_…     1.86      0.671    0.0898       1        1.19       0.586
-    ##  6 GOBP_POSITIVE_…     2.07      1.47     0.0898       0.150    0.606      0.586
-    ##  7 GOBP_REGULATIO…     2.54      1.24     0.0898       0.447    1.30       0.586
-    ##  8 GOBP_CHEMICAL_…     2.08      0.891    0.0898       0.862    1.19       0.586
-    ##  9 GOBP_NEGATIVE_…     2.33      1.38     0.0898       0.275    0.948      0.586
-    ## 10 GOBP_LONG_TERM…     2.18      1.15     0.0898       0.497    1.03       0.586
-    ## # ℹ 112 more rows
+    ##  1 GOBP_NEURON_AP…     2.27      1.19     0.0358       0.438    1.09       0.563
+    ##  2 GOBP_MAINTENAN…     2.49      1.49     0.0358       0.345    1.00       0.563
+    ##  3 GOBP_NEGATIVE_…     2.43      1.27     0.0358       0.433    1.15       0.563
+    ##  4 GOBP_LONG_TERM…     2.11      1.13     0.0358       0.537    0.979      0.563
+    ##  5 GOBP_NEURON_DE…     2.20      1.33     0.0358       0.174    0.878      0.563
+    ##  6 GOBP_POSITIVE_…     2.00      1.44     0.0358       0.345    0.558      0.563
+    ##  7 GOBP_REGULATIO…     2.48      1.23     0.0410       0.463    1.25       0.563
+    ##  8 GOBP_REGULATIO…     1.95      1.19     0.0680       0.463    0.759      0.563
+    ##  9 GOBP_POSITIVE_…     1.95      1.52     0.0680       0.174    0.429      0.563
+    ## 10 GOBP_CHEMICAL_…     2.01      0.872    0.0774       0.899    1.14       0.563
+    ## # ℹ 111 more rows
     ## # ℹ 2 more variables: median_NES_diff <dbl>, converge_diverge <chr>
 
 ``` r
 nrow(convergent_unfilt)
 ```
 
-    ## [1] 122
+    ## [1] 121
 
 ``` r
 #determine padj filter by visualizing NES difference against -log10padj
@@ -1173,154 +1168,152 @@ all_paths_filt <- all_paths_overlap %>% filter(pathway %in% both_sig)
 nrow(all_paths_filt)
 ```
 
-    ## [1] 38
+    ## [1] 30
 
 ``` r
 setdiff(rare_sig, common_sig)  #rare only
 ```
 
     ##   [1] "GOBP_NEURON_APOPTOTIC_PROCESS"                                                 
-    ##   [2] "GOBP_POSTSYNAPTIC_SPECIALIZATION_ASSEMBLY"                                     
-    ##   [3] "GOBP_NEGATIVE_REGULATION_OF_AXONOGENESIS"                                      
-    ##   [4] "GOBP_MAINTENANCE_OF_SYNAPSE_STRUCTURE"                                         
-    ##   [5] "GOBP_EXCITATORY_SYNAPSE_ASSEMBLY"                                              
-    ##   [6] "GOBP_POSITIVE_REGULATION_OF_AXON_EXTENSION"                                    
-    ##   [7] "GOBP_POSTSYNAPTIC_SPECIALIZATION_ORGANIZATION"                                 
-    ##   [8] "GOBP_POSITIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT"                     
-    ##   [9] "GOBP_POSTSYNAPSE_ASSEMBLY"                                                     
-    ##  [10] "GOBP_POSITIVE_REGULATION_OF_SYNAPSE_ASSEMBLY"                                  
-    ##  [11] "GOBP_REGULATION_OF_LONG_TERM_NEURONAL_SYNAPTIC_PLASTICITY"                     
-    ##  [12] "GOBP_NEURONAL_ACTION_POTENTIAL"                                                
-    ##  [13] "GOBP_SYNAPTIC_TRANSMISSION_GABAERGIC"                                          
+    ##   [2] "GOBP_POSTSYNAPSE_ASSEMBLY"                                                     
+    ##   [3] "GOBP_MAINTENANCE_OF_SYNAPSE_STRUCTURE"                                         
+    ##   [4] "GOBP_POSITIVE_REGULATION_OF_EXCITATORY_POSTSYNAPTIC_POTENTIAL"                 
+    ##   [5] "GOBP_NEGATIVE_REGULATION_OF_AXONOGENESIS"                                      
+    ##   [6] "GOBP_POSTSYNAPTIC_SPECIALIZATION_ORGANIZATION"                                 
+    ##   [7] "GOBP_REGULATION_OF_LONG_TERM_NEURONAL_SYNAPTIC_PLASTICITY"                     
+    ##   [8] "GOBP_LONG_TERM_SYNAPTIC_POTENTIATION"                                          
+    ##   [9] "GOBP_NEURONAL_ACTION_POTENTIAL"                                                
+    ##  [10] "GOBP_POSTSYNAPTIC_SPECIALIZATION_ASSEMBLY"                                     
+    ##  [11] "GOBP_POSITIVE_REGULATION_OF_AXONOGENESIS"                                      
+    ##  [12] "GOBP_POSITIVE_REGULATION_OF_AXON_EXTENSION"                                    
+    ##  [13] "GOBP_EXCITATORY_SYNAPSE_ASSEMBLY"                                              
     ##  [14] "GOBP_REGULATION_OF_SYNAPTIC_TRANSMISSION_GABAERGIC"                            
     ##  [15] "GOBP_MODULATION_OF_EXCITATORY_POSTSYNAPTIC_POTENTIAL"                          
     ##  [16] "GOBP_REGULATION_OF_NEURONAL_SYNAPTIC_PLASTICITY"                               
-    ##  [17] "GOBP_POSITIVE_REGULATION_OF_EXCITATORY_POSTSYNAPTIC_POTENTIAL"                 
-    ##  [18] "GOBP_CHEMICAL_SYNAPTIC_TRANSMISSION_POSTSYNAPTIC"                              
-    ##  [19] "GOBP_NEGATIVE_REGULATION_OF_SYNAPTIC_TRANSMISSION"                             
-    ##  [20] "GOBP_LONG_TERM_SYNAPTIC_POTENTIATION"                                          
-    ##  [21] "GOBP_NEURON_PROJECTION_ORGANIZATION"                                           
-    ##  [22] "GOBP_POSITIVE_REGULATION_OF_SYNAPTIC_TRANSMISSION_GLUTAMATERGIC"               
-    ##  [23] "GOBP_GLUTAMATE_RECEPTOR_SIGNALING_PATHWAY"                                     
-    ##  [24] "GOBP_REGULATION_OF_POSTSYNAPSE_ORGANIZATION"                                   
-    ##  [25] "GOBP_REGULATION_OF_SYNAPSE_ASSEMBLY"                                           
-    ##  [26] "GOBP_ENSHEATHMENT_OF_NEURONS"                                                  
-    ##  [27] "GOBP_POSITIVE_REGULATION_OF_LONG_TERM_SYNAPTIC_POTENTIATION"                   
-    ##  [28] "GOBP_LONG_TERM_SYNAPTIC_DEPRESSION"                                            
-    ##  [29] "GOBP_NEUROMUSCULAR_PROCESS"                                                    
-    ##  [30] "GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_REGENERATION"                    
-    ##  [31] "GOBP_REGULATION_OF_CHROMATIN_ORGANIZATION"                                     
-    ##  [32] "GOBP_SYNAPSE_MATURATION"                                                       
-    ##  [33] "GOBP_RETROGRADE_AXONAL_TRANSPORT"                                              
-    ##  [34] "GOBP_POSTSYNAPSE_ORGANIZATION"                                                 
-    ##  [35] "GOBP_POSTSYNAPTIC_MEMBRANE_ORGANIZATION"                                       
-    ##  [36] "GOBP_AXON_ENSHEATHMENT_IN_CENTRAL_NERVOUS_SYSTEM"                              
-    ##  [37] "GOBP_PRESYNAPSE_ORGANIZATION"                                                  
-    ##  [38] "GOBP_REGULATION_OF_SYNAPTIC_PLASTICITY"                                        
-    ##  [39] "GOBP_AXON_EXTENSION"                                                           
-    ##  [40] "GOBP_NEGATIVE_REGULATION_OF_NEURON_APOPTOTIC_PROCESS"                          
-    ##  [41] "GOBP_POSITIVE_REGULATION_OF_SYNAPTIC_TRANSMISSION"                             
-    ##  [42] "GOBP_NEURON_FATE_SPECIFICATION"                                                
-    ##  [43] "GOBP_POSITIVE_REGULATION_OF_NEURON_APOPTOTIC_PROCESS"                          
-    ##  [44] "GOBP_SYNAPTIC_VESICLE_LOCALIZATION"                                            
-    ##  [45] "GOBP_SYNAPTIC_TRANSMISSION_GLUTAMATERGIC"                                      
-    ##  [46] "GOBP_NEURON_FATE_COMMITMENT"                                                   
-    ##  [47] "GOBP_NEURON_PROJECTION_REGENERATION"                                           
-    ##  [48] "GOBP_MIDBRAIN_DOPAMINERGIC_NEURON_DIFFERENTIATION"                             
-    ##  [49] "GOBP_NEGATIVE_REGULATION_OF_NEURON_DEATH"                                      
-    ##  [50] "GOBP_POSITIVE_REGULATION_OF_NEUROBLAST_PROLIFERATION"                          
-    ##  [51] "GOBP_REGULATION_OF_NEUROBLAST_PROLIFERATION"                                   
-    ##  [52] "GOBP_REGULATION_OF_NEUROTRANSMITTER_RECEPTOR_ACTIVITY"                         
-    ##  [53] "GOBP_REGULATION_OF_SYNAPSE_STRUCTURE_OR_ACTIVITY"                              
-    ##  [54] "GOBP_SYNAPTIC_MEMBRANE_ADHESION"                                               
-    ##  [55] "GOBP_REGULATION_OF_POSTSYNAPTIC_MEMBRANE_POTENTIAL"                            
-    ##  [56] "GOBP_REGULATION_OF_SYNAPTIC_TRANSMISSION_GLUTAMATERGIC"                        
-    ##  [57] "GOBP_FOREBRAIN_GENERATION_OF_NEURONS"                                          
-    ##  [58] "GOBP_FOREBRAIN_NEURON_DIFFERENTIATION"                                         
-    ##  [59] "GOBP_NEURON_DEATH_IN_RESPONSE_TO_OXIDATIVE_STRESS"                             
-    ##  [60] "GOBP_PROTEIN_LOCALIZATION_TO_SYNAPSE"                                          
-    ##  [61] "GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_DEVELOPMENT"                                
-    ##  [62] "GOBP_NEURON_PROJECTION_EXTENSION"                                              
-    ##  [63] "GOBP_FACULTATIVE_HETEROCHROMATIN_ASSEMBLY"                                     
-    ##  [64] "GOBP_HETEROCHROMATIN_ORGANIZATION"                                             
-    ##  [65] "GOBP_NEGATIVE_REGULATION_OF_OXIDATIVE_STRESS_INDUCED_NEURON_DEATH"             
-    ##  [66] "GOBP_SYNAPSE_ASSEMBLY"                                                         
-    ##  [67] "GOBP_NEUROTRANSMITTER_TRANSPORT"                                               
-    ##  [68] "GOBP_AXONAL_TRANSPORT"                                                         
-    ##  [69] "GOBP_POSITIVE_REGULATION_OF_CHROMATIN_ORGANIZATION"                            
-    ##  [70] "GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_AXONOGENESIS"                               
-    ##  [71] "GOBP_REGULATION_OF_CHROMATIN_ASSEMBLY_OR_DISASSEMBLY"                          
-    ##  [72] "GOBP_INHIBITORY_SYNAPSE_ASSEMBLY"                                              
-    ##  [73] "GOBP_RESPONSE_TO_AXON_INJURY"                                                  
-    ##  [74] "GOBP_SYNAPTIC_VESICLE_MEMBRANE_ORGANIZATION"                                   
-    ##  [75] "GOBP_DNA_METHYLATION_DEPENDENT_HETEROCHROMATIN_ASSEMBLY"                       
-    ##  [76] "GOBP_REGULATION_OF_CHROMATIN_ASSEMBLY"                                         
-    ##  [77] "GOBP_REGULATION_OF_TRANS_SYNAPTIC_SIGNALING"                                   
-    ##  [78] "GOBP_SYNAPTIC_VESICLE_TRANSPORT"                                               
-    ##  [79] "GOBP_REGULATION_OF_NEURON_PROJECTION_REGENERATION"                             
-    ##  [80] "GOBP_CALCIUM_ION_REGULATED_EXOCYTOSIS_OF_NEUROTRANSMITTER"                     
-    ##  [81] "GOBP_DOPAMINERGIC_NEURON_DIFFERENTIATION"                                      
-    ##  [82] "GOBP_POSITIVE_REGULATION_OF_NEUROTRANSMITTER_SECRETION"                        
-    ##  [83] "GOBP_REGULATION_OF_AXONOGENESIS"                                               
-    ##  [84] "GOBP_REGULATION_OF_NEURON_DIFFERENTIATION"                                     
-    ##  [85] "GOBP_NEUROBLAST_PROLIFERATION"                                                 
-    ##  [86] "GOBP_NEURON_CELLULAR_HOMEOSTASIS"                                              
-    ##  [87] "GOBP_NEUROTRANSMITTER_UPTAKE"                                                  
-    ##  [88] "GOBP_SYNAPTIC_VESICLE_PRIMING"                                                 
-    ##  [89] "GOBP_NEUROTRANSMITTER_REUPTAKE"                                                
-    ##  [90] "GOBP_GLUTAMATE_SECRETION"                                                      
-    ##  [91] "GOBP_CHROMATIN_DISASSEMBLY"                                                    
+    ##  [17] "GOBP_SYNAPTIC_TRANSMISSION_GABAERGIC"                                          
+    ##  [18] "GOBP_REGULATION_OF_POSTSYNAPTIC_MEMBRANE_POTENTIAL"                            
+    ##  [19] "GOBP_POSITIVE_REGULATION_OF_SYNAPSE_ASSEMBLY"                                  
+    ##  [20] "GOBP_CHEMICAL_SYNAPTIC_TRANSMISSION_POSTSYNAPTIC"                              
+    ##  [21] "GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_REGENERATION"                    
+    ##  [22] "GOBP_REGULATION_OF_POSTSYNAPSE_ORGANIZATION"                                   
+    ##  [23] "GOBP_POSTSYNAPTIC_MEMBRANE_ORGANIZATION"                                       
+    ##  [24] "GOBP_SYNAPTIC_VESICLE_LOCALIZATION"                                            
+    ##  [25] "GOBP_POSITIVE_REGULATION_OF_SYNAPTIC_TRANSMISSION_GLUTAMATERGIC"               
+    ##  [26] "GOBP_NEGATIVE_REGULATION_OF_SYNAPTIC_TRANSMISSION"                             
+    ##  [27] "GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT"                     
+    ##  [28] "GOBP_NEURON_PROJECTION_ORGANIZATION"                                           
+    ##  [29] "GOBP_NEURON_FATE_SPECIFICATION"                                                
+    ##  [30] "GOBP_SYNAPSE_MATURATION"                                                       
+    ##  [31] "GOBP_FOREBRAIN_GENERATION_OF_NEURONS"                                          
+    ##  [32] "GOBP_GLUTAMATE_RECEPTOR_SIGNALING_PATHWAY"                                     
+    ##  [33] "GOBP_LONG_TERM_SYNAPTIC_DEPRESSION"                                            
+    ##  [34] "GOBP_REGULATION_OF_SYNAPSE_ASSEMBLY"                                           
+    ##  [35] "GOBP_NEGATIVE_REGULATION_OF_NEURON_APOPTOTIC_PROCESS"                          
+    ##  [36] "GOBP_REGULATION_OF_CHROMATIN_ORGANIZATION"                                     
+    ##  [37] "GOBP_FOREBRAIN_NEURON_DIFFERENTIATION"                                         
+    ##  [38] "GOBP_AXON_ENSHEATHMENT_IN_CENTRAL_NERVOUS_SYSTEM"                              
+    ##  [39] "GOBP_INHIBITORY_SYNAPSE_ASSEMBLY"                                              
+    ##  [40] "GOBP_REGULATION_OF_CHROMATIN_ASSEMBLY_OR_DISASSEMBLY"                          
+    ##  [41] "GOBP_NEUROTRANSMITTER_UPTAKE"                                                  
+    ##  [42] "GOBP_AXON_EXTENSION"                                                           
+    ##  [43] "GOBP_DOPAMINERGIC_NEURON_DIFFERENTIATION"                                      
+    ##  [44] "GOBP_REGULATION_OF_LONG_TERM_SYNAPTIC_POTENTIATION"                            
+    ##  [45] "GOBP_REGULATION_OF_NEURON_PROJECTION_REGENERATION"                             
+    ##  [46] "GOBP_NEGATIVE_REGULATION_OF_OXIDATIVE_STRESS_INDUCED_NEURON_DEATH"             
+    ##  [47] "GOBP_POSITIVE_REGULATION_OF_LONG_TERM_SYNAPTIC_POTENTIATION"                   
+    ##  [48] "GOBP_NEUROTRANSMITTER_REUPTAKE"                                                
+    ##  [49] "GOBP_PRESYNAPSE_ORGANIZATION"                                                  
+    ##  [50] "GOBP_ENSHEATHMENT_OF_NEURONS"                                                  
+    ##  [51] "GOBP_NEUROMUSCULAR_PROCESS"                                                    
+    ##  [52] "GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_AXONOGENESIS"                               
+    ##  [53] "GOBP_POSITIVE_REGULATION_OF_NEURON_APOPTOTIC_PROCESS"                          
+    ##  [54] "GOBP_REGULATION_OF_AXONOGENESIS"                                               
+    ##  [55] "GOBP_RETROGRADE_AXONAL_TRANSPORT"                                              
+    ##  [56] "GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_DEVELOPMENT"                                
+    ##  [57] "GOBP_NEURON_FATE_COMMITMENT"                                                   
+    ##  [58] "GOBP_NEURON_PROJECTION_REGENERATION"                                           
+    ##  [59] "GOBP_MIDBRAIN_DOPAMINERGIC_NEURON_DIFFERENTIATION"                             
+    ##  [60] "GOBP_POSITIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT"                     
+    ##  [61] "GOBP_POSITIVE_REGULATION_OF_SYNAPTIC_TRANSMISSION"                             
+    ##  [62] "GOBP_REGULATION_OF_SYNAPTIC_TRANSMISSION_GLUTAMATERGIC"                        
+    ##  [63] "GOBP_SYNAPTIC_TRANSMISSION_GLUTAMATERGIC"                                      
+    ##  [64] "GOBP_NEGATIVE_REGULATION_OF_NEURON_DEATH"                                      
+    ##  [65] "GOBP_POSTSYNAPSE_ORGANIZATION"                                                 
+    ##  [66] "GOBP_REGULATION_OF_NEUROTRANSMITTER_RECEPTOR_ACTIVITY"                         
+    ##  [67] "GOBP_POSITIVE_REGULATION_OF_NEUROBLAST_PROLIFERATION"                          
+    ##  [68] "GOBP_SYNAPSE_ASSEMBLY"                                                         
+    ##  [69] "GOBP_SYNAPTIC_MEMBRANE_ADHESION"                                               
+    ##  [70] "GOBP_NEURON_PROJECTION_EXTENSION"                                              
+    ##  [71] "GOBP_REGULATION_OF_SYNAPTIC_PLASTICITY"                                        
+    ##  [72] "GOBP_REGULATION_OF_NEUROBLAST_PROLIFERATION"                                   
+    ##  [73] "GOBP_PROTEIN_LOCALIZATION_TO_SYNAPSE"                                          
+    ##  [74] "GOBP_REGULATION_OF_SYNAPSE_STRUCTURE_OR_ACTIVITY"                              
+    ##  [75] "GOBP_NEURON_DEATH_IN_RESPONSE_TO_OXIDATIVE_STRESS"                             
+    ##  [76] "GOBP_AXONAL_TRANSPORT"                                                         
+    ##  [77] "GOBP_FACULTATIVE_HETEROCHROMATIN_ASSEMBLY"                                     
+    ##  [78] "GOBP_HETEROCHROMATIN_ORGANIZATION"                                             
+    ##  [79] "GOBP_REGULATION_OF_TRANS_SYNAPTIC_SIGNALING"                                   
+    ##  [80] "GOBP_NEUROTRANSMITTER_TRANSPORT"                                               
+    ##  [81] "GOBP_RESPONSE_TO_AXON_INJURY"                                                  
+    ##  [82] "KEGG_AXON_GUIDANCE"                                                            
+    ##  [83] "GOBP_POSITIVE_REGULATION_OF_CHROMATIN_ORGANIZATION"                            
+    ##  [84] "GOBP_REGULATION_OF_CHROMATIN_ASSEMBLY"                                         
+    ##  [85] "GOBP_DNA_METHYLATION_DEPENDENT_HETEROCHROMATIN_ASSEMBLY"                       
+    ##  [86] "GOBP_SYNAPTIC_VESICLE_MEMBRANE_ORGANIZATION"                                   
+    ##  [87] "GOBP_NEURON_RECOGNITION"                                                       
+    ##  [88] "GOBP_SYNAPTIC_VESICLE_TRANSPORT"                                               
+    ##  [89] "GOBP_NEUROBLAST_PROLIFERATION"                                                 
+    ##  [90] "GOBP_REGULATION_OF_NEURON_DIFFERENTIATION"                                     
+    ##  [91] "GOBP_CALCIUM_ION_REGULATED_EXOCYTOSIS_OF_NEUROTRANSMITTER"                     
     ##  [92] "GOBP_NEUROMUSCULAR_PROCESS_CONTROLLING_POSTURE"                                
-    ##  [93] "GOBP_NEURON_RECOGNITION"                                                       
-    ##  [94] "GOBP_NEUROMUSCULAR_SYNAPTIC_TRANSMISSION"                                      
-    ##  [95] "GOBP_REGULATION_OF_LONG_TERM_SYNAPTIC_POTENTIATION"                            
-    ##  [96] "GOBP_AXONAL_TRANSPORT_OF_MITOCHONDRION"                                        
-    ##  [97] "GOBP_CEREBRAL_CORTEX_NEURON_DIFFERENTIATION"                                   
-    ##  [98] "GOBP_POSITIVE_REGULATION_OF_NEUROTRANSMITTER_TRANSPORT"                        
-    ##  [99] "GOBP_RETINAL_GANGLION_CELL_AXON_GUIDANCE"                                      
-    ## [100] "GOBP_ANTEROGRADE_AXONAL_TRANSPORT"                                             
-    ## [101] "GOBP_NEURON_MIGRATION"                                                         
-    ## [102] "GOBP_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT"                              
-    ## [103] "GOBP_REGULATION_OF_NEUROTRANSMITTER_UPTAKE"                                    
-    ## [104] "GOBP_NEURON_MATURATION"                                                        
-    ## [105] "GOBP_REGULATION_OF_GLUTAMATE_SECRETION"                                        
-    ## [106] "GOBP_AXON_DEVELOPMENT"                                                         
-    ## [107] "GOBP_RNA_MEDIATED_GENE_SILENCING_BY_INHIBITION_OF_TRANSLATION"                 
-    ## [108] "GOBP_POSITIVE_REGULATION_OF_NEURON_DIFFERENTIATION"                            
-    ## [109] "GOBP_REGULATION_OF_NEURON_MIGRATION"                                           
-    ## [110] "GOBP_REGULATION_OF_PRESYNAPSE_ORGANIZATION"                                    
-    ## [111] "GOBP_NEUROMUSCULAR_PROCESS_CONTROLLING_BALANCE"                                
-    ## [112] "GOBP_NEURON_PROJECTION_ARBORIZATION"                                           
-    ## [113] "GOBP_POSITIVE_REGULATION_OF_NEURON_MIGRATION"                                  
-    ## [114] "GOBP_RESPONSE_TO_LEUKEMIA_INHIBITORY_FACTOR"                                   
-    ## [115] "GOBP_REGULATION_OF_NEUROTRANSMITTER_TRANSPORT"                                 
-    ## [116] "GOBP_NEUROTROPHIN_SIGNALING_PATHWAY"                                           
-    ## [117] "GOBP_NEUROTRANSMITTER_RECEPTOR_INTERNALIZATION"                                
+    ##  [93] "GOBP_SYNAPTIC_VESICLE_PRIMING"                                                 
+    ##  [94] "GOBP_AXONAL_TRANSPORT_OF_MITOCHONDRION"                                        
+    ##  [95] "GOBP_POSITIVE_REGULATION_OF_NEUROTRANSMITTER_SECRETION"                        
+    ##  [96] "GOBP_NEURON_CELLULAR_HOMEOSTASIS"                                              
+    ##  [97] "GOBP_GLUTAMATE_SECRETION"                                                      
+    ##  [98] "GOBP_ANTEROGRADE_AXONAL_TRANSPORT"                                             
+    ##  [99] "GOBP_CHROMATIN_DISASSEMBLY"                                                    
+    ## [100] "GOBP_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT"                              
+    ## [101] "GOBP_NEURON_MATURATION"                                                        
+    ## [102] "GOBP_CEREBRAL_CORTEX_NEURON_DIFFERENTIATION"                                   
+    ## [103] "GOBP_NEUROMUSCULAR_SYNAPTIC_TRANSMISSION"                                      
+    ## [104] "GOBP_NEURON_MIGRATION"                                                         
+    ## [105] "GOBP_AXON_DEVELOPMENT"                                                         
+    ## [106] "GOBP_POSITIVE_REGULATION_OF_NEUROTRANSMITTER_TRANSPORT"                        
+    ## [107] "GOBP_RETINAL_GANGLION_CELL_AXON_GUIDANCE"                                      
+    ## [108] "GOBP_REGULATION_OF_NEUROTRANSMITTER_UPTAKE"                                    
+    ## [109] "GOBP_REGULATION_OF_GLUTAMATE_SECRETION"                                        
+    ## [110] "GOBP_RNA_MEDIATED_GENE_SILENCING_BY_INHIBITION_OF_TRANSLATION"                 
+    ## [111] "GOBP_POSITIVE_REGULATION_OF_NEURON_DIFFERENTIATION"                            
+    ## [112] "GOBP_REGULATION_OF_NEURON_MIGRATION"                                           
+    ## [113] "GOBP_CENTRAL_NERVOUS_SYSTEM_PROJECTION_NEURON_AXONOGENESIS"                    
+    ## [114] "GOBP_NEUROMUSCULAR_PROCESS_CONTROLLING_BALANCE"                                
+    ## [115] "GOBP_REGULATION_OF_PRESYNAPSE_ORGANIZATION"                                    
+    ## [116] "GOBP_NEURON_PROJECTION_ARBORIZATION"                                           
+    ## [117] "GOBP_POSITIVE_REGULATION_OF_NEURON_MIGRATION"                                  
     ## [118] "KEGG_NEUROACTIVE_LIGAND_RECEPTOR_INTERACTION"                                  
-    ## [119] "GOBP_NEURONAL_STEM_CELL_POPULATION_MAINTENANCE"                                
-    ## [120] "GOBP_NEUROTRANSMITTER_RECEPTOR_TRANSPORT"                                      
-    ## [121] "GOBP_REGULATION_OF_PROTEIN_LOCALIZATION_TO_SYNAPSE"                            
-    ## [122] "GOBP_REGULATION_OF_RECEPTOR_LOCALIZATION_TO_SYNAPSE"                           
-    ## [123] "GOBP_FOREBRAIN_NEURON_DEVELOPMENT"                                             
-    ## [124] "GOBP_RECEPTOR_LOCALIZATION_TO_SYNAPSE"                                         
-    ## [125] "GOBP_SYNAPTIC_VESICLE_RECYCLING"                                               
-    ## [126] "GOBP_NEGATIVE_REGULATION_OF_NEURON_DIFFERENTIATION"                            
-    ## [127] "GOBP_REGULATION_OF_POSTSYNAPTIC_MEMBRANE_NEUROTRANSMITTER_RECEPTOR_LEVELS"     
-    ## [128] "GOBP_AXONEMAL_DYNEIN_COMPLEX_ASSEMBLY"                                         
-    ## [129] "GOBP_SYNAPTIC_VESICLE_EXOCYTOSIS"                                              
-    ## [130] "GOBP_SYNAPTIC_VESICLE_CYTOSKELETAL_TRANSPORT"                                  
-    ## [131] "GOBP_PRESYNAPTIC_ENDOCYTOSIS"                                                  
-    ## [132] "KEGG_NEUROTROPHIN_SIGNALING_PATHWAY"                                           
-    ## [133] "GOBP_ADENYLATE_CYCLASE_INHIBITING_G_PROTEIN_COUPLED_RECEPTOR_SIGNALING_PATHWAY"
-    ## [134] "GOBP_NEGATIVE_REGULATION_OF_AXON_EXTENSION"                                    
-    ## [135] "GOBP_PROTEIN_LOCALIZATION_TO_POSTSYNAPSE"                                      
-    ## [136] "GOBP_AXONEME_ASSEMBLY"                                                         
-    ## [137] "GOBP_AXONAL_FASCICULATION"                                                     
-    ## [138] "GOBP_NEUROTROPHIN_TRK_RECEPTOR_SIGNALING_PATHWAY"                              
-    ## [139] "GOBP_REGULATION_OF_CHROMATIN_BINDING"                                          
-    ## [140] "GOBP_PROTEIN_LOCALIZATION_TO_CHROMATIN"                                        
-    ## [141] "GOBP_POSTSYNAPTIC_SIGNAL_TRANSDUCTION"                                         
-    ## [142] "GOBP_REGULATION_OF_DNA_METHYLATION_DEPENDENT_HETEROCHROMATIN_ASSEMBLY"
+    ## [119] "GOBP_RESPONSE_TO_LEUKEMIA_INHIBITORY_FACTOR"                                   
+    ## [120] "GOBP_NEUROTROPHIN_SIGNALING_PATHWAY"                                           
+    ## [121] "GOBP_REGULATION_OF_NEUROTRANSMITTER_TRANSPORT"                                 
+    ## [122] "GOBP_NEUROTRANSMITTER_RECEPTOR_INTERNALIZATION"                                
+    ## [123] "GOBP_NEURONAL_STEM_CELL_POPULATION_MAINTENANCE"                                
+    ## [124] "GOBP_REGULATION_OF_PROTEIN_LOCALIZATION_TO_SYNAPSE"                            
+    ## [125] "GOBP_NEUROTRANSMITTER_RECEPTOR_TRANSPORT"                                      
+    ## [126] "GOBP_FOREBRAIN_NEURON_DEVELOPMENT"                                             
+    ## [127] "GOBP_RECEPTOR_LOCALIZATION_TO_SYNAPSE"                                         
+    ## [128] "GOBP_SYNAPTIC_VESICLE_RECYCLING"                                               
+    ## [129] "GOBP_REGULATION_OF_RECEPTOR_LOCALIZATION_TO_SYNAPSE"                           
+    ## [130] "GOBP_NEGATIVE_REGULATION_OF_NEURON_DIFFERENTIATION"                            
+    ## [131] "KEGG_NEUROTROPHIN_SIGNALING_PATHWAY"                                           
+    ## [132] "GOBP_REGULATION_OF_POSTSYNAPTIC_MEMBRANE_NEUROTRANSMITTER_RECEPTOR_LEVELS"     
+    ## [133] "GOBP_SYNAPTIC_VESICLE_CYTOSKELETAL_TRANSPORT"                                  
+    ## [134] "GOBP_SYNAPTIC_VESICLE_EXOCYTOSIS"                                              
+    ## [135] "GOBP_AXONEMAL_DYNEIN_COMPLEX_ASSEMBLY"                                         
+    ## [136] "GOBP_PRESYNAPTIC_ENDOCYTOSIS"                                                  
+    ## [137] "GOBP_ADENYLATE_CYCLASE_INHIBITING_G_PROTEIN_COUPLED_RECEPTOR_SIGNALING_PATHWAY"
+    ## [138] "GOBP_REGULATION_OF_CHROMATIN_BINDING"                                          
+    ## [139] "GOBP_NEUROTROPHIN_TRK_RECEPTOR_SIGNALING_PATHWAY"                              
+    ## [140] "GOBP_AXONAL_FASCICULATION"
 
 ``` r
 setdiff(common_sig, rare_sig)  #common only
@@ -1340,28 +1333,24 @@ variant_path_NES <- all_paths_filt %>%
 variant_path_NES
 ```
 
-    ## # A tibble: 19 × 3
+    ## # A tibble: 15 × 3
     ##    pathway                                                   rare_NES common_NES
     ##    <chr>                                                        <dbl>      <dbl>
-    ##  1 GOBP_NEURON_DEATH                                             2.24       1.34
-    ##  2 GOBP_POSITIVE_REGULATION_OF_AXONOGENESIS                      2.07       1.47
-    ##  3 GOBP_POSITIVE_REGULATION_OF_NEURON_DEATH                      2.01       1.54
-    ##  4 GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT     2.38       1.40
-    ##  5 GOBP_POSITIVE_REGULATION_OF_NEUROGENESIS                      1.81       1.44
-    ##  6 GOBP_VESICLE_MEDIATED_TRANSPORT_IN_SYNAPSE                    1.65       1.45
-    ##  7 GOBP_CHROMATIN_REMODELING                                     2.26       1.63
-    ##  8 GOBP_REGULATION_OF_NEUROTRANSMITTER_LEVELS                    1.60       1.39
-    ##  9 GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_DIFFERENTIATION            1.83       1.51
-    ## 10 GOBP_NEURON_PROJECTION_GUIDANCE                               1.57       1.40
-    ## 11 KEGG_AXON_GUIDANCE                                            1.65       1.39
-    ## 12 GOBP_CHROMATIN_ASSEMBLY_OR_DISASSEMBLY                        1.53       1.46
-    ## 13 GOBP_SYNAPSE_ORGANIZATION                                     2.14       1.41
-    ## 14 GOBP_NEURON_PROJECTION_EXTENSION_INVOLVED_IN_NEURON_PROJ…     1.80       1.83
-    ## 15 GOBP_REGULATION_OF_NEUROGENESIS                               2.17       1.37
-    ## 16 GOBP_NEUROTRANSMITTER_SECRETION                               1.50       1.50
-    ## 17 GOBP_CENTRAL_NERVOUS_SYSTEM_PROJECTION_NEURON_AXONOGENES…     1.67       1.60
-    ## 18 GOBP_NEGATIVE_REGULATION_OF_AXON_EXTENSION_INVOLVED_IN_A…     1.47       1.64
-    ## 19 KEGG_MTOR_SIGNALING_PATHWAY                                   1.38       1.61
+    ##  1 GOBP_NEURON_DEATH                                             2.20       1.33
+    ##  2 GOBP_POSITIVE_REGULATION_OF_NEURON_DEATH                      1.95       1.52
+    ##  3 GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_DIFFERENTIATION            1.78       1.49
+    ##  4 GOBP_POSITIVE_REGULATION_OF_NEUROGENESIS                      1.76       1.42
+    ##  5 GOBP_CHROMATIN_REMODELING                                     2.22       1.61
+    ##  6 GOBP_SYNAPSE_ORGANIZATION                                     2.12       1.39
+    ##  7 GOBP_REGULATION_OF_NEUROTRANSMITTER_LEVELS                    1.56       1.37
+    ##  8 GOBP_VESICLE_MEDIATED_TRANSPORT_IN_SYNAPSE                    1.60       1.43
+    ##  9 GOBP_NEURON_PROJECTION_GUIDANCE                               1.54       1.38
+    ## 10 GOBP_CHROMATIN_ASSEMBLY_OR_DISASSEMBLY                        1.49       1.44
+    ## 11 GOBP_REGULATION_OF_NEUROGENESIS                               2.13       1.35
+    ## 12 GOBP_NEURON_PROJECTION_EXTENSION_INVOLVED_IN_NEURON_PROJ…     1.76       1.80
+    ## 13 GOBP_NEUROTRANSMITTER_SECRETION                               1.46       1.48
+    ## 14 GOBP_NEGATIVE_REGULATION_OF_AXON_EXTENSION_INVOLVED_IN_A…     1.43       1.59
+    ## 15 KEGG_MTOR_SIGNALING_PATHWAY                                   1.34       1.60
 
 ``` r
 #sum(is.na(variant_path_NES))
@@ -1378,28 +1367,24 @@ variant_path_NES <- variant_path_NES %>% mutate(
 variant_path_NES
 ```
 
-    ## # A tibble: 19 × 6
+    ## # A tibble: 15 × 6
     ##    pathway                 rare_NES common_NES NES_diff MAD_filt median_NES_diff
     ##    <chr>                      <dbl>      <dbl>    <dbl>    <dbl>           <dbl>
-    ##  1 GOBP_NEURON_DEATH           2.24       1.34  0.901      0.382           0.259
-    ##  2 GOBP_POSITIVE_REGULATI…     2.07       1.47  0.606      0.382           0.259
-    ##  3 GOBP_POSITIVE_REGULATI…     2.01       1.54  0.478      0.382           0.259
-    ##  4 GOBP_NEGATIVE_REGULATI…     2.38       1.40  0.982      0.382           0.259
-    ##  5 GOBP_POSITIVE_REGULATI…     1.81       1.44  0.363      0.382           0.259
-    ##  6 GOBP_VESICLE_MEDIATED_…     1.65       1.45  0.194      0.382           0.259
-    ##  7 GOBP_CHROMATIN_REMODEL…     2.26       1.63  0.624      0.382           0.259
-    ##  8 GOBP_REGULATION_OF_NEU…     1.60       1.39  0.208      0.382           0.259
-    ##  9 GOBP_CENTRAL_NERVOUS_S…     1.83       1.51  0.321      0.382           0.259
-    ## 10 GOBP_NEURON_PROJECTION…     1.57       1.40  0.175      0.382           0.259
-    ## 11 KEGG_AXON_GUIDANCE          1.65       1.39  0.259      0.382           0.259
-    ## 12 GOBP_CHROMATIN_ASSEMBL…     1.53       1.46  0.0668     0.382           0.259
-    ## 13 GOBP_SYNAPSE_ORGANIZAT…     2.14       1.41  0.732      0.382           0.259
-    ## 14 GOBP_NEURON_PROJECTION…     1.80       1.83 -0.0357     0.382           0.259
-    ## 15 GOBP_REGULATION_OF_NEU…     2.17       1.37  0.797      0.382           0.259
-    ## 16 GOBP_NEUROTRANSMITTER_…     1.50       1.50  0.00154    0.382           0.259
-    ## 17 GOBP_CENTRAL_NERVOUS_S…     1.67       1.60  0.0755     0.382           0.259
-    ## 18 GOBP_NEGATIVE_REGULATI…     1.47       1.64 -0.174      0.382           0.259
-    ## 19 KEGG_MTOR_SIGNALING_PA…     1.38       1.61 -0.230      0.382           0.259
+    ##  1 GOBP_NEURON_DEATH           2.20       1.33   0.878     0.335           0.189
+    ##  2 GOBP_POSITIVE_REGULATI…     1.95       1.52   0.429     0.335           0.189
+    ##  3 GOBP_CENTRAL_NERVOUS_S…     1.78       1.49   0.297     0.335           0.189
+    ##  4 GOBP_POSITIVE_REGULATI…     1.76       1.42   0.337     0.335           0.189
+    ##  5 GOBP_CHROMATIN_REMODEL…     2.22       1.61   0.607     0.335           0.189
+    ##  6 GOBP_SYNAPSE_ORGANIZAT…     2.12       1.39   0.723     0.335           0.189
+    ##  7 GOBP_REGULATION_OF_NEU…     1.56       1.37   0.189     0.335           0.189
+    ##  8 GOBP_VESICLE_MEDIATED_…     1.60       1.43   0.166     0.335           0.189
+    ##  9 GOBP_NEURON_PROJECTION…     1.54       1.38   0.161     0.335           0.189
+    ## 10 GOBP_CHROMATIN_ASSEMBL…     1.49       1.44   0.0466    0.335           0.189
+    ## 11 GOBP_REGULATION_OF_NEU…     2.13       1.35   0.777     0.335           0.189
+    ## 12 GOBP_NEURON_PROJECTION…     1.76       1.80  -0.0373    0.335           0.189
+    ## 13 GOBP_NEUROTRANSMITTER_…     1.46       1.48  -0.0203    0.335           0.189
+    ## 14 GOBP_NEGATIVE_REGULATI…     1.43       1.59  -0.156     0.335           0.189
+    ## 15 KEGG_MTOR_SIGNALING_PA…     1.34       1.60  -0.259     0.335           0.189
 
 ``` r
 #unfiltered MA for robustness check: 0.5844998
@@ -1422,9 +1407,9 @@ most_divergent
 ```
 
     ## # A tibble: 1 × 2
-    ##   pathway                                                   NES_diff
-    ##   <chr>                                                        <dbl>
-    ## 1 GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT    0.982
+    ##   pathway           NES_diff
+    ##   <chr>                <dbl>
+    ## 1 GOBP_NEURON_DEATH    0.878
 
 ``` r
 most_convergent
@@ -1433,7 +1418,7 @@ most_convergent
     ## # A tibble: 1 × 2
     ##   pathway                         NES_diff
     ##   <chr>                              <dbl>
-    ## 1 GOBP_NEUROTRANSMITTER_SECRETION  0.00154
+    ## 1 GOBP_NEUROTRANSMITTER_SECRETION  -0.0203
 
 ``` r
 classify_paths_filt <- variant_path_NES %>% mutate(
@@ -1446,28 +1431,24 @@ classify_paths_filt <- variant_path_NES %>% mutate(
 classify_paths_filt
 ```
 
-    ## # A tibble: 19 × 7
+    ## # A tibble: 15 × 7
     ##    pathway                 rare_NES common_NES NES_diff MAD_filt median_NES_diff
     ##    <chr>                      <dbl>      <dbl>    <dbl>    <dbl>           <dbl>
-    ##  1 GOBP_NEURON_DEATH           2.24       1.34  0.901      0.382           0.259
-    ##  2 GOBP_POSITIVE_REGULATI…     2.07       1.47  0.606      0.382           0.259
-    ##  3 GOBP_POSITIVE_REGULATI…     2.01       1.54  0.478      0.382           0.259
-    ##  4 GOBP_NEGATIVE_REGULATI…     2.38       1.40  0.982      0.382           0.259
-    ##  5 GOBP_POSITIVE_REGULATI…     1.81       1.44  0.363      0.382           0.259
-    ##  6 GOBP_VESICLE_MEDIATED_…     1.65       1.45  0.194      0.382           0.259
-    ##  7 GOBP_CHROMATIN_REMODEL…     2.26       1.63  0.624      0.382           0.259
-    ##  8 GOBP_REGULATION_OF_NEU…     1.60       1.39  0.208      0.382           0.259
-    ##  9 GOBP_CENTRAL_NERVOUS_S…     1.83       1.51  0.321      0.382           0.259
-    ## 10 GOBP_NEURON_PROJECTION…     1.57       1.40  0.175      0.382           0.259
-    ## 11 KEGG_AXON_GUIDANCE          1.65       1.39  0.259      0.382           0.259
-    ## 12 GOBP_CHROMATIN_ASSEMBL…     1.53       1.46  0.0668     0.382           0.259
-    ## 13 GOBP_SYNAPSE_ORGANIZAT…     2.14       1.41  0.732      0.382           0.259
-    ## 14 GOBP_NEURON_PROJECTION…     1.80       1.83 -0.0357     0.382           0.259
-    ## 15 GOBP_REGULATION_OF_NEU…     2.17       1.37  0.797      0.382           0.259
-    ## 16 GOBP_NEUROTRANSMITTER_…     1.50       1.50  0.00154    0.382           0.259
-    ## 17 GOBP_CENTRAL_NERVOUS_S…     1.67       1.60  0.0755     0.382           0.259
-    ## 18 GOBP_NEGATIVE_REGULATI…     1.47       1.64 -0.174      0.382           0.259
-    ## 19 KEGG_MTOR_SIGNALING_PA…     1.38       1.61 -0.230      0.382           0.259
+    ##  1 GOBP_NEURON_DEATH           2.20       1.33   0.878     0.335           0.189
+    ##  2 GOBP_POSITIVE_REGULATI…     1.95       1.52   0.429     0.335           0.189
+    ##  3 GOBP_CENTRAL_NERVOUS_S…     1.78       1.49   0.297     0.335           0.189
+    ##  4 GOBP_POSITIVE_REGULATI…     1.76       1.42   0.337     0.335           0.189
+    ##  5 GOBP_CHROMATIN_REMODEL…     2.22       1.61   0.607     0.335           0.189
+    ##  6 GOBP_SYNAPSE_ORGANIZAT…     2.12       1.39   0.723     0.335           0.189
+    ##  7 GOBP_REGULATION_OF_NEU…     1.56       1.37   0.189     0.335           0.189
+    ##  8 GOBP_VESICLE_MEDIATED_…     1.60       1.43   0.166     0.335           0.189
+    ##  9 GOBP_NEURON_PROJECTION…     1.54       1.38   0.161     0.335           0.189
+    ## 10 GOBP_CHROMATIN_ASSEMBL…     1.49       1.44   0.0466    0.335           0.189
+    ## 11 GOBP_REGULATION_OF_NEU…     2.13       1.35   0.777     0.335           0.189
+    ## 12 GOBP_NEURON_PROJECTION…     1.76       1.80  -0.0373    0.335           0.189
+    ## 13 GOBP_NEUROTRANSMITTER_…     1.46       1.48  -0.0203    0.335           0.189
+    ## 14 GOBP_NEGATIVE_REGULATI…     1.43       1.59  -0.156     0.335           0.189
+    ## 15 KEGG_MTOR_SIGNALING_PA…     1.34       1.60  -0.259     0.335           0.189
     ## # ℹ 1 more variable: converge_diverge <chr>
 
 ``` r
@@ -1475,50 +1456,45 @@ divergent <- classify_paths_filt %>% filter(converge_diverge == "divergent")
 divergent
 ```
 
-    ## # A tibble: 10 × 7
-    ##    pathway                 rare_NES common_NES NES_diff MAD_filt median_NES_diff
-    ##    <chr>                      <dbl>      <dbl>    <dbl>    <dbl>           <dbl>
-    ##  1 GOBP_NEURON_DEATH           2.24       1.34    0.901    0.382           0.259
-    ##  2 GOBP_POSITIVE_REGULATI…     2.07       1.47    0.606    0.382           0.259
-    ##  3 GOBP_POSITIVE_REGULATI…     2.01       1.54    0.478    0.382           0.259
-    ##  4 GOBP_NEGATIVE_REGULATI…     2.38       1.40    0.982    0.382           0.259
-    ##  5 GOBP_POSITIVE_REGULATI…     1.81       1.44    0.363    0.382           0.259
-    ##  6 GOBP_CHROMATIN_REMODEL…     2.26       1.63    0.624    0.382           0.259
-    ##  7 GOBP_SYNAPSE_ORGANIZAT…     2.14       1.41    0.732    0.382           0.259
-    ##  8 GOBP_REGULATION_OF_NEU…     2.17       1.37    0.797    0.382           0.259
-    ##  9 GOBP_NEGATIVE_REGULATI…     1.47       1.64   -0.174    0.382           0.259
-    ## 10 KEGG_MTOR_SIGNALING_PA…     1.38       1.61   -0.230    0.382           0.259
-    ## # ℹ 1 more variable: converge_diverge <chr>
+    ## # A tibble: 8 × 7
+    ##   pathway rare_NES common_NES NES_diff MAD_filt median_NES_diff converge_diverge
+    ##   <chr>      <dbl>      <dbl>    <dbl>    <dbl>           <dbl> <chr>           
+    ## 1 GOBP_N…     2.20       1.33    0.878    0.335           0.189 divergent       
+    ## 2 GOBP_P…     1.95       1.52    0.429    0.335           0.189 divergent       
+    ## 3 GOBP_P…     1.76       1.42    0.337    0.335           0.189 divergent       
+    ## 4 GOBP_C…     2.22       1.61    0.607    0.335           0.189 divergent       
+    ## 5 GOBP_S…     2.12       1.39    0.723    0.335           0.189 divergent       
+    ## 6 GOBP_R…     2.13       1.35    0.777    0.335           0.189 divergent       
+    ## 7 GOBP_N…     1.43       1.59   -0.156    0.335           0.189 divergent       
+    ## 8 KEGG_M…     1.34       1.60   -0.259    0.335           0.189 divergent
 
 ``` r
 nrow(divergent) # 8
 ```
 
-    ## [1] 10
+    ## [1] 8
 
 ``` r
 convergent <- classify_paths_filt %>% filter(converge_diverge == "convergent")
 convergent
 ```
 
-    ## # A tibble: 9 × 7
+    ## # A tibble: 7 × 7
     ##   pathway rare_NES common_NES NES_diff MAD_filt median_NES_diff converge_diverge
     ##   <chr>      <dbl>      <dbl>    <dbl>    <dbl>           <dbl> <chr>           
-    ## 1 GOBP_V…     1.65       1.45  0.194      0.382           0.259 convergent      
-    ## 2 GOBP_R…     1.60       1.39  0.208      0.382           0.259 convergent      
-    ## 3 GOBP_C…     1.83       1.51  0.321      0.382           0.259 convergent      
-    ## 4 GOBP_N…     1.57       1.40  0.175      0.382           0.259 convergent      
-    ## 5 KEGG_A…     1.65       1.39  0.259      0.382           0.259 convergent      
-    ## 6 GOBP_C…     1.53       1.46  0.0668     0.382           0.259 convergent      
-    ## 7 GOBP_N…     1.80       1.83 -0.0357     0.382           0.259 convergent      
-    ## 8 GOBP_N…     1.50       1.50  0.00154    0.382           0.259 convergent      
-    ## 9 GOBP_C…     1.67       1.60  0.0755     0.382           0.259 convergent
+    ## 1 GOBP_C…     1.78       1.49   0.297     0.335           0.189 convergent      
+    ## 2 GOBP_R…     1.56       1.37   0.189     0.335           0.189 convergent      
+    ## 3 GOBP_V…     1.60       1.43   0.166     0.335           0.189 convergent      
+    ## 4 GOBP_N…     1.54       1.38   0.161     0.335           0.189 convergent      
+    ## 5 GOBP_C…     1.49       1.44   0.0466    0.335           0.189 convergent      
+    ## 6 GOBP_N…     1.76       1.80  -0.0373    0.335           0.189 convergent      
+    ## 7 GOBP_N…     1.46       1.48  -0.0203    0.335           0.189 convergent
 
 ``` r
 nrow(convergent) # 7
 ```
 
-    ## [1] 9
+    ## [1] 7
 
 ``` r
 #inner join to add converge_diverge onto all_paths_overlap
@@ -1543,10 +1519,10 @@ classify_all_paths_overlap_filt
     ## 13:    rare
     ## 14:    rare
     ## 15:    rare
-    ## 16:    rare
-    ## 17:    rare
-    ## 18:    rare
-    ## 19:    rare
+    ## 16:  common
+    ## 17:  common
+    ## 18:  common
+    ## 19:  common
     ## 20:  common
     ## 21:  common
     ## 22:  common
@@ -1558,138 +1534,106 @@ classify_all_paths_overlap_filt
     ## 28:  common
     ## 29:  common
     ## 30:  common
-    ## 31:  common
-    ## 32:  common
-    ## 33:  common
-    ## 34:  common
-    ## 35:  common
-    ## 36:  common
-    ## 37:  common
-    ## 38:  common
     ##     variant
     ##                                                                     pathway
     ##                                                                      <char>
     ##  1:                                                       GOBP_NEURON_DEATH
-    ##  2:                                GOBP_POSITIVE_REGULATION_OF_AXONOGENESIS
-    ##  3:                                GOBP_POSITIVE_REGULATION_OF_NEURON_DEATH
-    ##  4:               GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT
-    ##  5:                                GOBP_POSITIVE_REGULATION_OF_NEUROGENESIS
-    ##  6:                              GOBP_VESICLE_MEDIATED_TRANSPORT_IN_SYNAPSE
-    ##  7:                                               GOBP_CHROMATIN_REMODELING
-    ##  8:                              GOBP_REGULATION_OF_NEUROTRANSMITTER_LEVELS
-    ##  9:                      GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_DIFFERENTIATION
-    ## 10:                                         GOBP_NEURON_PROJECTION_GUIDANCE
-    ## 11:                                                      KEGG_AXON_GUIDANCE
-    ## 12:                                  GOBP_CHROMATIN_ASSEMBLY_OR_DISASSEMBLY
-    ## 13:                                               GOBP_SYNAPSE_ORGANIZATION
-    ## 14: GOBP_NEURON_PROJECTION_EXTENSION_INVOLVED_IN_NEURON_PROJECTION_GUIDANCE
-    ## 15:                                         GOBP_REGULATION_OF_NEUROGENESIS
-    ## 16:                                         GOBP_NEUROTRANSMITTER_SECRETION
-    ## 17:              GOBP_CENTRAL_NERVOUS_SYSTEM_PROJECTION_NEURON_AXONOGENESIS
-    ## 18:    GOBP_NEGATIVE_REGULATION_OF_AXON_EXTENSION_INVOLVED_IN_AXON_GUIDANCE
-    ## 19:                                             KEGG_MTOR_SIGNALING_PATHWAY
-    ## 20:                                               GOBP_CHROMATIN_REMODELING
-    ## 21: GOBP_NEURON_PROJECTION_EXTENSION_INVOLVED_IN_NEURON_PROJECTION_GUIDANCE
-    ## 22:                                               GOBP_SYNAPSE_ORGANIZATION
-    ## 23:                                  GOBP_CHROMATIN_ASSEMBLY_OR_DISASSEMBLY
-    ## 24:                      GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_DIFFERENTIATION
-    ## 25:                                         GOBP_REGULATION_OF_NEUROGENESIS
-    ## 26:                                             KEGG_MTOR_SIGNALING_PATHWAY
-    ## 27:                                GOBP_POSITIVE_REGULATION_OF_NEUROGENESIS
-    ## 28:                                         GOBP_NEUROTRANSMITTER_SECRETION
-    ## 29:                                GOBP_POSITIVE_REGULATION_OF_NEURON_DEATH
+    ##  2:                                GOBP_POSITIVE_REGULATION_OF_NEURON_DEATH
+    ##  3:                      GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_DIFFERENTIATION
+    ##  4:                                GOBP_POSITIVE_REGULATION_OF_NEUROGENESIS
+    ##  5:                                               GOBP_CHROMATIN_REMODELING
+    ##  6:                                               GOBP_SYNAPSE_ORGANIZATION
+    ##  7:                              GOBP_REGULATION_OF_NEUROTRANSMITTER_LEVELS
+    ##  8:                              GOBP_VESICLE_MEDIATED_TRANSPORT_IN_SYNAPSE
+    ##  9:                                         GOBP_NEURON_PROJECTION_GUIDANCE
+    ## 10:                                  GOBP_CHROMATIN_ASSEMBLY_OR_DISASSEMBLY
+    ## 11:                                         GOBP_REGULATION_OF_NEUROGENESIS
+    ## 12: GOBP_NEURON_PROJECTION_EXTENSION_INVOLVED_IN_NEURON_PROJECTION_GUIDANCE
+    ## 13:                                         GOBP_NEUROTRANSMITTER_SECRETION
+    ## 14:    GOBP_NEGATIVE_REGULATION_OF_AXON_EXTENSION_INVOLVED_IN_AXON_GUIDANCE
+    ## 15:                                             KEGG_MTOR_SIGNALING_PATHWAY
+    ## 16:                                               GOBP_CHROMATIN_REMODELING
+    ## 17: GOBP_NEURON_PROJECTION_EXTENSION_INVOLVED_IN_NEURON_PROJECTION_GUIDANCE
+    ## 18:                                               GOBP_SYNAPSE_ORGANIZATION
+    ## 19:                              GOBP_VESICLE_MEDIATED_TRANSPORT_IN_SYNAPSE
+    ## 20:                      GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_DIFFERENTIATION
+    ## 21:                                  GOBP_CHROMATIN_ASSEMBLY_OR_DISASSEMBLY
+    ## 22:                                GOBP_POSITIVE_REGULATION_OF_NEUROGENESIS
+    ## 23:                                         GOBP_NEUROTRANSMITTER_SECRETION
+    ## 24:                                         GOBP_REGULATION_OF_NEUROGENESIS
+    ## 25:                                GOBP_POSITIVE_REGULATION_OF_NEURON_DEATH
+    ## 26:                                         GOBP_NEURON_PROJECTION_GUIDANCE
+    ## 27:                              GOBP_REGULATION_OF_NEUROTRANSMITTER_LEVELS
+    ## 28:                                                       GOBP_NEURON_DEATH
+    ## 29:                                             KEGG_MTOR_SIGNALING_PATHWAY
     ## 30:    GOBP_NEGATIVE_REGULATION_OF_AXON_EXTENSION_INVOLVED_IN_AXON_GUIDANCE
-    ## 31:                              GOBP_VESICLE_MEDIATED_TRANSPORT_IN_SYNAPSE
-    ## 32:                              GOBP_REGULATION_OF_NEUROTRANSMITTER_LEVELS
-    ## 33:                                                       GOBP_NEURON_DEATH
-    ## 34:                                GOBP_POSITIVE_REGULATION_OF_AXONOGENESIS
-    ## 35:                                         GOBP_NEURON_PROJECTION_GUIDANCE
-    ## 36:                                                      KEGG_AXON_GUIDANCE
-    ## 37:              GOBP_CENTRAL_NERVOUS_SYSTEM_PROJECTION_NEURON_AXONOGENESIS
-    ## 38:               GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT
     ##                                                                     pathway
-    ##             pval       padj   log2err        ES      NES  size  leadingEdge
-    ##            <num>      <num>     <num>     <num>    <num> <int>       <list>
-    ##  1: 1.058477e-03 0.08975834 0.4550599 0.9595688 2.242748   325 6326, 88....
-    ##  2: 9.191707e-03 0.08975834 0.3807304 0.8138417 2.072072    66 23394, 1....
-    ##  3: 1.877458e-02 0.08975834 0.3524879 0.7955304 2.013173    80 2904, 14....
-    ##  4: 2.418156e-02 0.08975834 0.3524879 0.9651832 2.376862   123 8831, 57....
-    ##  5: 3.196803e-02 0.08975834 0.2529611 0.7457535 1.805221   199 23394, 8....
-    ##  6: 3.296703e-02 0.08975834 0.2489111 0.6767406 1.647688   183 5728, 14....
-    ##  7: 3.796204e-02 0.08975834 0.2311267 0.9450217 2.256908   224 57680, 2....
-    ##  8: 3.896104e-02 0.08975834 0.2279872 0.6611369 1.600392   199 6529, 93....
-    ##  9: 4.256451e-02 0.08986416 0.3217759 0.7493933 1.827047   157 5728, 85....
-    ## 10: 4.295704e-02 0.08986416 0.2165428 0.6573949 1.573610   217 1826, 93....
-    ## 11: 4.295704e-02 0.08986416 0.2165428 0.6707905 1.652252   121 1808, 27....
-    ## 12: 4.895105e-02 0.09184630 0.2020717 0.6311725 1.530832   196 11011, 1....
-    ## 13: 4.895105e-02 0.09184630 0.2020717 0.9249977 2.143933   370 8831, 23....
-    ## 14: 5.494505e-02 0.09259259 0.1900233 0.6973979 1.798962    33 1826, 65....
-    ## 15: 5.494505e-02 0.09259259 0.1900233 0.9269535 2.166674   326 8831, 23....
-    ## 16: 7.192807e-02 0.10643016 0.1644058 0.6095070 1.497732   136 9378, 68....
-    ## 17: 7.592408e-02 0.10966811 0.1596467 0.6443596 1.673464    25 2047, 47....
-    ## 18: 1.328671e-01 0.16677116 0.1167392 0.5653401 1.466556    24 6585, 64....
-    ## 19: 1.468531e-01 0.17700181 0.1101223 0.5405839 1.384413    48 208, 253....
-    ## 20: 8.317188e-05 0.01530363 0.5384341 0.3704143 1.632745   227 9759, 21....
-    ## 21: 6.746814e-04 0.06207069 0.4772708 0.5462061 1.834620    36 7473, 91....
-    ## 22: 1.701939e-03 0.10438556 0.4550599 0.3106873 1.411983   384 4137, 11....
-    ## 23: 5.025075e-03 0.12283274 0.4070179 0.3368143 1.464058   191 3010, 83....
-    ## 24: 5.031741e-03 0.12283274 0.4070179 0.3530124 1.506449   160 4137, 91....
-    ## 25: 5.084028e-03 0.12283274 0.4070179 0.3032521 1.369759   338 4137, 74....
-    ## 26: 5.866190e-03 0.12283274 0.4070179 0.4540769 1.613946    49 2475, 60....
-    ## 27: 6.008123e-03 0.12283274 0.4070179 0.3294199 1.441839   208 4137, 74....
-    ## 28: 8.632143e-03 0.14212747 0.3807304 0.3592682 1.496196   137 783, 990....
-    ## 29: 9.672977e-03 0.14212747 0.3807304 0.3951873 1.535365    81 4137, 67....
-    ## 30: 1.003452e-02 0.14212747 0.3807304 0.5234268 1.640135    26 7473, 10....
-    ## 31: 1.012200e-02 0.14212747 0.3807304 0.3350995 1.453844   186 783, 990....
-    ## 32: 1.081405e-02 0.14212747 0.3807304 0.3190564 1.392687   201 783, 990....
-    ## 33: 1.246729e-02 0.15048755 0.3807304 0.2979639 1.341441   327 4137, 67....
-    ## 34: 1.379969e-02 0.15048755 0.3807304 0.3855854 1.465871    71 4137, 74....
-    ## 35: 1.475114e-02 0.15048755 0.3807304 0.3180250 1.398423   221 7473, 91....
-    ## 36: 1.543152e-02 0.15048755 0.3807304 0.3384993 1.392806   121 5879, 27....
-    ## 37: 1.553948e-02 0.15048755 0.3807304 0.5163934 1.597993    25 91584, 1....
-    ## 38: 2.325128e-02 0.21391181 0.3524879 0.3374266 1.395005   128 7473, 23....
-    ##             pval       padj   log2err        ES      NES  size  leadingEdge
-    ##     rare_NES common_NES     NES_diff  MAD_filt median_NES_diff converge_diverge
-    ##        <num>      <num>        <num>     <num>           <num>           <char>
-    ##  1: 2.242748   1.341441  0.901307416 0.3823771       0.2594461        divergent
-    ##  2: 2.072072   1.465871  0.606201356 0.3823771       0.2594461        divergent
-    ##  3: 2.013173   1.535365  0.477808229 0.3823771       0.2594461        divergent
-    ##  4: 2.376862   1.395005  0.981856834 0.3823771       0.2594461        divergent
-    ##  5: 1.805221   1.441839  0.363381688 0.3823771       0.2594461        divergent
-    ##  6: 1.647688   1.453844  0.193844052 0.3823771       0.2594461       convergent
-    ##  7: 2.256908   1.632745  0.624163869 0.3823771       0.2594461        divergent
-    ##  8: 1.600392   1.392687  0.207705384 0.3823771       0.2594461       convergent
-    ##  9: 1.827047   1.506449  0.320598400 0.3823771       0.2594461       convergent
-    ## 10: 1.573610   1.398423  0.175187000 0.3823771       0.2594461       convergent
-    ## 11: 1.652252   1.392806  0.259446099 0.3823771       0.2594461       convergent
-    ## 12: 1.530832   1.464058  0.066774651 0.3823771       0.2594461       convergent
-    ## 13: 2.143933   1.411983  0.731950357 0.3823771       0.2594461        divergent
-    ## 14: 1.798962   1.834620 -0.035658630 0.3823771       0.2594461       convergent
-    ## 15: 2.166674   1.369759  0.796914575 0.3823771       0.2594461        divergent
-    ## 16: 1.497732   1.496196  0.001536302 0.3823771       0.2594461       convergent
-    ## 17: 1.673464   1.597993  0.075471051 0.3823771       0.2594461       convergent
-    ## 18: 1.466556   1.640135 -0.173578786 0.3823771       0.2594461        divergent
-    ## 19: 1.384413   1.613946 -0.229532793 0.3823771       0.2594461        divergent
-    ## 20: 2.256908   1.632745  0.624163869 0.3823771       0.2594461        divergent
-    ## 21: 1.798962   1.834620 -0.035658630 0.3823771       0.2594461       convergent
-    ## 22: 2.143933   1.411983  0.731950357 0.3823771       0.2594461        divergent
-    ## 23: 1.530832   1.464058  0.066774651 0.3823771       0.2594461       convergent
-    ## 24: 1.827047   1.506449  0.320598400 0.3823771       0.2594461       convergent
-    ## 25: 2.166674   1.369759  0.796914575 0.3823771       0.2594461        divergent
-    ## 26: 1.384413   1.613946 -0.229532793 0.3823771       0.2594461        divergent
-    ## 27: 1.805221   1.441839  0.363381688 0.3823771       0.2594461        divergent
-    ## 28: 1.497732   1.496196  0.001536302 0.3823771       0.2594461       convergent
-    ## 29: 2.013173   1.535365  0.477808229 0.3823771       0.2594461        divergent
-    ## 30: 1.466556   1.640135 -0.173578786 0.3823771       0.2594461        divergent
-    ## 31: 1.647688   1.453844  0.193844052 0.3823771       0.2594461       convergent
-    ## 32: 1.600392   1.392687  0.207705384 0.3823771       0.2594461       convergent
-    ## 33: 2.242748   1.341441  0.901307416 0.3823771       0.2594461        divergent
-    ## 34: 2.072072   1.465871  0.606201356 0.3823771       0.2594461        divergent
-    ## 35: 1.573610   1.398423  0.175187000 0.3823771       0.2594461       convergent
-    ## 36: 1.652252   1.392806  0.259446099 0.3823771       0.2594461       convergent
-    ## 37: 1.673464   1.597993  0.075471051 0.3823771       0.2594461       convergent
-    ## 38: 2.376862   1.395005  0.981856834 0.3823771       0.2594461        divergent
-    ##     rare_NES common_NES     NES_diff  MAD_filt median_NES_diff converge_diverge
+    ##             pval       padj    log2err        ES      NES  size  leadingEdge
+    ##            <num>      <num>      <num>     <num>    <num> <int>       <list>
+    ##  1: 2.312396e-03 0.03583278 0.43170770 0.9595688 2.203600   325 6326, 88....
+    ##  2: 7.697156e-03 0.06800396 0.40701792 0.7955304 1.946403    80 2904, 14....
+    ##  3: 3.996004e-02 0.09828010 0.22496609 0.7493933 1.781518   157 5728, 85....
+    ##  4: 4.295704e-02 0.10023310 0.21654284 0.7457535 1.759636   199 23394, 8....
+    ##  5: 4.695305e-02 0.10053476 0.20658792 0.9450217 2.215015   224 57680, 2....
+    ##  6: 4.695305e-02 0.10053476 0.20658792 0.9249977 2.116172   370 8831, 23....
+    ##  7: 4.995005e-02 0.10214505 0.19991523 0.6611369 1.559979   199 6529, 93....
+    ##  8: 4.995005e-02 0.10214505 0.19991523 0.6767406 1.595984   183 5728, 14....
+    ##  9: 5.494505e-02 0.10496720 0.19002331 0.6573949 1.542288   217 1826, 93....
+    ## 10: 5.894106e-02 0.10909091 0.18302394 0.6311725 1.487743   196 11011, 1....
+    ## 11: 6.393606e-02 0.11297440 0.17520405 0.9269535 2.128731   326 8831, 23....
+    ## 12: 6.593407e-02 0.11384877 0.17232434 0.6973979 1.758611    33 1826, 65....
+    ## 13: 8.691309e-02 0.13072878 0.14826150 0.6095070 1.460584   136 9378, 68....
+    ## 14: 1.718282e-01 0.20988408 0.10027911 0.5653401 1.432189    24 6585, 64....
+    ## 15: 1.918082e-01 0.23118603 0.09374654 0.5405839 1.344756    48 208, 253....
+    ## 16: 9.687278e-05 0.01782459 0.53843410 0.3704143 1.607976   227 9759, 21....
+    ## 17: 1.305539e-03 0.12010963 0.45505987 0.5462061 1.795908    36 7473, 91....
+    ## 18: 2.040575e-03 0.12515526 0.43170770 0.3106873 1.392875   384 4137, 11....
+    ## 19: 4.906584e-03 0.17026099 0.40701792 0.3350995 1.430100   186 783, 990....
+    ## 20: 6.777987e-03 0.17026099 0.40701792 0.3530124 1.485000   160 4137, 91....
+    ## 21: 8.089132e-03 0.17026099 0.38073040 0.3368143 1.441185   191 3010, 83....
+    ## 22: 8.814512e-03 0.17026099 0.38073040 0.3294199 1.422300   208 4137, 74....
+    ## 23: 9.069706e-03 0.17026099 0.38073040 0.3592682 1.480884   137 783, 990....
+    ## 24: 9.253315e-03 0.17026099 0.38073040 0.3032521 1.351234   338 4137, 74....
+    ## 25: 1.092743e-02 0.17372614 0.38073040 0.3951873 1.517007    81 4137, 67....
+    ## 26: 1.280778e-02 0.17372614 0.38073040 0.3180250 1.381370   221 7473, 91....
+    ## 27: 1.381113e-02 0.17372614 0.38073040 0.3190564 1.371380   201 783, 990....
+    ## 28: 1.408892e-02 0.17372614 0.38073040 0.2979639 1.325979   327 4137, 67....
+    ## 29: 1.507598e-02 0.17372614 0.38073040 0.4540769 1.604229    49 2475, 60....
+    ## 30: 1.510662e-02 0.17372614 0.38073040 0.5234268 1.588080    26 7473, 10....
+    ##             pval       padj    log2err        ES      NES  size  leadingEdge
+    ##     rare_NES common_NES    NES_diff  MAD_filt median_NES_diff converge_diverge
+    ##        <num>      <num>       <num>     <num>           <num>           <char>
+    ##  1: 2.203600   1.325979  0.87762091 0.3349146       0.1885995        divergent
+    ##  2: 1.946403   1.517007  0.42939546 0.3349146       0.1885995        divergent
+    ##  3: 1.781518   1.485000  0.29651800 0.3349146       0.1885995       convergent
+    ##  4: 1.759636   1.422300  0.33733565 0.3349146       0.1885995        divergent
+    ##  5: 2.215015   1.607976  0.60703960 0.3349146       0.1885995        divergent
+    ##  6: 2.116172   1.392875  0.72329751 0.3349146       0.1885995        divergent
+    ##  7: 1.559979   1.371380  0.18859952 0.3349146       0.1885995       convergent
+    ##  8: 1.595984   1.430100  0.16588390 0.3349146       0.1885995       convergent
+    ##  9: 1.542288   1.381370  0.16091758 0.3349146       0.1885995       convergent
+    ## 10: 1.487743   1.441185  0.04655805 0.3349146       0.1885995       convergent
+    ## 11: 2.128731   1.351234  0.77749650 0.3349146       0.1885995        divergent
+    ## 12: 1.758611   1.795908 -0.03729727 0.3349146       0.1885995       convergent
+    ## 13: 1.460584   1.480884 -0.02030026 0.3349146       0.1885995       convergent
+    ## 14: 1.432189   1.588080 -0.15589156 0.3349146       0.1885995        divergent
+    ## 15: 1.344756   1.604229 -0.25947279 0.3349146       0.1885995        divergent
+    ## 16: 2.215015   1.607976  0.60703960 0.3349146       0.1885995        divergent
+    ## 17: 1.758611   1.795908 -0.03729727 0.3349146       0.1885995       convergent
+    ## 18: 2.116172   1.392875  0.72329751 0.3349146       0.1885995        divergent
+    ## 19: 1.595984   1.430100  0.16588390 0.3349146       0.1885995       convergent
+    ## 20: 1.781518   1.485000  0.29651800 0.3349146       0.1885995       convergent
+    ## 21: 1.487743   1.441185  0.04655805 0.3349146       0.1885995       convergent
+    ## 22: 1.759636   1.422300  0.33733565 0.3349146       0.1885995        divergent
+    ## 23: 1.460584   1.480884 -0.02030026 0.3349146       0.1885995       convergent
+    ## 24: 2.128731   1.351234  0.77749650 0.3349146       0.1885995        divergent
+    ## 25: 1.946403   1.517007  0.42939546 0.3349146       0.1885995        divergent
+    ## 26: 1.542288   1.381370  0.16091758 0.3349146       0.1885995       convergent
+    ## 27: 1.559979   1.371380  0.18859952 0.3349146       0.1885995       convergent
+    ## 28: 2.203600   1.325979  0.87762091 0.3349146       0.1885995        divergent
+    ## 29: 1.344756   1.604229 -0.25947279 0.3349146       0.1885995        divergent
+    ## 30: 1.432189   1.588080 -0.15589156 0.3349146       0.1885995        divergent
+    ##     rare_NES common_NES    NES_diff  MAD_filt median_NES_diff converge_diverge
 
 ``` r
 p <- ggplot(classify_all_paths_overlap_filt, aes(x = NES, y = reorder(pathway, NES), fill = variant)) +
