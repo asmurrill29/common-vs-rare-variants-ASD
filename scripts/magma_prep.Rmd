@@ -7,6 +7,9 @@ output: github_document
 ---
 This script takes the downloaded Grove et al. 2019 ASD GWAS summary statistics and prepares them for the MAGMA (Multi-marker Analysis of GenoMic Annotation) calculation of gene-level association scores. QC is run to determine if claims made in the methods of the paper match the data output. Indels are handled poorly by MAGMA and are thus filtered from the data. Finally, the required columns are reformatted in the correct order and written in a text file for MAGMA. Dependencies and other session info are listed below. Here, the common variant arm of the pipeline is handled, while the rare variants are dealt with separately. 
 
+```{r knitting-rules}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
 
 ## Libraries
 

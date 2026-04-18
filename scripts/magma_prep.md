@@ -1,7 +1,7 @@
 Common Variant GWAS MAGMA Preparation
 ================
 Amalya Murrill
-2026-04-02
+2026-04-18
 
 This script takes the downloaded Grove et al. 2019 ASD GWAS summary
 statistics and prepares them for the MAGMA (Multi-marker Analysis of
@@ -13,40 +13,21 @@ correct order and written in a text file for MAGMA. Dependencies and
 other session info are listed below. Here, the common variant arm of the
 pipeline is handled, while the rare variants are dealt with separately.
 
+``` r
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
 ## Libraries
 
 ``` r
 library(tidyverse)
 ```
 
-    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-    ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-    ## ✔ purrr     1.0.4     
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-
 ## Data Import
 
 ``` r
 #read in
 common <- read_tsv("../data/raw/iPSYCH-PGC_ASD_Nov2017.gz", col_names = TRUE)
-```
-
-    ## Rows: 9112386 Columns: 9
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: "\t"
-    ## chr (3): SNP, A1, A2
-    ## dbl (6): CHR, BP, INFO, OR, SE, P
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-
-``` r
 head(common)
 ```
 
