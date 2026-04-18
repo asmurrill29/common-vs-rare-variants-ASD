@@ -1,0 +1,527 @@
+---
+title: "Rare Variant Preparation and FGSEA"
+author: "Amalya Murrill"
+date: "`r Sys.Date()`"
+output: github_document
+ 
+---
+This script performs fgsea pathway enrichment analysis on both the rare variant (Satterstrom et al. 2020 TADA+ q-values) and common variant (MAGMA Z-statistics) arms. A harmonization problem exists between the two summary statistics; as a provisional measure, rare variant genes below the first quartile of -log10(q-values) were retained to reduce zero-inflation. Gene IDs are standardized to Entrez, ranked, and fed into fgsea using ASD-relevant GO-BP and KEGG pathway sets. Convergent and divergent pathways are identified through qualitative overlap and a MAD-based quantitative classification on NES differences. An FDR threshold of 0.25 serves as a placeholder pending formal harmonization. Classified pathways are exported for downstream gene-level and constraint analysis.        
+
+```{r knitting-rules}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+## Libraries
+
+```{r libraries}
+library(tidyverse)
+library(ggplot2)
+library(org.Hs.eg.db)
+library(fgsea)
+library(msigdbr)
+library(patchwork)
+```
+
+## Data Import: Rare Variants
+
+```{r rare-read-in}
+rare <- read_tsv("../data/raw/ASC_gene_results.tsv.bgz", col_names= TRUE)
+#quick check
+head(rare) # two junk gene names
+colnames(rare)
+nrow(rare) # 17247 genes
+
+#remove junk gene names
+rare <- rare %>% filter(startsWith(gene_id, "ENSG"))
+head(rare)
+nrow(rare) # 17345, 2 bad genes removed
+```
+
+## Data Import: Common Variant MAGMA Output
+
+```{r common-magma-read-in}
+magma_common <- read_table("../data/processed/common_MAGMA_genes.genes.out")
+#quick check
+head(magma_common)
+colnames(magma_common)
+nrow(magma_common) # 18072 genes
+```
+
+## Visualize Distributions
+
+```{r stat-distributions}
+#plot the rare
+rare_dist <- rare %>% ggplot(aes(x = qval)) +
+  geom_histogram(fill = "#F4D03F",alpha = 0.9, bins = 30) +
+  xlab("TADA+ q-value") +
+  theme_classic()
+
+rare_dist
+
+#plot the common
+common_dist <- magma_common %>% ggplot(aes(x = ZSTAT)) +
+  geom_histogram(fill = "lightblue", alpha = 0.9, bins = 50) +
+  xlab("MAGMA Z Statistic") +
+  theme_classic()
+
+common_dist
+
+#put them together
+distributions <- common_dist + rare_dist
+
+distributions
+
+
+#plot -log10rare
+rare_log_quants <- rare %>% dplyr::select(qval) %>% pull() %>% quantile()
+
+rare_dist_log <- rare %>% ggplot(aes(x = -log10(qval))) +
+  geom_histogram(fill = "#F4D03F",alpha = 0.9, bins = 80) +
+  geom_vline(xintercept = rare_log_quants, color = "grey", linetype = "dashed" ) +
+  xlim(0.5, 2.5) +
+  xlab("TADA+ -log10(q-value)") +
+  theme_classic()
+
+rare_dist_log # remove everything before first quartile
+rare_log_quants
+#-log10(q) = 0.87522, so 
+qval_thresh <- 10^(-0.87522) # 0.13
+```
+
+### Chi-Squared Goodness of Fit
+
+```{r rare-chi-square}
+
+#use chi-square GOF to see threshold of deviation from uniform distribution in this range 
+#qval_start <- rare %>% arrange(qval) %>% dplyr::select(qval) %>% pull()
+#test <- list(p.value = 0)
+#threshold <- 0.05
+
+#while(test$p.value < 0.05 & threshold < 0.5){
+#threshold <- threshold + 0.01
+#qval_current <- qval_start
+#keep <- qval_current <= threshold
+#qval_current <- qval_current[keep]
+#binned_qvals<- cut(qval_current, breaks = 50)
+#observed <- table(binned_qvals) 
+#test <- chisq.test(observed)
+#if(test$p.value > 0.05){
+  #print(paste0("threshold =",threshold))
+#}
+#}
+
+```
+
+## Apply Data-Driven Filter to Rare Arm
+
+```{r filter-by-quantile}
+rare_filt <- rare %>% filter(qval < qval_thresh)
+#quick check
+nrow(rare_filt) # from 17247 genes to 118
+head(rare_filt)
+```
+
+## Make Rare Ranked Vector
+
+```{r rare-filter-and-rank}
+rare_tib <- rare %>% mutate(neglog10q = -log10(qval)) %>% dplyr::select(gene_id, neglog10q) %>% arrange(desc(neglog10q))
+rare_tib 
+# look at data to check for NAs or Inf before making ranked vector
+sum(is.na(rare_tib)) # 0 NA values
+sum(is.infinite(rare_tib$neglog10q)) # 3 Inf values
+#go back and correct for Inf values using qval floor of 1e-300 (winsorize)
+rare_tib_adj <- rare %>% mutate(neglog10q = -log10(pmax(qval, 1e-300))) %>% dplyr::select(gene_id, neglog10q) %>% arrange(desc(neglog10q))
+
+head(rare_tib_adj)
+
+#now rank for fgsea
+rare_ranked <- deframe(rare_tib_adj)
+head(rare_ranked)
+
+#convert to Entrez IDs for fgsea
+entrez_ids <- mapIds(
+  org.Hs.eg.db,
+  keys = names(rare_ranked),
+  column = "ENTREZID",
+  keytype = "ENSEMBL",
+  multiVals = "first"
+)
+
+#how many are NA?
+sum(is.na(entrez_ids)) # 110
+
+#subset by non-NA values
+keep_idx <- !is.na(entrez_ids)
+entrez_ids <- entrez_ids[keep_idx]
+rare_ranked <- rare_ranked[keep_idx]
+#rename
+names(rare_ranked) <- entrez_ids
+
+#deduplicate
+rare_ranked_df <- enframe(rare_ranked, name = "gene_id", value = "neglog10q") %>% group_by(gene_id) %>% slice_max(neglog10q, n = 1, with_ties = FALSE) %>% ungroup()
+
+rare_ranked <-deframe(rare_ranked_df)
+  
+rare_ranked
+```
+
+## Make Common Ranked Vector
+
+```{r common-filter-and-rank}
+common_tib <- magma_common %>% dplyr::select(GENE, ZSTAT) %>% arrange(desc(ZSTAT)) #use ZSTAT to preserve direction
+head(common_tib)
+
+# look at data to check for NAs or Inf before making ranked vector
+sum(is.na(common_tib)) # 0 NA values
+sum(ZSTAT = 0) # no 0 ZSTAT values
+
+#now rank for fgsea
+common_ranked <- deframe(common_tib)
+head(common_ranked)
+```
+
+
+## Pathway Selection
+
+```{r select-pathways}
+go_bp <- msigdbr(species = "Homo sapiens", category = "C5", subcategory = "GO:BP")
+kegg <- msigdbr(species = "Homo sapiens", category = "C2", subcategory = "KEGG")
+
+head(go_bp)
+head(kegg)
+
+# filter pathways by canonical terms: SYNAP, GABA, EXCIT, INHIB, CHROMATIN, NEURO, AXON, GLUTAMAT, MTOR (metabolism)
+
+name_filt_pattern <- "SYNAP|GABA|EXCIT|INHIB|CHROMATIN|NEURO|AXON|GLUTAMAT|MTOR"
+go_bp_filt <- go_bp %>% filter(grepl(name_filt_pattern, gs_name))
+head(go_bp_filt)
+
+kegg_filt <- kegg %>% filter(grepl(name_filt_pattern, gs_name))
+head (kegg_filt)
+```
+
+## List Format Conversion
+
+```{r msigdbr-lists}
+# merge two dataframes and make list
+pathways <- rbind(go_bp_filt, kegg_filt) %>% split(x = as.character(.$entrez_gene), f = .$gs_name)
+head(pathways)
+```
+
+
+## FGSEA
+
+```{r rare-fgsea}
+rare_fgseaRes <- fgsea(
+  pathways = pathways,
+  stats = rare_ranked,
+  minSize = 15,
+  maxSize = 500,
+  scoreType = c("pos") # from TADA+ qvals, all positive
+)
+
+nrow(rare_fgseaRes[order(pval), ]) # 182 
+
+rare_pathways <- rare_fgseaRes[order(pval), ]
+```
+
+
+### Collapse Rare Variant Pathways
+
+```{r rare-collapse}
+rare_collapsed <- fgsea::collapsePathways(
+  fgseaRes = rare_fgseaRes,
+  pathways = pathways,
+  stats = rare_ranked
+)
+rare_collapsed$mainPathways
+
+write.csv(as.data.frame(rare_collapsed$parentPathways), "../results/rare_collapsed_pathway_mapping.csv") #for summary
+```
+
+
+```{r common-fgsea}
+common_fgseaRes <- fgsea(
+  pathways = pathways,
+  stats = common_ranked,
+  minSize = 15,
+  maxSize = 500
+)
+
+nrow(common_fgseaRes[order(pval), ]) # 184
+
+common_pathways <- common_fgseaRes[order(pval), ]
+```
+
+### Collapse Common Variant Pathways
+
+```{r common-collapse}
+common_collapsed <- fgsea::collapsePathways(
+  fgseaRes = common_fgseaRes,
+  pathways = pathways,
+  stats = common_ranked
+)
+common_collapsed$mainPathways
+
+write.csv(as.data.frame(common_collapsed$parentPathways), "../results/common_collapsed_pathway_mapping.csv") # for summary
+```
+
+### Visualize Pathway Statistics
+
+```{r plot-pathway-padjs}
+
+#plot the rare paths
+rare_path_padjs <- rare_pathways %>% ggplot(aes(x = padj)) +
+  geom_histogram(fill = "lightpink",alpha = 0.9, bins = 30) +
+  xlab("Rare Pathway Padj") +
+  theme_classic()
+
+#plot the common paths
+common_path_padjs <- common_pathways %>% ggplot(aes(x = padj)) +
+  geom_histogram(fill = "lightgreen", alpha = 0.9, bins = 50) +
+  xlab("Common Pathway Padj") +
+  theme_classic()
+
+
+#put them together
+pathway_padjs <- common_path_padjs + rare_path_padjs
+
+pathway_padjs
+```
+
+
+## Combine Pathway Findings
+
+```{r combine-paths}
+rare_pathways <- rare_pathways %>% mutate(variant = rep("rare", nrow(rare_pathways))) %>% relocate(variant)
+common_pathways <- common_pathways %>% mutate(variant = rep("common", nrow(common_pathways))) %>% relocate(variant)
+all_paths <- rbind(rare_pathways, common_pathways)
+
+#are common and rare both there?
+head(all_paths)
+tail(all_paths)
+
+#QC
+nrow(all_paths) # 366
+sum(is.na(all_paths)) # 0
+```
+
+## Qualitatively Overlap Pathways
+
+```{r qualitative-overlap}
+common_paths_main <- all_paths %>% filter(variant == "common") %>% pull(pathway)
+rare_paths_main <- all_paths %>% filter(variant == "rare")  %>% pull(pathway)
+overlap <- common_paths_main %in% rare_paths_main
+overlap_paths <- common_paths_main[overlap]
+overlap_paths # 182
+not_in_overlap <- common_paths_main[!overlap]
+not_in_overlap # 2 divergent by definition
+```
+
+```{r filter-by-overlap}
+all_paths_overlap <- all_paths %>% filter(pathway %in% overlap_paths)
+all_paths_overlap
+nrow(all_paths_overlap) # 364
+all_paths_overlap %>% filter(variant == "rare") %>% nrow() # 182
+all_paths_overlap %>% filter(variant == "common") %>% nrow() # 182
+```
+
+## Visualize NES Distribution Calculate Difference in NES 
+
+```{r visualize-NES}
+NES_hist <- ggplot(all_paths_overlap, aes(x = NES, fill = variant)) +
+  geom_histogram(position = "identity", alpha = 0.5, bins = 30) +
+  scale_fill_manual(values = c("lightblue", "#F4D03F"))+
+  theme_classic()
+
+NES_hist # shows right skew for rare, will use MAD for defining convergence
+
+#ggsave("NES_distributions.png", plot = NES_hist, path = "../figures", width = 14, height = 10, dpi = 300)
+```
+
+```{r pivot-wider-NES-padj}
+variant_path_NES_padj <- all_paths_overlap %>%
+  dplyr::select(variant, pathway, NES, padj) %>%
+  pivot_wider(
+    names_from = variant,
+    values_from = c(NES, padj),
+    names_glue = "{variant}_{.value}"
+  )
+
+variant_path_NES_padj
+```
+
+## Calculate Unfiltered MAD
+
+``` {r MAD-unfiltered-calc}
+variant_path_NES_padj <- variant_path_NES_padj %>% mutate(
+  NES_diff = rare_NES - common_NES, 
+  MAD_unfilt = mad(NES_diff),
+  median_NES_diff = median(NES_diff)) %>% relocate(NES_diff, .before = MAD_unfilt)
+variant_path_NES_padj
+
+#unfiltered MA for robustness check: 0.5844998
+```
+
+## Unfiltered Convergence (or Divergence) Classification
+
+```{r classify-unfilt}
+#threshold of 1 MAD away from the median for divergence:
+
+#unfiltered median ± 1 MAD = 0.75 ± 0.58
+#unfiltered convergence zone: 0.17 to 1.33
+
+most_divergent <- variant_path_NES_padj %>% filter(NES_diff == max(NES_diff)) %>% dplyr::select(pathway, NES_diff)
+most_convergent <- variant_path_NES_padj %>% filter(abs(NES_diff) == min(abs(NES_diff))) %>% dplyr::select(pathway, NES_diff)
+
+most_divergent
+most_convergent
+
+classify_paths <- variant_path_NES_padj %>% mutate(
+  converge_diverge =
+    case_when(
+      (NES_diff > 1.33 | NES_diff < 0.17) ~ "divergent",
+      (NES_diff <= 1.33 & NES_diff >= 0.17) ~ "convergent"
+    )
+)
+classify_paths
+
+divergent_unfilt <- classify_paths %>% filter(converge_diverge == "divergent")
+divergent_unfilt
+nrow(divergent_unfilt)
+convergent_unfilt <- classify_paths %>% filter(converge_diverge == "convergent")
+convergent_unfilt
+nrow(convergent_unfilt)
+```
+
+
+```{r visualize-NES-padj}
+
+#determine padj filter by visualizing NES difference against -log10padj
+
+rare_NES_padj <- ggplot(classify_paths, aes(x = NES_diff, y = -log10(rare_padj), color = converge_diverge)) +
+  geom_jitter(alpha = 0.8) +
+  scale_color_manual(values = c("convergent" = "lightblue", "divergent" = "#F4D03F")) +
+  xlab("Difference in NES")+
+  ylab("Rare Variant -log10(padj")+
+  theme_classic()
+
+common_NES_padj <- ggplot(classify_paths, aes(x = NES_diff, y = -log10(common_padj), color = converge_diverge)) +
+  geom_jitter(alpha = 0.8) +
+  scale_color_manual(values = c("convergent" = "lightblue", "divergent" = "#F4D03F")) +
+  xlab("Difference in NES")+
+  ylab("Common Variant -log10(padj")+
+  theme_classic()
+
+NES_padj <- rare_NES_padj + common_NES_padj
+
+NES_padj
+#ggsave("NES_distributions.png", plot = NES_hist, path = "../figures", width = 14, height = 10, dpi = 300)
+```
+
+## Apply FDR Pathway Filter
+
+```{r apply-FDR-filter}
+# apply a filter of padj < 0.25 to rare and common arms
+rare_sig <- rare_pathways %>% filter(padj < 0.25) %>% pull(pathway)
+common_sig <- common_pathways %>% filter(padj < 0.25) %>% pull(pathway)
+both_sig <- intersect(rare_sig, common_sig)
+all_paths_filt <- all_paths_overlap %>% filter(pathway %in% both_sig)
+nrow(all_paths_filt)
+setdiff(rare_sig, common_sig)  #rare only
+setdiff(common_sig, rare_sig)  #common only
+```
+
+
+```{r pivot-wider-filt}
+variant_path_NES <- all_paths_filt %>%
+  dplyr::select(variant, pathway, NES) %>%
+  pivot_wider(
+    names_from = variant,
+    values_from = NES,
+    names_glue = "{variant}_NES"
+  )
+
+variant_path_NES
+#sum(is.na(variant_path_NES))
+```
+
+## Calculate Filtered MAD
+
+``` {r MAD-calc}
+variant_path_NES <- variant_path_NES %>% mutate(
+  NES_diff = rare_NES - common_NES, 
+  MAD_filt = mad(NES_diff),
+  median_NES_diff = median(NES_diff)) %>% relocate(NES_diff, .before = MAD_filt)
+
+variant_path_NES
+
+#unfiltered MA for robustness check: 0.5844998
+mad_filt <- 0.2611755
+median_filt <- 0.1677036
+```
+
+## Re-Classify
+
+```{r classify-filt}
+#threshold of 1 MAD away from the median for divergence:
+
+#new median ± 1 MAD = 0.17 ± 0.26
+#new convergence zone: -0.09 to 0.33
+
+most_divergent <- variant_path_NES %>% filter(NES_diff == max(NES_diff)) %>% dplyr::select(pathway, NES_diff)
+most_convergent <- variant_path_NES %>% filter(abs(NES_diff) == min(abs(NES_diff))) %>% dplyr::select(pathway, NES_diff)
+
+most_divergent
+most_convergent
+
+classify_paths_filt <- variant_path_NES %>% mutate(
+  converge_diverge =
+    case_when(
+      (NES_diff > .33 | NES_diff < -0.09) ~ "divergent",
+      (NES_diff <= .33 & NES_diff >= -0.09) ~ "convergent"
+    )
+)
+classify_paths_filt
+
+divergent <- classify_paths_filt %>% filter(converge_diverge == "divergent")
+divergent
+nrow(divergent) # 8
+convergent <- classify_paths_filt %>% filter(converge_diverge == "convergent")
+convergent
+nrow(convergent) # 7
+```
+
+
+```{r visualize-summary}
+#inner join to add converge_diverge onto all_paths_overlap
+classify_all_paths_overlap_filt <- inner_join(all_paths_filt, classify_paths_filt)
+classify_all_paths_overlap_filt
+
+p <- ggplot(classify_all_paths_overlap_filt, aes(x = NES, y = reorder(pathway, NES), fill = variant)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_manual(values = c("common" = "lightblue", "rare" = "#F4D03F"))+
+  facet_wrap(~ converge_diverge)+
+  labs(
+    title = "Convergence and Divergence in Enrichment Across Variant Type in Filtered Dataset",
+    x = "Normalized Enrichment Score (NES)",
+    y = NULL,
+    fill = "Variant Type"
+  ) +
+  theme_minimal()
+
+p
+
+#ggsave("converge_diverge_enrichment.png", plot = p2, path = "../figures", width = 14, height = 10, dpi = 300)
+```
+
+```{r results}
+#save results
+path_results <- classify_paths_filt %>% dplyr::select(pathway, converge_diverge)
+write.csv(path_results, "../results/path_results.csv")
+```
+## Session Info
+
+```{r session-info}
+sessionInfo()
+```
