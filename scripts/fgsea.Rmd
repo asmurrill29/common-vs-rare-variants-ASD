@@ -162,7 +162,7 @@ rare_ranked_df <- enframe(rare_ranked, name = "gene_id", value = "neglog10q") %>
 
 rare_ranked <-deframe(rare_ranked_df)
   
-rare_ranked
+head(rare_ranked)
 ```
 
 ## Make Common Ranked Vector
