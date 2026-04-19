@@ -1,0 +1,127 @@
+---
+title: "LOEUF Annotation and Gene-Level Constraint Assessment"
+author: "Amalya Murrill"
+date: "`r Sys.Date()`"
+output: github_document
+ 
+---
+Description
+
+```{r knitting-rules}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+## Libraries
+
+```{r libraries}
+library(tidyverse)
+library(ggplot2)
+library(org.Hs.eg.db)
+```
+
+## Import FGSEA Results
+
+```{r path-import}
+#import leadingEdge data per pathway per variant
+paths_data <- read.csv("../results/all_path_data.csv", header = TRUE)
+
+paths_data <- paths_data %>% dplyr::select(variant, pathway, padj,leadingEdge)
+head(paths_data)
+nrow(paths_data) # 36; 18 per variant
+
+#import pathway classification 
+classify_paths_results <- read.csv("../results/path_results.csv", header = TRUE) 
+classify_paths_results <- classify_paths_results %>% dplyr::select(pathway, converge_diverge)
+nrow(classify_paths_results) # 18
+head(classify_paths_results)
+```
+
+## Join Gene Data with Convergence Data
+
+```{r classify-genes}
+classify_genes <- left_join(paths_data, classify_paths_results, by = "pathway")
+classify_genes
+``` 
+
+### Convert EntrezIDs to Gene Symbols
+
+```{r rename-genes}
+
+leadingEdgeGenes <- classify_genes %>% dplyr::select(leadingEdge) %>% pull()
+
+#split each list into individual gene characters
+leadingEdgeGenes_split <- strsplit(leadingEdgeGenes, ";")
+
+#use lapply across mapping 
+symbols <- lapply(leadingEdgeGenes_split, function(r) mapIds(
+  org.Hs.eg.db,
+  keys = r,
+  column = "SYMBOL",
+  keytype = "ENTREZID",
+  multiVals = "first"
+))
+
+#rename
+symbols <- lapply(symbols, unname)
+head(symbols)
+
+#re-add to table
+classify_genes <- classify_genes %>% mutate(leadingEdge = symbols)
+head(classify_genes)
+``` 
+
+## Import gnomAD Constraint Scores
+
+```{r gnomAD-import}
+gnomad <- read.csv("../data/raw/gnomad.v2.1.1.lof_metrics.by_gene.txt.bgz", header = TRUE, sep = "\t")
+head(gnomad)
+colnames(gnomad) #we want "gene" and "oe_lof_upper"
+
+gnomad_loeuf <- gnomad %>% dplyr::select(gene, oe_lof_upper)
+head(gnomad_loeuf)
+```
+
+## Annotate Genes with LOEUF Scores
+
+```{r annotate}
+#make named vector
+loeuf <- deframe(gnomad_loeuf[ ,c("gene", "oe_lof_upper")])
+loeuf
+
+#match to symbols
+loeuf_scores <- lapply(symbols, function(x)loeuf[x])
+length(loeuf_scores) == length(symbols) #matched
+loeuf_scores
+
+#re-add to table
+loeuf_scores <- lapply(loeuf_scores, unname)
+classify_genes <- classify_genes %>% mutate(LOEUF = loeuf_scores)
+head(classify_genes)
+```
+
+## Assess Constraint
+
+```{r calculate-contraint}
+#determine constraint by calculating proportion of genes with LOEUF scores below 0.35 threshold
+classify_genes <- classify_genes %>% mutate(percent_constrained = sapply(LOEUF, function(x)((sum(x < 0.35, na.rm = TRUE)/sum(!is.na(x)))*100))) %>% # remove NAs
+relocate(percent_constrained, .before = LOEUF)
+classify_genes
+```
+
+```{r explore-constraint-results}
+#explore results
+classify_genes %>% arrange(desc(percent_constrained)) # arrange by constraint desc
+classify_genes %>% arrange(desc(percent_constrained)) %>% filter(converge_diverge == "convergent")
+classify_genes %>% arrange(desc(percent_constrained)) %>% filter(converge_diverge == "divergent")
+```
+
+## Cytoscape File Output
+
+```{r cytoscape-files}
+node_attributes <- classify_genes %>% dplyr::select(variant, pathway, converge_diverge, percent_constrained)
+edge_list <- classify_genes %>% dplyr::select(pathway, leadingEdge) %>% rename(leadingEdge = "gene") %>% unnest(gene)
+
+write.csv(node_attributes, "../results/cyto_node_attributes.csv")
+write.csv(edge_list, "../results/cyto_edge_list.csv")
+```
+
