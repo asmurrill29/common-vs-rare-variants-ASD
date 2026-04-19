@@ -213,6 +213,7 @@ head(pathways)
 ## FGSEA
 
 ```{r rare-fgsea}
+set.seed(42) #set seed for reproducibility
 rare_fgseaRes <- fgsea(
   pathways = pathways,
   stats = rare_ranked,
@@ -237,11 +238,12 @@ rare_collapsed <- fgsea::collapsePathways(
 )
 rare_collapsed$mainPathways
 
-write.csv(as.data.frame(rare_collapsed$parentPathways), "../results/rare_collapsed_pathway_mapping.csv") #for summary
+#write.csv(as.data.frame(rare_collapsed$parentPathways), "../results/rare_collapsed_pathway_mapping.csv") #for summary
 ```
 
 
 ```{r common-fgsea}
+set.seed(42) #set seed for reproducibility
 common_fgseaRes <- fgsea(
   pathways = pathways,
   stats = common_ranked,
@@ -264,7 +266,7 @@ common_collapsed <- fgsea::collapsePathways(
 )
 common_collapsed$mainPathways
 
-write.csv(as.data.frame(common_collapsed$parentPathways), "../results/common_collapsed_pathway_mapping.csv") # for summary
+#write.csv(as.data.frame(common_collapsed$parentPathways), "../results/common_collapsed_pathway_mapping.csv") # for summary
 ```
 
 ### Visualize Pathway Statistics
@@ -431,6 +433,9 @@ all_paths_filt <- all_paths_overlap %>% filter(pathway %in% both_sig)
 nrow(all_paths_filt)
 setdiff(rare_sig, common_sig)  #rare only
 setdiff(common_sig, rare_sig)  #common only
+
+all_paths_filt_export <- all_paths_filt %>% mutate(leadingEdge = sapply(leadingEdge, paste, collapse = ";"))
+#write.csv(all_paths_filt_export, "../results/all_path_data.csv")
 ```
 
 
@@ -457,18 +462,17 @@ variant_path_NES <- variant_path_NES %>% mutate(
 
 variant_path_NES
 
-#unfiltered MA for robustness check: 0.5844998
-mad_filt <- 0.2611755
-median_filt <- 0.1677036
+#unfiltered MAD for robustness check: 0.5844998
+mad_filt <- 0.3576003
+median_filt <- 0.2000136
 ```
 
 ## Re-Classify
 
 ```{r classify-filt}
 #threshold of 1 MAD away from the median for divergence:
-
-#new median ± 1 MAD = 0.17 ± 0.26
-#new convergence zone: -0.09 to 0.33
+#new median ± 1 MAD = 0.20 ± 0.36
+#new convergence zone: -0.16 to 0.56
 
 most_divergent <- variant_path_NES %>% filter(NES_diff == max(NES_diff)) %>% dplyr::select(pathway, NES_diff)
 most_convergent <- variant_path_NES %>% filter(abs(NES_diff) == min(abs(NES_diff))) %>% dplyr::select(pathway, NES_diff)
@@ -479,18 +483,18 @@ most_convergent
 classify_paths_filt <- variant_path_NES %>% mutate(
   converge_diverge =
     case_when(
-      (NES_diff > .33 | NES_diff < -0.09) ~ "divergent",
-      (NES_diff <= .33 & NES_diff >= -0.09) ~ "convergent"
+      (NES_diff > 0.56 | NES_diff < -0.16) ~ "divergent",
+      (NES_diff <= 0.56 & NES_diff >= -0.16) ~ "convergent"
     )
 )
 classify_paths_filt
 
 divergent <- classify_paths_filt %>% filter(converge_diverge == "divergent")
 divergent
-nrow(divergent) # 8
+nrow(divergent) # 6
 convergent <- classify_paths_filt %>% filter(converge_diverge == "convergent")
 convergent
-nrow(convergent) # 7
+nrow(convergent) # 12
 ```
 
 
@@ -519,7 +523,7 @@ p
 ```{r results}
 #save results
 path_results <- classify_paths_filt %>% dplyr::select(pathway, converge_diverge)
-write.csv(path_results, "../results/path_results.csv")
+#write.csv(path_results, "../results/path_results.csv")
 ```
 ## Session Info
 
