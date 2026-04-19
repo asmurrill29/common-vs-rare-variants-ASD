@@ -46,6 +46,7 @@ common-vs-rare-variants-ASD/
 | Satterstrom et al. 2020 | Rare-variant WES-derived gene burden statistics | [ASC Download](https://asc.broadinstitute.org/downloads) |
 | gnomAD v2.1.1 | LOEUF constraint scores | [gnomAD Browser](https://gnomad.broadinstitute.org/downloads)|
 | MSigDB | Curated gene sets for pathway enrichment (GO Biological Process, KEGG) | See dependencies for download options. |
+| SFARI Gene | Empirically-established ASD risk gene-set data | [SFARI Gene](https://gene.sfari.org/tools/) |
 
 > ⚠️ Raw data files will not be committed to this repository. 
 
@@ -120,7 +121,7 @@ Rscript scripts/loeuf_annotation.Rmd
 ## Aims
 
 1. Perform gene-level association analysis on common-variant (MAF ≥ 0.01) GWAS summary statistics using MAGMA.
-2. Implement pathway enrichment analysis on both common variant gene-level output and rare variant (MAF < 0.001) TADA+ gene-level q-values using fgsea, restricting to canonical ASD-relevant gene sets. Cross-reference enriched genes against TADA+ genes and SFARI-curated risk genes.
+2. Implement pathway enrichment analysis on both common variant gene-level output and rare variant (MAF < 0.001) TADA+ gene-level q-values using fgsea, restricting to canonical ASD-relevant gene sets. Cross-reference enriched genes against  SFARI-curated risk genes.
 3. Compare results to identify convergence or divergence across the allele frequency spectrum.
 4. Annotate genes contributing to enriched pathways with LOEUF scores from gnomAD to determine whether convergent pathways are disproportionately driven by constrained genes.
 
