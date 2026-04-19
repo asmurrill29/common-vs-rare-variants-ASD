@@ -2,6 +2,7 @@
 data/
 ref/
 figures/
+results/
 
 # Exceptions
 !README.md
