@@ -45,8 +45,9 @@ common-vs-rare-variants-ASD/
 | Grove et al. 2019 | Common variant GWAS summary statistics | [PGC Download](https://pgc.unc.edu/for-researchers/download-results/) |
 | Satterstrom et al. 2020 | Rare-variant WES-derived gene burden statistics | [ASC Download](https://asc.broadinstitute.org/downloads) |
 | gnomAD v2.1.1 | LOEUF constraint scores | [gnomAD Browser](https://gnomad.broadinstitute.org/downloads)|
-| MSigDB | Curated gene sets for pathway enrichment (GO Biological Process, KEGG) | See dependencies for download options. |
 | SFARI Gene | Empirically-established ASD risk gene-set data | [SFARI Gene](https://gene.sfari.org/tools/) |
+| MSigDB | Curated gene sets for pathway enrichment (GO Biological Process, KEGG) | See dependencies for download options. |
+
 
 > ⚠️ Raw data files will not be committed to this repository. 
 
