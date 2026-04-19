@@ -23,9 +23,14 @@ common-vs-rare-variants-ASD/
 │   └── NCBI37.3.gene.loc
 ├── results/
 ├── scripts/
-│   ├── magma_prep.Rmd
-│   ├── magma_prep.md
-│   └── run_magma.py
+|  ├── fgsea.md
+│  ├── magma_prep.md
+│  ├── run_magma.py
+|  └── raw/ 
+|       ├── magma_prep.Rmd
+│       ├── fgsea.Rmd
+│       ├── gene_cross_ref.Rmd
+|       └── loeuf_annotation.Rmd
 ├── .gitattributes
 ├── .gitignore
 └── README.md
@@ -87,7 +92,7 @@ Download gene sets manually from [MSigDB](https://www.gsea-msigdb.org/gsea/msigd
 
 ### Step 1 — Data Preparation
 ```bash
-Rscript scripts/magma_prep.R
+Rscript scripts/magma_prep.Rmd
 ```
 
 ### Step 2 — Common Variant Gene-Level MAGMA Analysis
@@ -97,12 +102,17 @@ python scripts/run_magma.py
 
 ### Step 3 — Rare Variant Gene-Level Ranking and Pathway Enrichment
 ```bash
-Rscript scripts/fgsea.R
+Rscript scripts/fgsea.Rmd
 ```
 
-### Step 4 — LOEUF Annotation
+### Step 4 — Gene Set Cross-Reference
 ```bash
-Rscript scripts/loeuf_annotation.R
+Rscript scripts/gene_cross_ref.Rmd
+```
+
+### Step 5 — LOEUF Annotation
+```bash
+Rscript scripts/loeuf_annotation.Rmd
 ```
 
 ---
