@@ -93,29 +93,19 @@ Download gene sets manually from [MSigDB](https://www.gsea-msigdb.org/gsea/msigd
 ## Pipeline
 
 ### Step 1 — Data Preparation
-```bash
-Rscript scripts/magma_prep.Rmd
-```
+scripts/magma_prep.md
 
 ### Step 2 — Common Variant Gene-Level MAGMA Analysis
-```bash
-python scripts/run_magma.py
-```
+scripts/run_magma.py
 
 ### Step 3 — Rare Variant Gene-Level Ranking and Pathway Enrichment
-```bash
-Rscript scripts/fgsea.Rmd
-```
+scripts/fgsea.md
 
 ### Step 4 — Gene Set Cross-Reference
-```bash
-Rscript scripts/gene_cross_ref.Rmd
-```
+scripts/gene_cross_ref.md
 
 ### Step 5 — LOEUF Annotation
-```bash
-Rscript scripts/loeuf_annotation.Rmd
-```
+scripts/loeuf_annotation.md
 
 ---
 
