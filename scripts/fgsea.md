@@ -1,7 +1,7 @@
 Rare Variant Preparation and FGSEA
 ================
 Amalya Murrill
-2026-04-19
+2026-04-20
 
 This script performs fgsea pathway enrichment analysis on both the rare
 variant (Satterstrom et al. 2020 TADA+ q-values) and common variant
@@ -34,7 +34,7 @@ library(patchwork)
 ## Data Import: Rare Variants
 
 ``` r
-rare <- read_tsv("../data/raw/ASC_gene_results.tsv.bgz", col_names= TRUE)
+rare <- read_tsv("../../data/raw/ASC_gene_results.tsv.bgz", col_names= TRUE)
 #quick check
 head(rare) # two junk gene names
 ```
@@ -95,7 +95,7 @@ nrow(rare) # 17345, 2 bad genes removed
 ## Data Import: Common Variant MAGMA Output
 
 ``` r
-magma_common <- read_table("../data/processed/common_MAGMA_genes.genes.out")
+magma_common <- read_table("../../data/processed/common_MAGMA_genes.genes.out")
 #quick check
 head(magma_common)
 ```
@@ -1318,14 +1318,14 @@ setdiff(rare_sig, common_sig)  #rare only
     ## [142] "GOBP_AXONEME_ASSEMBLY"
 
 ``` r
-setdiff(common_sig, rare_sig)  #common only
+setdiff(common_sig, rare_sig)  #common only, "KEGG_ALANINE_ASPARTATE_AND_GLUTAMATE_METABOLISM" divergent by definition
 ```
 
     ## [1] "KEGG_ALANINE_ASPARTATE_AND_GLUTAMATE_METABOLISM"
 
 ``` r
 all_paths_filt_export <- all_paths_filt %>% mutate(leadingEdge = sapply(leadingEdge, paste, collapse = ";"))
-#write.csv(all_paths_filt_export, "../results/all_path_data.csv")
+#write.csv(all_paths_filt_export, "../../results/all_path_data.csv")
 ```
 
 ``` r
@@ -1403,16 +1403,18 @@ variant_path_NES
 
 ``` r
 #unfiltered MAD for robustness check: 0.5844998
-mad_filt <- 0.3576003
-median_filt <- 0.2000136
+mad_filt_col <- variant_path_NES %>% dplyr::select(MAD_filt) %>% pull()
+mad_filt <- mad_filt_col[1]
+median_filt_col <- variant_path_NES %>% dplyr::select(median_NES_diff) %>% pull()
+median_filt <- median_filt_col[1]
 ```
 
 ## Re-Classify
 
 ``` r
 #threshold of 1 MAD away from the median for divergence:
-#new median ± 1 MAD = 0.20 ± 0.36
-#new convergence zone: -0.16 to 0.56
+upper_bound <- median_filt + mad_filt
+lower_bound <- median_filt - mad_filt
 
 most_divergent <- variant_path_NES %>% filter(NES_diff == max(NES_diff)) %>% dplyr::select(pathway, NES_diff)
 most_convergent <- variant_path_NES %>% filter(abs(NES_diff) == min(abs(NES_diff))) %>% dplyr::select(pathway, NES_diff)
@@ -1438,8 +1440,8 @@ most_convergent
 classify_paths_filt <- variant_path_NES %>% mutate(
   converge_diverge =
     case_when(
-      (NES_diff > 0.56 | NES_diff < -0.16) ~ "divergent",
-      (NES_diff <= 0.56 & NES_diff >= -0.16) ~ "convergent"
+      (NES_diff > upper_bound | NES_diff < lower_bound) ~ "divergent",
+      (NES_diff <= upper_bound & NES_diff >= lower_bound) ~ "convergent"
     )
 )
 classify_paths_filt
@@ -1474,7 +1476,7 @@ divergent <- classify_paths_filt %>% filter(converge_diverge == "divergent")
 divergent
 ```
 
-    ## # A tibble: 7 × 7
+    ## # A tibble: 6 × 7
     ##   pathway rare_NES common_NES NES_diff MAD_filt median_NES_diff converge_diverge
     ##   <chr>      <dbl>      <dbl>    <dbl>    <dbl>           <dbl> <chr>           
     ## 1 GOBP_N…     2.21       1.33    0.881    0.397           0.175 divergent       
@@ -1482,21 +1484,20 @@ divergent
     ## 3 GOBP_C…     2.22       1.62    0.603    0.397           0.175 divergent       
     ## 4 GOBP_S…     2.11       1.40    0.709    0.397           0.175 divergent       
     ## 5 GOBP_R…     2.13       1.36    0.775    0.397           0.175 divergent       
-    ## 6 GOBP_N…     1.45       1.64   -0.190    0.397           0.175 divergent       
-    ## 7 KEGG_M…     1.38       1.60   -0.226    0.397           0.175 divergent
+    ## 6 KEGG_M…     1.38       1.60   -0.226    0.397           0.175 divergent
 
 ``` r
 nrow(divergent) # 6
 ```
 
-    ## [1] 7
+    ## [1] 6
 
 ``` r
 convergent <- classify_paths_filt %>% filter(converge_diverge == "convergent")
 convergent
 ```
 
-    ## # A tibble: 12 × 7
+    ## # A tibble: 13 × 7
     ##    pathway                 rare_NES common_NES NES_diff MAD_filt median_NES_diff
     ##    <chr>                      <dbl>      <dbl>    <dbl>    <dbl>           <dbl>
     ##  1 GOBP_POSITIVE_REGULATI…     1.98       1.54   0.443     0.397           0.175
@@ -1510,14 +1511,15 @@ convergent
     ##  9 GOBP_NEURON_PROJECTION…     1.80       1.82  -0.0247    0.397           0.175
     ## 10 GOBP_NEUROTRANSMITTER_…     1.48       1.49  -0.0159    0.397           0.175
     ## 11 GOBP_CENTRAL_NERVOUS_S…     1.65       1.60   0.0508    0.397           0.175
-    ## 12 GOBP_SYNAPTIC_VESICLE_…     1.34       1.43  -0.0951    0.397           0.175
+    ## 12 GOBP_NEGATIVE_REGULATI…     1.45       1.64  -0.190     0.397           0.175
+    ## 13 GOBP_SYNAPTIC_VESICLE_…     1.34       1.43  -0.0951    0.397           0.175
     ## # ℹ 1 more variable: converge_diverge <chr>
 
 ``` r
-nrow(convergent) # 12
+nrow(convergent) # 13
 ```
 
-    ## [1] 12
+    ## [1] 13
 
 ``` r
 #inner join to add converge_diverge onto all_paths_overlap
@@ -1666,7 +1668,7 @@ classify_all_paths_overlap_filt
     ## 14: 1.795029   1.819726 -0.02469702 0.3966149       0.1753014       convergent
     ## 15: 1.475186   1.491053 -0.01586671 0.3966149       0.1753014       convergent
     ## 16: 1.648539   1.597690  0.05084856 0.3966149       0.1753014       convergent
-    ## 17: 1.450018   1.640478 -0.19045985 0.3966149       0.1753014        divergent
+    ## 17: 1.450018   1.640478 -0.19045985 0.3966149       0.1753014       convergent
     ## 18: 1.336301   1.431405 -0.09510492 0.3966149       0.1753014       convergent
     ## 19: 1.376318   1.602714 -0.22639549 0.3966149       0.1753014        divergent
     ## 20: 2.224850   1.621940  0.60291002 0.3966149       0.1753014        divergent
@@ -1682,7 +1684,7 @@ classify_all_paths_overlap_filt
     ## 30: 1.549044   1.387951  0.16109275 0.3966149       0.1753014       convergent
     ## 31: 2.212238   1.331642  0.88059543 0.3966149       0.1753014        divergent
     ## 32: 1.759605   1.434285  0.32532045 0.3966149       0.1753014       convergent
-    ## 33: 1.450018   1.640478 -0.19045985 0.3966149       0.1753014        divergent
+    ## 33: 1.450018   1.640478 -0.19045985 0.3966149       0.1753014       convergent
     ## 34: 1.648539   1.597690  0.05084856 0.3966149       0.1753014       convergent
     ## 35: 2.029486   1.471753  0.55773251 0.3966149       0.1753014       convergent
     ## 36: 1.559953   1.384651  0.17530136 0.3966149       0.1753014       convergent
@@ -1715,7 +1717,7 @@ p
 ``` r
 #save results
 path_results <- classify_paths_filt %>% dplyr::select(pathway, converge_diverge)
-#write.csv(path_results, "../results/path_results.csv")
+#write.csv(path_results, "../../results/path_results.csv")
 ```
 
 ## Session Info
