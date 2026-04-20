@@ -25,7 +25,7 @@ library(patchwork)
 ## Data Import: Rare Variants
 
 ```{r rare-read-in}
-rare <- read_tsv("../data/raw/ASC_gene_results.tsv.bgz", col_names= TRUE)
+rare <- read_tsv("../../data/raw/ASC_gene_results.tsv.bgz", col_names= TRUE)
 #quick check
 head(rare) # two junk gene names
 colnames(rare)
@@ -40,7 +40,7 @@ nrow(rare) # 17345, 2 bad genes removed
 ## Data Import: Common Variant MAGMA Output
 
 ```{r common-magma-read-in}
-magma_common <- read_table("../data/processed/common_MAGMA_genes.genes.out")
+magma_common <- read_table("../../data/processed/common_MAGMA_genes.genes.out")
 #quick check
 head(magma_common)
 colnames(magma_common)
@@ -432,10 +432,10 @@ both_sig <- intersect(rare_sig, common_sig)
 all_paths_filt <- all_paths_overlap %>% filter(pathway %in% both_sig)
 nrow(all_paths_filt)
 setdiff(rare_sig, common_sig)  #rare only
-setdiff(common_sig, rare_sig)  #common only
+setdiff(common_sig, rare_sig)  #common only, "KEGG_ALANINE_ASPARTATE_AND_GLUTAMATE_METABOLISM" divergent by definition
 
 all_paths_filt_export <- all_paths_filt %>% mutate(leadingEdge = sapply(leadingEdge, paste, collapse = ";"))
-#write.csv(all_paths_filt_export, "../results/all_path_data.csv")
+#write.csv(all_paths_filt_export, "../../results/all_path_data.csv")
 ```
 
 
@@ -463,16 +463,18 @@ variant_path_NES <- variant_path_NES %>% mutate(
 variant_path_NES
 
 #unfiltered MAD for robustness check: 0.5844998
-mad_filt <- 0.3576003
-median_filt <- 0.2000136
+mad_filt_col <- variant_path_NES %>% dplyr::select(MAD_filt) %>% pull()
+mad_filt <- mad_filt_col[1]
+median_filt_col <- variant_path_NES %>% dplyr::select(median_NES_diff) %>% pull()
+median_filt <- median_filt_col[1]
 ```
 
 ## Re-Classify
 
 ```{r classify-filt}
 #threshold of 1 MAD away from the median for divergence:
-#new median ± 1 MAD = 0.20 ± 0.36
-#new convergence zone: -0.16 to 0.56
+upper_bound <- median_filt + mad_filt
+lower_bound <- median_filt - mad_filt
 
 most_divergent <- variant_path_NES %>% filter(NES_diff == max(NES_diff)) %>% dplyr::select(pathway, NES_diff)
 most_convergent <- variant_path_NES %>% filter(abs(NES_diff) == min(abs(NES_diff))) %>% dplyr::select(pathway, NES_diff)
@@ -483,8 +485,8 @@ most_convergent
 classify_paths_filt <- variant_path_NES %>% mutate(
   converge_diverge =
     case_when(
-      (NES_diff > 0.56 | NES_diff < -0.16) ~ "divergent",
-      (NES_diff <= 0.56 & NES_diff >= -0.16) ~ "convergent"
+      (NES_diff > upper_bound | NES_diff < lower_bound) ~ "divergent",
+      (NES_diff <= upper_bound & NES_diff >= lower_bound) ~ "convergent"
     )
 )
 classify_paths_filt
@@ -494,7 +496,7 @@ divergent
 nrow(divergent) # 6
 convergent <- classify_paths_filt %>% filter(converge_diverge == "convergent")
 convergent
-nrow(convergent) # 12
+nrow(convergent) # 13
 ```
 
 
@@ -523,7 +525,7 @@ p
 ```{r results}
 #save results
 path_results <- classify_paths_filt %>% dplyr::select(pathway, converge_diverge)
-#write.csv(path_results, "../results/path_results.csv")
+#write.csv(path_results, "../../results/path_results.csv")
 ```
 ## Session Info
 
