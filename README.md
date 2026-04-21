@@ -1,4 +1,4 @@
-# Genetic Architecture and Pathway Convergence Across the Allele Frequency Spectrum in ASD
+# Rarity in Risk: Pathway Convergence Across the Allele Frequency Spectrum in ASD
 ---
 
 ## Overview
@@ -132,7 +132,6 @@ Rscript -e "rmarkdown::render('loeuf_annotation.Rmd')"
 1. Grove, J. et al. (2019). Identification of common genetic risk variants for autism spectrum disorder. *Nat Genet* 51, 431–444.
 2. Nóbrega, I. d. S. et al. (2024). The Importance of Large-Scale Genomic Studies to Unravel Genetic Risk Factors for Autism. *IJMS* 25(11), 5816.
 3. Satterstrom, F. K. et al. (2020). Large-Scale Exome Sequencing Study Implicates Both Developmental and Functional Changes in the Neurobiology of Autism. *Cell* 180(3), 568–584.
-4. Trost, B. et al. (2022). Genomic architecture of autism from comprehensive whole-genome sequence annotation. *Cell* 185(23), 4409–4427.
 
 ---
 
