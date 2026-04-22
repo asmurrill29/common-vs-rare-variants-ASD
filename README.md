@@ -22,11 +22,13 @@ common-vs-rare-variants-ASD/
 ├── ref/
 │   └── NCBI37.3.gene.loc
 ├── results/
-├── scripts/
-|  ├── fgsea.md
-│  ├── magma_prep.md
-│  ├── run_magma.py
-|  └── raw/ 
+├── scripts/                # committed
+|   ├── fgsea.md
+|   ├── gene_cross_ref.md
+|   ├── loeuf_annotation.md
+│   ├── magma_prep.md
+│   ├── run_magma.py
+|   └── raw/ 
 |       ├── magma_prep.Rmd
 │       ├── fgsea.Rmd
 │       ├── gene_cross_ref.Rmd
