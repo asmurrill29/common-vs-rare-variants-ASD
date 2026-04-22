@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output: github_document
  
 ---
-Description
+This script takes the enriched pathways from FGSEA that have been statistically categorized as convergent or divergent and extracts gene-level data. The findings are joined with corresponding LOEUF scores downloaded from gnomAD v2.1.1. Overall constraint for each pathway was assessed by calculating the proportion and then percentage of constrained genes (LOEUF < 0.35 as dictated by literature) within that pathway. The data was then formatted for Cytoscape output as a visualization of constraint within a network.   
 
 ```{r knitting-rules}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
@@ -15,7 +15,6 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 ```{r libraries}
 library(tidyverse)
-library(ggplot2)
 library(org.Hs.eg.db)
 ```
 
@@ -23,16 +22,16 @@ library(org.Hs.eg.db)
 
 ```{r path-import}
 #import leadingEdge data per pathway per variant
-paths_data <- read.csv("../results/all_path_data.csv", header = TRUE)
+paths_data <- read.csv("../../results/all_path_data.csv", header = TRUE)
 
 paths_data <- paths_data %>% dplyr::select(variant, pathway, padj,leadingEdge)
 head(paths_data)
-nrow(paths_data) # 36; 18 per variant
+nrow(paths_data) # 38; 19 per variant
 
 #import pathway classification 
-classify_paths_results <- read.csv("../results/path_results.csv", header = TRUE) 
+classify_paths_results <- read.csv("../../results/path_results.csv", header = TRUE) 
 classify_paths_results <- classify_paths_results %>% dplyr::select(pathway, converge_diverge)
-nrow(classify_paths_results) # 18
+nrow(classify_paths_results) # 19
 head(classify_paths_results)
 ```
 
@@ -46,7 +45,6 @@ classify_genes
 ### Convert EntrezIDs to Gene Symbols
 
 ```{r rename-genes}
-
 leadingEdgeGenes <- classify_genes %>% dplyr::select(leadingEdge) %>% pull()
 
 #split each list into individual gene characters
@@ -73,7 +71,7 @@ head(classify_genes)
 ## Import gnomAD Constraint Scores
 
 ```{r gnomAD-import}
-gnomad <- read.csv("../data/raw/gnomad.v2.1.1.lof_metrics.by_gene.txt.bgz", header = TRUE, sep = "\t")
+gnomad <- read.csv("../../data/raw/gnomad.v2.1.1.lof_metrics.by_gene.txt.bgz", header = TRUE, sep = "\t")
 head(gnomad)
 colnames(gnomad) #we want "gene" and "oe_lof_upper"
 
@@ -103,6 +101,7 @@ head(classify_genes)
 
 ```{r calculate-contraint}
 #determine constraint by calculating proportion of genes with LOEUF scores below 0.35 threshold
+#calculate proportion ignoring NA values
 classify_genes <- classify_genes %>% mutate(percent_constrained = sapply(LOEUF, function(x)((sum(x < 0.35, na.rm = TRUE)/sum(!is.na(x)))*100))) %>% # remove NAs
 relocate(percent_constrained, .before = LOEUF)
 classify_genes
@@ -113,15 +112,53 @@ classify_genes
 classify_genes %>% arrange(desc(percent_constrained)) # arrange by constraint desc
 classify_genes %>% arrange(desc(percent_constrained)) %>% filter(converge_diverge == "convergent")
 classify_genes %>% arrange(desc(percent_constrained)) %>% filter(converge_diverge == "divergent")
+
+collapsed_classified_genes <- classify_genes %>%
+  dplyr::select(-LOEUF) %>%
+  mutate(leadingEdge = sapply(leadingEdge, paste, collapse = ";"))
+
+#write.csv(collapsed_classified_genes, "../../results/loeuf_anno_results.csv", row.names = FALSE)
 ```
 
 ## Cytoscape File Output
 
 ```{r cytoscape-files}
-node_attributes <- classify_genes %>% dplyr::select(variant, pathway, converge_diverge, percent_constrained)
-edge_list <- classify_genes %>% dplyr::select(pathway, leadingEdge) %>% rename(leadingEdge = "gene") %>% unnest(gene)
+#select top constrained pathways
+top <- classify_genes %>% arrange(desc(percent_constrained)) %>% distinct(pathway, .keep_all = TRUE) %>% head(10)
 
-write.csv(node_attributes, "../results/cyto_node_attributes.csv")
-write.csv(edge_list, "../results/cyto_edge_list.csv")
+#pathway level metadata
+top_node_attributes <- top %>% 
+  dplyr::select(pathway, variant, converge_diverge, percent_constrained) %>%
+  distinct() %>% 
+  mutate(name = paste0(pathway, "_", variant)) #unique ID for pathway
+
+#edge list (pathway-variant → gene)
+top_edge_list <- top %>% 
+  dplyr::select(pathway, variant, leadingEdge) %>%
+  unnest(leadingEdge) %>% 
+  mutate(
+    source = paste0(pathway, "_", variant),
+    target = leadingEdge) %>%
+  dplyr::select(source, target)
+
+#pathway nodes
+pathway_nodes <- top_edge_list %>%
+  distinct(source) %>%
+  dplyr::rename(name = source) %>%
+  mutate(node_type = "pathway") %>%
+  left_join(top_node_attributes, by = "name")
+
+#gene nodes
+gene_nodes <- top_edge_list %>%
+  distinct(target) %>%
+  dplyr::rename(name = target) %>%
+  mutate(node_type = "gene")
+
+#combine nodes
+top_all_nodes <- dplyr::bind_rows(pathway_nodes, gene_nodes)
+
+#write CSVs
+#write.csv(top_all_nodes, "../../results/cyto_top_all_nodes.csv", row.names = FALSE, quote = FALSE)
+#write.csv(top_edge_list, "../../results/cyto_top_edge_list.csv", row.names = FALSE, quote = FALSE)
 ```
 

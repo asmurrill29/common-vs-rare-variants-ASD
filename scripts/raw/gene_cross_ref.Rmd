@@ -1,0 +1,74 @@
+---
+title: "SFARI Gene List Cross-Reference"
+author: "Amalya Murrill"
+date: "`r Sys.Date()`"
+output: github_document
+ 
+---
+The SFARI database collects information about genes empirically implicated in ASD and categorizes them, specifically by how well-verified their mutations are in ASD risk. Our annotated genes were cross-referenced against this SFARI gene list, identifying 33% as SFARI-annotated.     
+
+
+```{r knitting-rules}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+## Libraries
+
+```{r libraries}
+library(tidyverse)
+```
+
+## Import SFARI Genes
+
+```{r sfari-import}
+#import SFARI gene database data
+sfari_data <- read.csv("../../data/raw/SFARI_genes.csv", header = TRUE)
+colnames(sfari_data)
+sfari_data <- sfari_data %>% dplyr::select(gene.symbol, gene.name, genetic.category, gene.score)
+head(sfari_data)
+```
+
+## Import Annotated Pathways
+
+```{r anno-import-and-select}
+anno_results <- read.csv("../../results/loeuf_anno_results.csv", header = TRUE)
+head(anno_results) 
+```
+
+## Join SFARI Data
+
+```{r join-sfari}
+#prepare annotated pathway data
+anno_paths <- anno_results %>% 
+  mutate(leadingEdge = sapply(leadingEdge, paste, collapse = ";")) %>%
+  mutate(gene = sapply(leadingEdge, str_split ,";"))%>% 
+  dplyr::select(-leadingEdge) %>% 
+  unnest(gene) %>%
+  relocate(c(gene, pathway), .before = 1)
+
+nrow(anno_paths) # 1422 individual gene-pathway groupings
+
+sfari_data_rename <- sfari_data %>%
+  dplyr::rename(gene = gene.symbol)
+
+cross_ref_inner <- anno_paths %>%
+  dplyr::inner_join(sfari_data_rename, by = "gene")
+cross_ref_inner
+nrow(cross_ref_inner) # 470 individual gene-pathway groupings, 33% match with SFARI
+
+cross_ref_outer <- anno_paths %>%
+  dplyr::left_join(sfari_data_rename, by = "gene")
+cross_ref_outer %>% filter(is.na(gene.name)) # perhaps genes of future interest?
+```
+
+## Explore Results
+
+```{r top-explore}
+#top 5 by padj
+cross_ref_inner %>% arrange(padj) %>% distinct(pathway, .keep_all = TRUE) %>% head(5)
+#top 5 by percent constrained
+cross_ref_inner %>% arrange(desc(percent_constrained)) %>% distinct(pathway, .keep_all = TRUE) %>% head(5)
+#how often genes appear (hub genes)
+cross_ref_inner %>% count(gene, sort = TRUE)
+```
+
