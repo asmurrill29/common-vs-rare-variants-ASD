@@ -39,7 +39,7 @@ head(classify_paths_results)
 
 ```{r classify-genes}
 classify_genes <- left_join(paths_data, classify_paths_results, by = "pathway")
-classify_genes
+head(classify_genes)
 ``` 
 
 ### Convert EntrezIDs to Gene Symbols
@@ -84,7 +84,7 @@ head(gnomad_loeuf)
 ```{r annotate}
 #make named vector
 loeuf <- deframe(gnomad_loeuf[ ,c("gene", "oe_lof_upper")])
-loeuf
+head(loeuf)
 
 #match to symbols
 loeuf_scores <- lapply(symbols, function(x)loeuf[x])
