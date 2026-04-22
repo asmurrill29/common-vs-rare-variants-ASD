@@ -105,14 +105,14 @@ python run_magma.py
 Rscript -e "rmarkdown::render('fgsea.Rmd')"
 ```
 
-### Step 4 — Gene Set Cross-Reference
-```bash
-Rscript -e "rmarkdown::render('gene_cross_ref.Rmd')"
-```
-
-### Step 5 — LOEUF Annotation
+### Step 4 — LOEUF Annotation
 ```bash
 Rscript -e "rmarkdown::render('loeuf_annotation.Rmd')"
+```
+
+### Step 5 — Gene Set Cross-Reference
+```bash
+Rscript -e "rmarkdown::render('gene_cross_ref.Rmd')"
 ```
 ---
 
@@ -121,8 +121,9 @@ Rscript -e "rmarkdown::render('loeuf_annotation.Rmd')"
 1. Perform gene-level association analysis on common-variant (MAF ≥ 0.01) GWAS summary statistics using MAGMA.
 2. Implement pathway enrichment analysis on both common variant gene-level output and rare variant (MAF < 0.001) TADA+ gene-level q-values using fgsea, restricting to canonical ASD-relevant gene sets. 
 3. Compare results to identify convergence or divergence across the allele frequency spectrum.
-4. Cross-reference enriched genes against SFARI-curated risk genes.
-5. Annotate genes contributing to enriched pathways with LOEUF scores from gnomAD to determine whether convergent pathways are disproportionately driven by constrained genes.
+4. Annotate genes contributing to enriched pathways with LOEUF scores from gnomAD to determine whether convergent pathways are disproportionately driven by constrained genes.
+5. Cross-reference enriched genes against SFARI-curated risk genes.
+
 
 
 ---
