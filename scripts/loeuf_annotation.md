@@ -11246,3 +11246,58 @@ top_all_nodes <- dplyr::bind_rows(pathway_nodes, gene_nodes)
 #write.csv(top_all_nodes, "../../results/cyto_top_all_nodes.csv", row.names = FALSE, quote = FALSE)
 #write.csv(top_edge_list, "../../results/cyto_top_edge_list.csv", row.names = FALSE, quote = FALSE)
 ```
+
+## Session Info
+
+``` r
+sessionInfo()
+```
+
+    ## R version 4.4.3 (2025-02-28)
+    ## Platform: x86_64-pc-linux-gnu
+    ## Running under: AlmaLinux 8.10 (Cerulean Leopard)
+    ## 
+    ## Matrix products: default
+    ## BLAS/LAPACK: FlexiBLAS NETLIB;  LAPACK version 3.12.0
+    ## 
+    ## locale:
+    ##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+    ##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+    ##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+    ##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+    ##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+    ## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+    ## 
+    ## time zone: America/New_York
+    ## tzcode source: system (glibc)
+    ## 
+    ## attached base packages:
+    ## [1] stats4    stats     graphics  grDevices utils     datasets  methods  
+    ## [8] base     
+    ## 
+    ## other attached packages:
+    ##  [1] org.Hs.eg.db_3.20.0  AnnotationDbi_1.68.0 IRanges_2.40.1      
+    ##  [4] S4Vectors_0.44.0     Biobase_2.66.0       BiocGenerics_0.52.0 
+    ##  [7] lubridate_1.9.4      forcats_1.0.0        stringr_1.5.1       
+    ## [10] dplyr_1.1.4          purrr_1.0.4          readr_2.1.5         
+    ## [13] tidyr_1.3.1          tibble_3.2.1         ggplot2_3.5.1       
+    ## [16] tidyverse_2.0.0     
+    ## 
+    ## loaded via a namespace (and not attached):
+    ##  [1] generics_0.1.4          RSQLite_2.3.9           stringi_1.8.7          
+    ##  [4] hms_1.1.3               digest_0.6.39           magrittr_2.0.4         
+    ##  [7] evaluate_1.0.5          grid_4.4.3              timechange_0.3.0       
+    ## [10] fastmap_1.2.0           blob_1.2.4              jsonlite_2.0.0         
+    ## [13] GenomeInfoDb_1.42.3     DBI_1.2.3               httr_1.4.7             
+    ## [16] UCSC.utils_1.2.0        scales_1.3.0            Biostrings_2.74.1      
+    ## [19] cli_3.6.5               crayon_1.5.3            rlang_1.1.6            
+    ## [22] XVector_0.46.0          bit64_4.6.0-1           munsell_0.5.1          
+    ## [25] cachem_1.1.0            withr_3.0.2             yaml_2.3.11            
+    ## [28] tools_4.4.3             tzdb_0.4.0              memoise_2.0.1          
+    ## [31] colorspace_2.1-2        GenomeInfoDbData_1.2.13 png_0.1-8              
+    ## [34] vctrs_0.6.5             R6_2.6.1                lifecycle_1.0.4        
+    ## [37] zlibbioc_1.52.0         KEGGREST_1.46.0         bit_4.6.0              
+    ## [40] pkgconfig_2.0.3         pillar_1.10.1           gtable_0.3.6           
+    ## [43] glue_1.8.0              xfun_0.54               tidyselect_1.2.1       
+    ## [46] rstudioapi_0.17.1       knitr_1.49              htmltools_0.5.8.1      
+    ## [49] rmarkdown_2.29          compiler_4.4.3
