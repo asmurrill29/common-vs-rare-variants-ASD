@@ -162,3 +162,8 @@ top_all_nodes <- dplyr::bind_rows(pathway_nodes, gene_nodes)
 #write.csv(top_edge_list, "../../results/cyto_top_edge_list.csv", row.names = FALSE, quote = FALSE)
 ```
 
+## Session Info
+
+```{r session-info}
+sessionInfo()
+```
