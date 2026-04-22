@@ -201,3 +201,46 @@ cross_ref_inner %>% count(gene, sort = TRUE)
     ##  9 ADCY1      8
     ## 10 CADPS      8
     ## # ℹ 173 more rows
+
+## Session Info
+
+``` r
+sessionInfo()
+```
+
+    ## R version 4.4.3 (2025-02-28)
+    ## Platform: x86_64-pc-linux-gnu
+    ## Running under: AlmaLinux 8.10 (Cerulean Leopard)
+    ## 
+    ## Matrix products: default
+    ## BLAS/LAPACK: FlexiBLAS NETLIB;  LAPACK version 3.12.0
+    ## 
+    ## locale:
+    ##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+    ##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+    ##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+    ##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+    ##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+    ## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+    ## 
+    ## time zone: America/New_York
+    ## tzcode source: system (glibc)
+    ## 
+    ## attached base packages:
+    ## [1] stats     graphics  grDevices utils     datasets  methods   base     
+    ## 
+    ## other attached packages:
+    ##  [1] lubridate_1.9.4 forcats_1.0.0   stringr_1.5.1   dplyr_1.1.4    
+    ##  [5] purrr_1.0.4     readr_2.1.5     tidyr_1.3.1     tibble_3.2.1   
+    ##  [9] ggplot2_3.5.1   tidyverse_2.0.0
+    ## 
+    ## loaded via a namespace (and not attached):
+    ##  [1] gtable_0.3.6      compiler_4.4.3    tidyselect_1.2.1  scales_1.3.0     
+    ##  [5] yaml_2.3.11       fastmap_1.2.0     R6_2.6.1          generics_0.1.4   
+    ##  [9] knitr_1.49        munsell_0.5.1     pillar_1.10.1     tzdb_0.4.0       
+    ## [13] rlang_1.1.6       utf8_1.2.6        stringi_1.8.7     xfun_0.54        
+    ## [17] timechange_0.3.0  cli_3.6.5         withr_3.0.2       magrittr_2.0.4   
+    ## [21] digest_0.6.39     grid_4.4.3        rstudioapi_0.17.1 hms_1.1.3        
+    ## [25] lifecycle_1.0.4   vctrs_0.6.5       evaluate_1.0.5    glue_1.8.0       
+    ## [29] colorspace_2.1-2  rmarkdown_2.29    tools_4.4.3       pkgconfig_2.0.3  
+    ## [33] htmltools_0.5.8.1
