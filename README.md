@@ -28,11 +28,7 @@ common-vs-rare-variants-ASD/
 |   ├── loeuf_annotation.md
 │   ├── magma_prep.md
 │   ├── run_magma.py
-|   └── raw/ 
-|       ├── magma_prep.Rmd
-│       ├── fgsea.Rmd
-│       ├── gene_cross_ref.Rmd
-|       └── loeuf_annotation.Rmd
+|   └── raw/                # committed (.Rmd)
 ├── .gitattributes
 ├── .gitignore
 └── README.md
