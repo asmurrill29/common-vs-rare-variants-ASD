@@ -502,24 +502,83 @@ nrow(convergent) # 13
 
 ```{r visualize-summary}
 #inner join to add converge_diverge onto all_paths_overlap
-classify_all_paths_overlap_filt <- inner_join(all_paths_filt, classify_paths_filt)
-classify_all_paths_overlap_filt
+#classify_all_paths_overlap_filt <- inner_join(all_paths_filt, classify_paths_filt)
+#classify_all_paths_overlap_filt
 
-p <- ggplot(classify_all_paths_overlap_filt, aes(x = NES, y = reorder(pathway, NES), fill = variant)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  scale_fill_manual(values = c("common" = "lightblue", "rare" = "#F4D03F"))+
-  facet_wrap(~ converge_diverge)+
+#p <- ggplot(classify_all_paths_overlap_filt, aes(x = NES, y = reorder(pathway, NES), fill = variant)) +
+  #geom_bar(stat = "identity", position = "dodge") +
+  #scale_fill_manual(values = c("common" = "lightblue", "rare" = "#F4D03F"))+
+  #facet_wrap(~ converge_diverge)+
+  #labs(
+    #title = "Convergence and Divergence in Enrichment Across Variant Type",
+    #x = "Normalized Enrichment Score (NES)",
+    #y = NULL,
+    #fill = "Variant Type"
+  #) +
+  #theme_classic()
+
+#p
+
+#ggsave("converge_diverge_enrichment.png", plot = p, path = "../../figures", width = 14, height = 10, dpi = 300)
+```
+
+```{r report-ready-plot}
+library(forcats)
+
+classify_all_paths_overlap_filt <- inner_join(all_paths_filt, classify_paths_filt)
+
+#clean pathway names for display
+classify_all_paths_overlap_filt <- classify_all_paths_overlap_filt %>%
+  mutate(pathway_clean = pathway %>%
+    str_remove("^GOBP_|^KEGG_") %>%
+    str_replace_all("_", " ") %>%
+    str_to_title())
+
+p2 <- ggplot(classify_all_paths_overlap_filt, 
+            aes(x = NES, 
+                y = reorder(pathway_clean, NES), 
+                fill = variant)) +
+  geom_bar(stat = "identity", 
+           position = "dodge",
+           width = 0.7) +
+  geom_vline(xintercept = 0, 
+             linetype = "dashed", 
+             color = "gray40", 
+             linewidth = 0.4) +
+  scale_fill_manual(
+    values = c("common" = "#5B9BD5", "rare" = "#F4A460"),
+    labels = c("Common Variant", "Rare Variant")
+  ) +
+  facet_wrap(~ converge_diverge, 
+             scales = "free_y",
+             labeller = labeller(converge_diverge = c(
+               "convergent" = "Convergent",
+               "divergent" = "Divergent"
+             ))) +
   labs(
-    title = "Convergence and Divergence in Enrichment Across Variant Type in Filtered Dataset",
+    title = "Pathway Enrichment Convergence and Divergence Across Variant Class",
     x = "Normalized Enrichment Score (NES)",
     y = NULL,
-    fill = "Variant Type"
+    fill = "Variant Class"
   ) +
-  theme_minimal()
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 13),
+    plot.subtitle = element_text(color = "gray40", size = 10),
+    strip.text = element_text(face = "bold", size = 11),
+    strip.background = element_rect(fill = "gray95", color = NA),
+    legend.position = "bottom",
+    legend.title = element_text(face = "bold"),
+    axis.text.y = element_text(size = 9),
+    panel.spacing = unit(1, "lines")
+  )
 
-p
+p2
 
-#ggsave("converge_diverge_enrichment.png", plot = p2, path = "../figures", width = 14, height = 10, dpi = 300)
+#ggsave("converge_diverge_enrichment.png", 
+       #plot = p2, 
+       #path = "../../figures", 
+       #width = 14, height = 10, dpi = 300)
 ```
 
 ```{r results}
