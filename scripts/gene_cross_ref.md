@@ -1,7 +1,7 @@
 SFARI Gene List Cross-Reference
 ================
 Amalya Murrill
-2026-04-22
+2026-05-02
 
 The SFARI database collects information about genes empirically
 implicated in ASD and categorizes them, specifically by how
