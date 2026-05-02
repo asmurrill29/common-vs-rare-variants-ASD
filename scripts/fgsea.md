@@ -1,7 +1,7 @@
 Rare Variant Preparation and FGSEA
 ================
 Amalya Murrill
-2026-04-20
+2026-05-02
 
 This script performs fgsea pathway enrichment analysis on both the rare
 variant (Satterstrom et al. 2020 TADA+ q-values) and common variant
@@ -1523,195 +1523,87 @@ nrow(convergent) # 13
 
 ``` r
 #inner join to add converge_diverge onto all_paths_overlap
-classify_all_paths_overlap_filt <- inner_join(all_paths_filt, classify_paths_filt)
-classify_all_paths_overlap_filt
+#classify_all_paths_overlap_filt <- inner_join(all_paths_filt, classify_paths_filt)
+#classify_all_paths_overlap_filt
+
+#p <- ggplot(classify_all_paths_overlap_filt, aes(x = NES, y = reorder(pathway, NES), fill = variant)) +
+  #geom_bar(stat = "identity", position = "dodge") +
+  #scale_fill_manual(values = c("common" = "lightblue", "rare" = "#F4D03F"))+
+  #facet_wrap(~ converge_diverge)+
+  #labs(
+    #title = "Convergence and Divergence in Enrichment Across Variant Type",
+    #x = "Normalized Enrichment Score (NES)",
+    #y = NULL,
+    #fill = "Variant Type"
+  #) +
+  #theme_classic()
+
+#p
+
+#ggsave("converge_diverge_enrichment.png", plot = p, path = "../../figures", width = 14, height = 10, dpi = 300)
 ```
 
-    ##     variant
-    ##      <char>
-    ##  1:    rare
-    ##  2:    rare
-    ##  3:    rare
-    ##  4:    rare
-    ##  5:    rare
-    ##  6:    rare
-    ##  7:    rare
-    ##  8:    rare
-    ##  9:    rare
-    ## 10:    rare
-    ## 11:    rare
-    ## 12:    rare
-    ## 13:    rare
-    ## 14:    rare
-    ## 15:    rare
-    ## 16:    rare
-    ## 17:    rare
-    ## 18:    rare
-    ## 19:    rare
-    ## 20:  common
-    ## 21:  common
-    ## 22:  common
-    ## 23:  common
-    ## 24:  common
-    ## 25:  common
-    ## 26:  common
-    ## 27:  common
-    ## 28:  common
-    ## 29:  common
-    ## 30:  common
-    ## 31:  common
-    ## 32:  common
-    ## 33:  common
-    ## 34:  common
-    ## 35:  common
-    ## 36:  common
-    ## 37:  common
-    ## 38:  common
-    ##     variant
-    ##                                                                     pathway
-    ##                                                                      <char>
-    ##  1:                                                       GOBP_NEURON_DEATH
-    ##  2:                                GOBP_POSITIVE_REGULATION_OF_NEURON_DEATH
-    ##  3:               GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT
-    ##  4:                      GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_DIFFERENTIATION
-    ##  5:                                GOBP_POSITIVE_REGULATION_OF_AXONOGENESIS
-    ##  6:                                GOBP_POSITIVE_REGULATION_OF_NEUROGENESIS
-    ##  7:                              GOBP_VESICLE_MEDIATED_TRANSPORT_IN_SYNAPSE
-    ##  8:                                               GOBP_CHROMATIN_REMODELING
-    ##  9:                                         GOBP_NEURON_PROJECTION_GUIDANCE
-    ## 10:                              GOBP_REGULATION_OF_NEUROTRANSMITTER_LEVELS
-    ## 11:                                               GOBP_SYNAPSE_ORGANIZATION
-    ## 12:                                         GOBP_REGULATION_OF_NEUROGENESIS
-    ## 13:                                  GOBP_CHROMATIN_ASSEMBLY_OR_DISASSEMBLY
-    ## 14: GOBP_NEURON_PROJECTION_EXTENSION_INVOLVED_IN_NEURON_PROJECTION_GUIDANCE
-    ## 15:                                         GOBP_NEUROTRANSMITTER_SECRETION
-    ## 16:              GOBP_CENTRAL_NERVOUS_SYSTEM_PROJECTION_NEURON_AXONOGENESIS
-    ## 17:    GOBP_NEGATIVE_REGULATION_OF_AXON_EXTENSION_INVOLVED_IN_AXON_GUIDANCE
-    ## 18:                                        GOBP_SYNAPTIC_VESICLE_EXOCYTOSIS
-    ## 19:                                             KEGG_MTOR_SIGNALING_PATHWAY
-    ## 20:                                               GOBP_CHROMATIN_REMODELING
-    ## 21: GOBP_NEURON_PROJECTION_EXTENSION_INVOLVED_IN_NEURON_PROJECTION_GUIDANCE
-    ## 22:                                               GOBP_SYNAPSE_ORGANIZATION
-    ## 23:                                         GOBP_REGULATION_OF_NEUROGENESIS
-    ## 24:                                         GOBP_NEUROTRANSMITTER_SECRETION
-    ## 25:                      GOBP_CENTRAL_NERVOUS_SYSTEM_NEURON_DIFFERENTIATION
-    ## 26:                                  GOBP_CHROMATIN_ASSEMBLY_OR_DISASSEMBLY
-    ## 27:                                             KEGG_MTOR_SIGNALING_PATHWAY
-    ## 28:                              GOBP_VESICLE_MEDIATED_TRANSPORT_IN_SYNAPSE
-    ## 29:                                GOBP_POSITIVE_REGULATION_OF_NEURON_DEATH
-    ## 30:                                         GOBP_NEURON_PROJECTION_GUIDANCE
-    ## 31:                                                       GOBP_NEURON_DEATH
-    ## 32:                                GOBP_POSITIVE_REGULATION_OF_NEUROGENESIS
-    ## 33:    GOBP_NEGATIVE_REGULATION_OF_AXON_EXTENSION_INVOLVED_IN_AXON_GUIDANCE
-    ## 34:              GOBP_CENTRAL_NERVOUS_SYSTEM_PROJECTION_NEURON_AXONOGENESIS
-    ## 35:                                GOBP_POSITIVE_REGULATION_OF_AXONOGENESIS
-    ## 36:                              GOBP_REGULATION_OF_NEUROTRANSMITTER_LEVELS
-    ## 37:               GOBP_NEGATIVE_REGULATION_OF_NEURON_PROJECTION_DEVELOPMENT
-    ## 38:                                        GOBP_SYNAPTIC_VESICLE_EXOCYTOSIS
-    ##                                                                     pathway
-    ##             pval       padj   log2err        ES      NES  size  leadingEdge
-    ##            <num>      <num>     <num>     <num>    <num> <int>       <list>
-    ##  1: 0.0023493938 0.08450704 0.4317077 0.9595688 2.212238   325 6326, 88....
-    ##  2: 0.0238811681 0.08450704 0.3524879 0.7955304 1.981162    80 2904, 14....
-    ##  3: 0.0249750250 0.08450704 0.2878571 0.9651832 2.344443   123 8831, 57....
-    ##  4: 0.0299700300 0.08450704 0.2616635 0.7493933 1.793925   157 5728, 85....
-    ##  5: 0.0329046665 0.08450704 0.3217759 0.8138417 2.029486    66 23394, 1....
-    ##  6: 0.0389610390 0.09208973 0.2279872 0.7457535 1.759605   199 23394, 8....
-    ##  7: 0.0409590410 0.09557110 0.2220560 0.6767406 1.603133   183 5728, 14....
-    ##  8: 0.0429570430 0.09671180 0.2165428 0.9450217 2.224850   224 57680, 2....
-    ##  9: 0.0449550450 0.09671180 0.2114002 0.6573949 1.549044   217 1826, 93....
-    ## 10: 0.0479520480 0.09671180 0.2042948 0.6611369 1.559953   199 6529, 93....
-    ## 11: 0.0509490509 0.09760766 0.1978220 0.9249977 2.113272   370 8831, 23....
-    ## 12: 0.0569430569 0.10363636 0.1864326 0.9269535 2.134081   326 8831, 23....
-    ## 13: 0.0589410589 0.10606061 0.1830239 0.6311725 1.489802   196 11011, 1....
-    ## 14: 0.0629370629 0.10606061 0.1766943 0.6973979 1.795029    33 1826, 65....
-    ## 15: 0.0879120879 0.12800000 0.1473312 0.6095070 1.475186   136 9378, 68....
-    ## 16: 0.0899100899 0.12884753 0.1455161 0.6443596 1.648539    25 2047, 47....
-    ## 17: 0.1498501499 0.18808777 0.1088201 0.5653401 1.450018    24 6585, 64....
-    ## 18: 0.1578421578 0.19524100 0.1055209 0.5450988 1.336301   101 6812, 27....
-    ## 19: 0.1598401598 0.19524100 0.1047328 0.5405839 1.376318    48 208, 253....
-    ## 20: 0.0001152112 0.02119885 0.5384341 0.3704143 1.621940   227 9759, 21....
-    ## 21: 0.0007306983 0.06722425 0.4772708 0.5462061 1.819726    36 7473, 91....
-    ## 22: 0.0016485947 0.10111381 0.4550599 0.3106873 1.404026   384 4137, 11....
-    ## 23: 0.0036537739 0.12821204 0.4317077 0.3032521 1.359135   338 4137, 74....
-    ## 24: 0.0041033213 0.12821204 0.4070179 0.3592682 1.491053   137 783, 990....
-    ## 25: 0.0046781638 0.12821204 0.4070179 0.3530124 1.495717   160 4137, 91....
-    ## 26: 0.0057849919 0.12978981 0.4070179 0.3368143 1.456460   191 3010, 83....
-    ## 27: 0.0063484148 0.12978981 0.4070179 0.4540769 1.602714    49 2475, 60....
-    ## 28: 0.0088819892 0.13977450 0.3807304 0.3350995 1.449486   186 783, 990....
-    ## 29: 0.0090875811 0.13977450 0.3807304 0.3951873 1.538347    81 4137, 67....
-    ## 30: 0.0096026847 0.13977450 0.3807304 0.3180250 1.387951   221 7473, 91....
-    ## 31: 0.0098753721 0.13977450 0.3807304 0.2979639 1.331642   327 4137, 67....
-    ## 32: 0.0109958509 0.14404240 0.3807304 0.3294199 1.434285   208 4137, 74....
-    ## 33: 0.0131143100 0.14404240 0.3807304 0.5234268 1.640478    26 7473, 10....
-    ## 34: 0.0137656389 0.14404240 0.3807304 0.5163934 1.597690    25 91584, 1....
-    ## 35: 0.0140840022 0.14404240 0.3807304 0.3855854 1.471753    71 4137, 74....
-    ## 36: 0.0140911043 0.14404240 0.3807304 0.3190564 1.384651   201 783, 990....
-    ## 37: 0.0193602626 0.18748886 0.3524879 0.3374266 1.385743   128 7473, 23....
-    ## 38: 0.0215557747 0.19831313 0.3524879 0.3579009 1.431405   101 783, 990....
-    ##             pval       padj   log2err        ES      NES  size  leadingEdge
-    ##     rare_NES common_NES    NES_diff  MAD_filt median_NES_diff converge_diverge
-    ##        <num>      <num>       <num>     <num>           <num>           <char>
-    ##  1: 2.212238   1.331642  0.88059543 0.3966149       0.1753014        divergent
-    ##  2: 1.981162   1.538347  0.44281445 0.3966149       0.1753014       convergent
-    ##  3: 2.344443   1.385743  0.95870057 0.3966149       0.1753014        divergent
-    ##  4: 1.793925   1.495717  0.29820775 0.3966149       0.1753014       convergent
-    ##  5: 2.029486   1.471753  0.55773251 0.3966149       0.1753014       convergent
-    ##  6: 1.759605   1.434285  0.32532045 0.3966149       0.1753014       convergent
-    ##  7: 1.603133   1.449486  0.15364703 0.3966149       0.1753014       convergent
-    ##  8: 2.224850   1.621940  0.60291002 0.3966149       0.1753014        divergent
-    ##  9: 1.549044   1.387951  0.16109275 0.3966149       0.1753014       convergent
-    ## 10: 1.559953   1.384651  0.17530136 0.3966149       0.1753014       convergent
-    ## 11: 2.113272   1.404026  0.70924642 0.3966149       0.1753014        divergent
-    ## 12: 2.134081   1.359135  0.77494577 0.3966149       0.1753014        divergent
-    ## 13: 1.489802   1.456460  0.03334152 0.3966149       0.1753014       convergent
-    ## 14: 1.795029   1.819726 -0.02469702 0.3966149       0.1753014       convergent
-    ## 15: 1.475186   1.491053 -0.01586671 0.3966149       0.1753014       convergent
-    ## 16: 1.648539   1.597690  0.05084856 0.3966149       0.1753014       convergent
-    ## 17: 1.450018   1.640478 -0.19045985 0.3966149       0.1753014       convergent
-    ## 18: 1.336301   1.431405 -0.09510492 0.3966149       0.1753014       convergent
-    ## 19: 1.376318   1.602714 -0.22639549 0.3966149       0.1753014        divergent
-    ## 20: 2.224850   1.621940  0.60291002 0.3966149       0.1753014        divergent
-    ## 21: 1.795029   1.819726 -0.02469702 0.3966149       0.1753014       convergent
-    ## 22: 2.113272   1.404026  0.70924642 0.3966149       0.1753014        divergent
-    ## 23: 2.134081   1.359135  0.77494577 0.3966149       0.1753014        divergent
-    ## 24: 1.475186   1.491053 -0.01586671 0.3966149       0.1753014       convergent
-    ## 25: 1.793925   1.495717  0.29820775 0.3966149       0.1753014       convergent
-    ## 26: 1.489802   1.456460  0.03334152 0.3966149       0.1753014       convergent
-    ## 27: 1.376318   1.602714 -0.22639549 0.3966149       0.1753014        divergent
-    ## 28: 1.603133   1.449486  0.15364703 0.3966149       0.1753014       convergent
-    ## 29: 1.981162   1.538347  0.44281445 0.3966149       0.1753014       convergent
-    ## 30: 1.549044   1.387951  0.16109275 0.3966149       0.1753014       convergent
-    ## 31: 2.212238   1.331642  0.88059543 0.3966149       0.1753014        divergent
-    ## 32: 1.759605   1.434285  0.32532045 0.3966149       0.1753014       convergent
-    ## 33: 1.450018   1.640478 -0.19045985 0.3966149       0.1753014       convergent
-    ## 34: 1.648539   1.597690  0.05084856 0.3966149       0.1753014       convergent
-    ## 35: 2.029486   1.471753  0.55773251 0.3966149       0.1753014       convergent
-    ## 36: 1.559953   1.384651  0.17530136 0.3966149       0.1753014       convergent
-    ## 37: 2.344443   1.385743  0.95870057 0.3966149       0.1753014        divergent
-    ## 38: 1.336301   1.431405 -0.09510492 0.3966149       0.1753014       convergent
-    ##     rare_NES common_NES    NES_diff  MAD_filt median_NES_diff converge_diverge
-
 ``` r
-p <- ggplot(classify_all_paths_overlap_filt, aes(x = NES, y = reorder(pathway, NES), fill = variant)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  scale_fill_manual(values = c("common" = "lightblue", "rare" = "#F4D03F"))+
-  facet_wrap(~ converge_diverge)+
+library(forcats)
+
+classify_all_paths_overlap_filt <- inner_join(all_paths_filt, classify_paths_filt)
+
+#clean pathway names for display
+classify_all_paths_overlap_filt <- classify_all_paths_overlap_filt %>%
+  mutate(pathway_clean = pathway %>%
+    str_remove("^GOBP_|^KEGG_") %>%
+    str_replace_all("_", " ") %>%
+    str_to_title())
+
+p2 <- ggplot(classify_all_paths_overlap_filt, 
+            aes(x = NES, 
+                y = reorder(pathway_clean, NES), 
+                fill = variant)) +
+  geom_bar(stat = "identity", 
+           position = "dodge",
+           width = 0.7) +
+  geom_vline(xintercept = 0, 
+             linetype = "dashed", 
+             color = "gray40", 
+             linewidth = 0.4) +
+  scale_fill_manual(
+    values = c("common" = "#5B9BD5", "rare" = "#F4A460"),
+    labels = c("Common Variant", "Rare Variant")
+  ) +
+  facet_wrap(~ converge_diverge, 
+             scales = "free_y",
+             labeller = labeller(converge_diverge = c(
+               "convergent" = "Convergent",
+               "divergent" = "Divergent"
+             ))) +
   labs(
-    title = "Convergence and Divergence in Enrichment Across Variant Type in Filtered Dataset",
+    title = "Pathway Enrichment Convergence and Divergence Across Variant Class",
     x = "Normalized Enrichment Score (NES)",
     y = NULL,
-    fill = "Variant Type"
+    fill = "Variant Class"
   ) +
-  theme_minimal()
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 13),
+    plot.subtitle = element_text(color = "gray40", size = 10),
+    strip.text = element_text(face = "bold", size = 11),
+    strip.background = element_rect(fill = "gray95", color = NA),
+    legend.position = "bottom",
+    legend.title = element_text(face = "bold"),
+    axis.text.y = element_text(size = 9),
+    panel.spacing = unit(1, "lines")
+  )
 
-p
+p2
 ```
 
-![](fgsea_files/figure-gfm/visualize-summary-1.png)<!-- -->
+![](fgsea_files/figure-gfm/report-ready-plot-1.png)<!-- -->
 
 ``` r
-#ggsave("converge_diverge_enrichment.png", plot = p2, path = "../figures", width = 14, height = 10, dpi = 300)
+#ggsave("converge_diverge_enrichment.png", 
+       #plot = p2, 
+       #path = "../../figures", 
+       #width = 14, height = 10, dpi = 300)
 ```
 
 ``` r
